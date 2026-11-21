@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+<title>Teoría Ingreso UTN.BA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: hoja cuadriculada de fondo; columna de lectura blanca; índice lateral en compu, fila de temas fija arriba en celular */
+:root{
+  --paper:#f3f6fb; --grid:#dde5f0; --card:#ffffff; --ink:#1a2233; --muted:#596379; --rule:#d3dbe8;
+  --accent:#2440a6; --accent-soft:#e4eafb; --mark:#fff0a3; --mark-ink:#3d3200;
+  --warn:#b42318; --warn-soft:#fdecea; --ok:#13795b; --ok-soft:#e3f5ee;
+  --f-display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1420; --grid:#172033; --card:#141c2b; --ink:#e5eaf4; --muted:#9ba6bc; --rule:#263149;
+    --accent:#93abff; --accent-soft:#1c2748; --mark:#4b4312; --mark-ink:#fff2b3;
+    --warn:#ff8f84; --warn-soft:#3a1c1b; --ok:#5fd3a9; --ok-soft:#14302a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1420; --grid:#172033; --card:#141c2b; --ink:#e5eaf4; --muted:#9ba6bc; --rule:#263149;
+  --accent:#93abff; --accent-soft:#1c2748; --mark:#4b4312; --mark-ink:#fff2b3;
+  --warn:#ff8f84; --warn-soft:#3a1c1b; --ok:#5fd3a9; --ok-soft:#14302a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:72px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg,var(--grid) 1px, transparent 1px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.6;
+}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--card)}
+a{color:var(--accent)}
+a:focus-visible, button:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+.wrap{display:grid; grid-template-columns:250px minmax(0,1fr); gap:28px; max-width:1120px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); padding-block:28px 64px}
+
+/* ---------- índice ---------- */
+nav.toc{position:sticky; top:calc(env(safe-area-inset-top,0px) + 20px); align-self:start; max-height:calc(100vh - 40px); overflow:auto;
+  background:var(--card); border:1px solid var(--rule); border-radius:10px; padding:16px 12px}
+.toc h3{font:500 11px/1 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:14px 8px 8px}
+.toc h3:first-child{margin-top:2px}
+.toc ul{list-style:none; margin:0; padding:0; display:grid; gap:2px}
+.toc a{display:flex; gap:10px; align-items:baseline; padding:6px 8px; border-radius:6px; text-decoration:none; color:var(--ink); font-size:15px; line-height:1.3}
+.toc a:hover{background:var(--accent-soft)}
+.toc a .n{font:500 12px var(--f-mono); color:var(--accent); min-width:24px}
+.toc a.read .t::after{content:" ✓"; color:var(--ok); font-weight:700}
+.toc a.here{background:var(--accent-soft)}
+
+/* ---------- contenido ---------- */
+main{min-width:0; display:grid; gap:22px}
+.intro, .topic{background:var(--card); border:1px solid var(--rule); border-radius:10px; padding:clamp(18px,4vw,36px)}
+.eyebrow{font:500 12px/1.4 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+h1{font-family:var(--f-display); font-weight:700; font-size:clamp(30px,6vw,44px); line-height:1.1; margin:8px 0 12px; text-wrap:balance}
+.intro p{max-width:65ch; margin:0 0 10px}
+.progress{display:flex; align-items:center; gap:12px; margin-top:16px; flex-wrap:wrap}
+.bar{flex:1 1 180px; height:8px; background:var(--accent-soft); border-radius:99px; overflow:hidden; max-width:320px}
+.bar i{display:block; height:100%; width:0; background:var(--ok); border-radius:99px; transition:width .3s}
+.progress span{font:500 13px var(--f-mono); color:var(--muted); font-variant-numeric:tabular-nums}
+.subject{font-family:var(--f-display); font-size:clamp(22px,4vw,28px); margin:18px 4px -4px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.subject small{font:400 14px var(--f-body); color:var(--muted)}
+
+.topic > header{display:flex; gap:14px; align-items:baseline; flex-wrap:wrap; border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:18px}
+.topic > header .n{font:500 14px var(--f-mono); color:var(--accent); background:var(--accent-soft); padding:3px 8px; border-radius:5px}
+h2{font-family:var(--f-display); font-weight:700; font-size:clamp(24px,4.5vw,32px); line-height:1.15; margin:0; text-wrap:balance}
+h4{font-family:var(--f-display); font-weight:700; font-size:19px; margin:26px 0 8px; text-wrap:balance}
+.topic p, .topic li{max-width:68ch}
+.topic p{margin:0 0 12px}
+.topic ul, .topic ol{padding-left:1.3em; margin:0 0 12px}
+.topic li{margin-bottom:6px}
+.lead{font-size:18px; color:var(--muted)}
+strong{font-weight:700}
+.hl{background:var(--mark); color:var(--mark-ink); padding:0 4px; border-radius:3px}
+
+.box{border-radius:8px; padding:16px 18px; margin:18px 0; max-width:72ch}
+.box > .lbl{font:500 11px/1 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; display:inline-block; margin-bottom:10px}
+.box p:last-child, .box ul:last-child, .box ol:last-child{margin-bottom:0}
+.formulas{background:var(--mark); color:var(--mark-ink)}
+.formulas > .lbl{color:var(--mark-ink)}
+.ejemplo{border:1.5px dashed var(--rule); background:var(--card)}
+.ejemplo > .lbl{color:var(--accent)}
+.ojo{background:var(--warn-soft)}
+.ojo > .lbl{color:var(--warn)}
+.ojo, .ojo p, .ojo li{color:var(--ink)}
+
+.scroll{overflow-x:auto; max-width:100%; margin:12px 0 16px}
+table{border-collapse:collapse; font-variant-numeric:tabular-nums; min-width:100%}
+th, td{border:1px solid var(--rule); padding:8px 12px; text-align:center; white-space:nowrap}
+th{background:var(--accent-soft); font-weight:700}
+td:first-child, th:first-child{text-align:left}
+
+figure{margin:16px 0; max-width:420px}
+figure svg{width:100%; height:auto; display:block}
+figcaption{font-size:14px; color:var(--muted); margin-top:4px}
+.svg-ink{stroke:var(--ink); fill:none}
+.svg-acc{stroke:var(--accent); fill:none}
+.svg-txt{fill:var(--ink); font:14px var(--f-body)}
+.svg-txt-acc{fill:var(--accent); font:600 14px var(--f-body)}
+.svg-grid{stroke:var(--rule)}
+.svg-dot{fill:var(--accent)}
+
+mjx-container[display="true"]{overflow-x:auto; overflow-y:hidden; max-width:100%; padding:2px 0}
+
+.foot{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:24px; padding-top:14px; border-top:1px solid var(--rule)}
+.foot a{font-size:15px}
+button.done{font:700 15px var(--f-body); border:1.5px solid var(--ok); color:var(--ok); background:transparent; padding:9px 16px; border-radius:8px; cursor:pointer}
+button.done[aria-pressed="true"]{background:var(--ok-soft)}
+
+/* ---------- celular ---------- */
+@media (max-width: 860px){
+  html{scroll-padding-top:70px}
+  body{font-size:17px}
+  .wrap{grid-template-columns:minmax(0,1fr); gap:16px; padding-block:0 48px}
+  nav.toc{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; max-height:none; border-radius:0; border-width:0 0 1px;
+    margin-left:calc(-1 * max(16px, env(safe-area-inset-left,0px))); margin-right:calc(-1 * max(16px, env(safe-area-inset-right,0px)));
+    padding:10px max(16px, env(safe-area-inset-right,0px)) 10px max(16px, env(safe-area-inset-left,0px)); display:flex; gap:8px; overflow-x:auto; scrollbar-width:none}
+  nav.toc::-webkit-scrollbar{display:none}
+  .toc h3{display:none}
+  .toc ul{display:flex; gap:6px}
+  .toc li{flex:none}
+  .toc a{border:1px solid var(--rule); padding:6px 10px; white-space:nowrap; font-size:14px}
+  .toc a .t{display:none}
+  .toc a .n{min-width:0}
+  .toc a.read{border-color:var(--ok); background:var(--ok-soft)}
+  .toc a.read .n{color:var(--ok)}
+  .toc .sep{width:1px; background:var(--rule); flex:none; margin:2px 2px}
+  .intro, .topic{border-radius:8px}
+}
+@media (min-width: 861px){ .toc .sep{display:none} }
+</style>
+</head>
+<body>
+
+<script>
+window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]] }, svg:{ fontCache:"global" } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+
+<div class="wrap">
+<nav class="toc" aria-label="Temas">
+  <h3>Matemática</h3>
+  <ul>
+    <li><a href="#m1"><span class="n">M1</span><span class="t">Números reales</span></a></li>
+    <li><a href="#m2"><span class="n">M2</span><span class="t">Polinomios y factoreo</span></a></li>
+    <li><a href="#m3"><span class="n">M3</span><span class="t">Ecuaciones y sistemas</span></a></li>
+    <li><a href="#m4"><span class="n">M4</span><span class="t">Funciones</span></a></li>
+    <li><a href="#m5"><span class="n">M5</span><span class="t">Función lineal y recta</span></a></li>
+    <li><a href="#m6"><span class="n">M6</span><span class="t">Función cuadrática</span></a></li>
+    <li><a href="#m7"><span class="n">M7</span><span class="t">Exponencial y logaritmo</span></a></li>
+    <li><a href="#m8"><span class="n">M8</span><span class="t">Trigonometría</span></a></li>
+    <li><a href="#m9"><span class="n">M9</span><span class="t">Geometría</span></a></li>
+    <li><a href="#m10"><span class="n">M10</span><span class="t">Vectores</span></a></li>
+  </ul>
+  <span class="sep" aria-hidden="true"></span>
+  <h3>Física</h3>
+  <ul>
+    <li><a href="#f1"><span class="n">F1</span><span class="t">Magnitudes y unidades</span></a></li>
+    <li><a href="#f2"><span class="n">F2</span><span class="t">Cinemática</span></a></li>
+    <li><a href="#f3"><span class="n">F3</span><span class="t">Dinámica</span></a></li>
+  </ul>
+</nav>
+
+<main>
+<section class="intro" id="inicio">
+  <div class="eyebrow">UTN.BA · Ingeniería en Sistemas · Curso de verano 2027</div>
+  <h1>Teoría para el ingreso</h1>
+  <p>Toda la teoría del Seminario Universitario resumida tema por tema, en el orden del plan de estudio. Cada tema tiene la explicación, un recuadro amarillo con las <span class="hl">fórmulas clave</span>, un ejemplo resuelto y los errores más comunes.</p>
+  <p>En el curso de verano se evalúa <strong>Matemática</strong>. Física no se rinde en el verano 2027, pero está acá porque los vectores y las funciones se usan en las dos y te va a servir en primer año.</p>
+  <p>Para practicar, usá los PDF de la carpeta <em>Matematica / Ejercicios</em>. Los videos oficiales están en <a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">videos teóricos</a> y <a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">videos de ejercicios</a> de UTN.BA.</p>
+  <div class="progress"><div class="bar"><i id="barfill"></i></div><span id="progtxt">0 de 13 temas leídos</span></div>
+</section>
+
+<h2 class="subject">Matemática <small>10 temas</small></h2>
+
+<!-- ======================= M1 ======================= -->
+<section class="topic" id="m1">
+<header><span class="n">M1</span><h2>Números reales</h2></header>
+<p class="lead">La base de todo: con qué números trabajamos y cómo se opera con potencias, raíces y módulo.</p>
+
+<h4>Los conjuntos numéricos</h4>
+<p>Cada conjunto contiene al anterior: \( \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \).</p>
+<ul>
+  <li><strong>Naturales \( \mathbb{N} \)</strong>: 1, 2, 3, … (para contar).</li>
+  <li><strong>Enteros \( \mathbb{Z} \)</strong>: los naturales, el 0 y los negativos.</li>
+  <li><strong>Racionales \( \mathbb{Q} \)</strong>: se escriben como fracción \( \frac{a}{b} \) con \( b \neq 0 \). En decimal son finitos o periódicos.</li>
+  <li><strong>Irracionales \( \mathbb{I} \)</strong>: decimales infinitos no periódicos, como \( \sqrt{2} \), \( \pi \) y \( e \).</li>
+  <li><strong>Reales \( \mathbb{R} \)</strong>: racionales e irracionales juntos. Llenan toda la recta numérica.</li>
+</ul>
+<p>Para pasar un decimal periódico a fracción: arriba va el número completo menos la parte que no se repite; abajo, un 9 por cada cifra que se repite y un 0 por cada cifra que no se repite.</p>
+<p>\[ 0{,}\overline{3} = \frac{3}{9} = \frac{1}{3} \qquad 0{,}1\overline{6} = \frac{16-1}{90} = \frac{15}{90} = \frac{1}{6} \]</p>
+
+<h4>Potencias</h4>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ a^0 = 1 \;(a\neq0) \qquad a^{-n} = \frac{1}{a^n} \qquad a^{m}\cdot a^{n} = a^{m+n} \qquad \frac{a^m}{a^n} = a^{m-n} \]
+\[ (a^m)^n = a^{m\cdot n} \qquad (a\cdot b)^n = a^n\, b^n \qquad a^{\frac{m}{n}} = \sqrt[n]{a^m} \]
+</div>
+<p>La potencia es distributiva respecto del producto y la división, <strong>pero no respecto de la suma ni la resta</strong>.</p>
+
+<h4>Raíces</h4>
+<ul>
+  <li>Una raíz de índice par de un número negativo <strong>no existe en los reales</strong>: \( \sqrt{-4} \notin \mathbb{R} \). Las de índice impar sí: \( \sqrt[3]{-8} = -2 \).</li>
+  <li>\( \sqrt{a^2} = |a| \). Por ejemplo, \( \sqrt{(-5)^2} = 5 \).</li>
+  <li>Se pueden separar en productos: \( \sqrt[n]{a\cdot b} = \sqrt[n]{a}\cdot\sqrt[n]{b} \).</li>
+  <li>Extraer factores: \( \sqrt{50} = \sqrt{25\cdot 2} = 5\sqrt{2} \).</li>
+  <li>Sumar raíces solo se puede si son semejantes (mismo índice y mismo radicando): \( 3\sqrt{2} + 5\sqrt{2} = 8\sqrt{2} \).</li>
+</ul>
+
+<h4>Racionalización</h4>
+<p>Racionalizar es sacar la raíz del denominador multiplicando arriba y abajo por lo mismo.</p>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ \frac{1}{\sqrt{a}} = \frac{\sqrt{a}}{a} \qquad \frac{1}{\sqrt[n]{a^m}} = \frac{\sqrt[n]{a^{\,n-m}}}{a} \qquad \frac{1}{\sqrt{a}+\sqrt{b}} = \frac{\sqrt{a}-\sqrt{b}}{a-b} \]
+</div>
+<p>En el último caso se multiplica por el <strong>conjugado</strong> (mismo binomio con el signo del medio cambiado), porque \( (\sqrt a+\sqrt b)(\sqrt a-\sqrt b) = a - b \).</p>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Racionalizar \( \dfrac{6}{\sqrt{5}-\sqrt{2}} \).</p>
+\[ \frac{6}{\sqrt{5}-\sqrt{2}}\cdot\frac{\sqrt{5}+\sqrt{2}}{\sqrt{5}+\sqrt{2}} = \frac{6(\sqrt{5}+\sqrt{2})}{5-2} = 2(\sqrt{5}+\sqrt{2}) \]
+</div>
+
+<h4>Valor absoluto (módulo) e intervalos</h4>
+<p>El módulo es la distancia al 0, así que nunca es negativo:</p>
+\[ |x| = \begin{cases} x &amp; \text{si } x \ge 0 \\ -x &amp; \text{si } x \lt 0 \end{cases} \]
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ |x| \lt a \iff -a \lt x \lt a \qquad\qquad |x| \gt a \iff x \lt -a \;\text{ o }\; x \gt a \]
+</div>
+<p>Los intervalos escriben conjuntos de la recta: \( (a,b) \) no incluye los extremos, \( [a,b] \) los incluye, y con infinito siempre va paréntesis: \( [2,+\infty) \).</p>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>\( -3^2 = -9 \), pero \( (-3)^2 = 9 \). El signo menos sin paréntesis no se eleva.</li>
+  <li>\( (a+b)^2 \neq a^2 + b^2 \). Lo correcto es \( a^2 + 2ab + b^2 \).</li>
+  <li>\( \sqrt{a+b} \neq \sqrt{a} + \sqrt{b} \). Por ejemplo, \( \sqrt{9+16} = 5 \), no 7.</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA →</a><button class="done" data-id="m1" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M2 ======================= -->
+<section class="topic" id="m2">
+<header><span class="n">M2</span><h2>Polinomios y factoreo</h2></header>
+<p class="lead">Cómo dividir rápido con Ruffini, encontrar raíces con Gauss y escribir un polinomio como producto.</p>
+
+<h4>Qué es un polinomio</h4>
+\[ P(x) = a_n x^n + a_{n-1}x^{n-1} + \dots + a_1 x + a_0 \]
+<ul>
+  <li><strong>Grado</strong>: el mayor exponente con coeficiente distinto de 0.</li>
+  <li><strong>Coeficiente principal</strong>: \( a_n \), el que acompaña a la potencia mayor. Si vale 1, el polinomio es <strong>mónico</strong>.</li>
+  <li><strong>Término independiente</strong>: \( a_0 \), el que no tiene \( x \).</li>
+  <li><strong>Raíz</strong>: un valor \( r \) tal que \( P(r) = 0 \).</li>
+</ul>
+
+<h4>División y regla de Ruffini</h4>
+<p>Al dividir \( P(x) \) por \( D(x) \) se obtiene un cociente \( Q(x) \) y un resto \( R(x) \) de grado menor que el divisor: \( P = Q\cdot D + R \).</p>
+<p>Cuando el divisor es de la forma \( (x-a) \) se usa <strong>Ruffini</strong>: se escriben los coeficientes (completando con 0 los que falten), se baja el primero, se multiplica por \( a \), se suma a la columna siguiente, y así hasta el final. El último número es el resto.</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Dividir \( (x^3 - 2x^2 - 5x + 6) : (x - 1) \). Acá \( a = 1 \).</p>
+<div class="scroll"><table>
+<tr><th></th><th>1</th><th>−2</th><th>−5</th><th>6</th></tr>
+<tr><td>1</td><td></td><td>1</td><td>−1</td><td>−6</td></tr>
+<tr><td></td><td>1</td><td>−1</td><td>−6</td><td><strong>0</strong></td></tr>
+</table></div>
+<p>Cociente \( Q(x) = x^2 - x - 6 \), resto 0. Como el resto es 0, \( x = 1 \) es raíz.</p>
+</div>
+
+<h4>Teorema del resto y Teorema de Gauss</h4>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<p><strong>Teorema del resto:</strong> el resto de dividir \( P(x) \) por \( (x-a) \) es \( P(a) \). Si \( P(a)=0 \), entonces \( (x-a) \) divide a \( P \).</p>
+<p><strong>Teorema de Gauss:</strong> si \( P \) tiene coeficientes enteros, sus posibles raíces racionales son \( \dfrac{p}{q} \), con \( p \) divisor de \( a_0 \) y \( q \) divisor de \( a_n \).</p>
+</div>
+<p>Gauss te da una lista de candidatos. Los probás con el teorema del resto hasta encontrar uno que dé 0, y después bajás el grado con Ruffini.</p>
+
+<h4>Los casos de factoreo</h4>
+<ol>
+  <li><strong>Factor común</strong>: \( 6x^3 - 9x^2 = 3x^2(2x - 3) \).</li>
+  <li><strong>Factor común por grupos</strong>: \( x^3 + 2x^2 + 3x + 6 = x^2(x+2) + 3(x+2) = (x+2)(x^2+3) \).</li>
+  <li><strong>Trinomio cuadrado perfecto</strong>: \( a^2 \pm 2ab + b^2 = (a \pm b)^2 \). Ejemplo: \( x^2 + 6x + 9 = (x+3)^2 \).</li>
+  <li><strong>Cuatrinomio cubo perfecto</strong>: \( a^3 \pm 3a^2b + 3ab^2 \pm b^3 = (a\pm b)^3 \).</li>
+  <li><strong>Diferencia de cuadrados</strong>: \( a^2 - b^2 = (a-b)(a+b) \). Ejemplo: \( x^2 - 25 = (x-5)(x+5) \).</li>
+  <li><strong>Suma o resta de potencias de igual grado</strong>: se divide por Ruffini. Ejemplo: \( x^3 - 8 = (x-2)(x^2+2x+4) \).</li>
+  <li><strong>Por raíces</strong>: si \( x_1, x_2, \dots, x_n \) son las raíces, \( P(x) = a_n(x-x_1)(x-x_2)\cdots(x-x_n) \).</li>
+</ol>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Factorizar \( P(x) = x^3 - 2x^2 - 5x + 6 \).</p>
+<ol>
+  <li>Gauss: \( a_0 = 6 \), \( a_n = 1 \). Candidatos: \( \pm1, \pm2, \pm3, \pm6 \).</li>
+  <li>Pruebo \( P(1) = 1 - 2 - 5 + 6 = 0 \). Es raíz.</li>
+  <li>Ruffini por \( (x-1) \) da \( x^2 - x - 6 \) (ver la tabla de arriba).</li>
+  <li>Raíces de \( x^2 - x - 6 \) con la resolvente: 3 y −2.</li>
+</ol>
+\[ P(x) = (x-1)(x-3)(x+2) \]
+</div>
+
+<h4>Expresiones racionales</h4>
+<p>Son cocientes de polinomios. Para simplificarlas se <strong>factorizan</strong> numerador y denominador y se cancelan factores iguales, aclarando qué valores anulan el denominador.</p>
+\[ \frac{x^2 - 9}{x^2 + 3x} = \frac{(x-3)(x+3)}{x(x+3)} = \frac{x-3}{x} \qquad x \neq 0,\; x \neq -3 \]
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>En Ruffini, si falta una potencia, poné un 0 en su lugar. En \( x^3 - 8 \) los coeficientes son 1, 0, 0, −8.</li>
+  <li>Si dividís por \( (x+2) \), en Ruffini usás \( a = -2 \).</li>
+  <li>Solo se cancelan <strong>factores</strong>, nunca términos sumados: \( \frac{x+3}{3} \neq x \).</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Polinomios y Gauss →</a><button class="done" data-id="m2" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M3 ======================= -->
+<section class="topic" id="m3">
+<header><span class="n">M3</span><h2>Ecuaciones, inecuaciones y sistemas</h2></header>
+<p class="lead">Despejar con cuidado, saber cuándo se da vuelta una desigualdad y resolver dos ecuaciones a la vez.</p>
+
+<h4>Ecuación lineal</h4>
+<p>\( ax + b = 0 \) con \( a \neq 0 \) tiene una única solución: \( x = -\frac{b}{a} \). Al despejar, lo que suma pasa restando, lo que multiplica pasa dividiendo.</p>
+<ul>
+  <li>Si se llega a algo como \( 0x = 5 \): <strong>no tiene solución</strong>.</li>
+  <li>Si se llega a \( 0x = 0 \): <strong>tiene infinitas soluciones</strong>.</li>
+</ul>
+<p>En ecuaciones con \( x \) en el denominador, primero se anotan los valores prohibidos y al final se verifica que la solución no sea uno de ellos.</p>
+
+<h4>Inecuaciones</h4>
+<p>Se resuelven igual que una ecuación, con una regla extra:</p>
+<div class="box formulas"><span class="lbl">Regla clave</span>
+<p>Si multiplicás o dividís ambos lados por un <strong>número negativo</strong>, la desigualdad <strong>se da vuelta</strong>.</p>
+\[ -2x + 3 \le 7 \;\Rightarrow\; -2x \le 4 \;\Rightarrow\; x \ge -2 \;\Rightarrow\; S = [-2, +\infty) \]
+</div>
+<p>Con módulo se usan las reglas de M1:</p>
+\[ |2x - 1| \lt 5 \;\Rightarrow\; -5 \lt 2x - 1 \lt 5 \;\Rightarrow\; -4 \lt 2x \lt 6 \;\Rightarrow\; -2 \lt x \lt 3 \]
+
+<h4>Sistemas de dos ecuaciones con dos incógnitas</h4>
+<p>Cada ecuación es una recta. La solución es el punto donde se cortan.</p>
+<ul>
+  <li><strong>Sustitución</strong>: despejás una incógnita de una ecuación y la reemplazás en la otra.</li>
+  <li><strong>Igualación</strong>: despejás la misma incógnita en las dos y las igualás.</li>
+  <li><strong>Reducción</strong>: multiplicás las ecuaciones para que una incógnita tenga coeficientes opuestos y las sumás.</li>
+  <li><strong>Determinantes (Cramer)</strong>: ver el recuadro.</li>
+  <li><strong>Gráfico</strong>: dibujás las dos rectas y mirás dónde se cortan.</li>
+</ul>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<p>Para \( \begin{cases} ax + by = e \\ cx + dy = f \end{cases} \):</p>
+\[ \Delta = \begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix} = ad - bc \qquad x = \frac{\begin{vmatrix} e &amp; b \\ f &amp; d \end{vmatrix}}{\Delta} = \frac{ed - bf}{\Delta} \qquad y = \frac{\begin{vmatrix} a &amp; e \\ c &amp; f \end{vmatrix}}{\Delta} = \frac{af - ec}{\Delta} \]
+</div>
+
+<div class="scroll"><table>
+<tr><th>Tipo</th><th>Soluciones</th><th>Rectas</th><th>Determinante</th></tr>
+<tr><td>Compatible determinado</td><td>Una</td><td>Se cortan</td><td>\( \Delta \neq 0 \)</td></tr>
+<tr><td>Compatible indeterminado</td><td>Infinitas</td><td>Coinciden</td><td>\( \Delta = 0 \)</td></tr>
+<tr><td>Incompatible</td><td>Ninguna</td><td>Paralelas</td><td>\( \Delta = 0 \)</td></tr>
+</table></div>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>\( \begin{cases} 2x + y = 7 \\ x - y = 2 \end{cases} \)</p>
+<p>Por reducción, sumo las dos ecuaciones (la \( y \) se cancela): \( 3x = 9 \Rightarrow x = 3 \). Reemplazo en la segunda: \( 3 - y = 2 \Rightarrow y = 1 \).</p>
+<p>Verifico en la primera: \( 2\cdot3 + 1 = 7 \). ✓ La solución es \( (3, 1) \).</p>
+</div>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>Siempre verificá reemplazando en las ecuaciones originales.</li>
+  <li>En los problemas de texto, definí primero qué es \( x \) y qué es \( y \), con unidades.</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">Video UTN.BA: Sistemas de ecuaciones →</a><button class="done" data-id="m3" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M4 ======================= -->
+<section class="topic" id="m4">
+<header><span class="n">M4</span><h2>Funciones</h2></header>
+<p class="lead">El lenguaje con el que se describen casi todos los temas que siguen.</p>
+
+<h4>Definición</h4>
+<p>Una función \( f: A \to B \) asigna a <strong>cada</strong> elemento \( x \) del dominio <strong>un único</strong> \( y = f(x) \). En un gráfico: cualquier recta vertical corta a la curva como máximo una vez.</p>
+<ul>
+  <li><strong>Dominio</strong>: los \( x \) para los que la fórmula tiene sentido.</li>
+  <li><strong>Imagen</strong>: los valores de \( y \) que efectivamente se alcanzan.</li>
+  <li><strong>Raíces o ceros</strong>: los \( x \) donde \( f(x) = 0 \) (donde corta al eje \( x \)).</li>
+  <li><strong>Ordenada al origen</strong>: \( f(0) \) (donde corta al eje \( y \)).</li>
+  <li><strong>Crecimiento</strong>: intervalos donde sube o baja al moverse hacia la derecha.</li>
+</ul>
+
+<div class="box formulas"><span class="lbl">Cómo calcular el dominio</span>
+<ul>
+  <li>Denominador: tiene que ser \( \neq 0 \).</li>
+  <li>Raíz de índice par: lo de adentro tiene que ser \( \ge 0 \).</li>
+  <li>Logaritmo: el argumento tiene que ser \( \gt 0 \).</li>
+</ul>
+<p>Ejemplo: \( f(x) = \dfrac{\sqrt{x-1}}{x-3} \) tiene dominio \( [1, 3) \cup (3, +\infty) \).</p>
+</div>
+
+<h4>Inyectiva, sobreyectiva, biyectiva</h4>
+<ul>
+  <li><strong>Inyectiva</strong>: valores distintos de \( x \) dan valores distintos de \( y \). Gráficamente: toda recta horizontal la corta como máximo una vez.</li>
+  <li><strong>Sobreyectiva</strong>: la imagen es todo el conjunto de llegada \( B \).</li>
+  <li><strong>Biyectiva</strong>: inyectiva y sobreyectiva a la vez. Solo las biyectivas tienen <strong>función inversa</strong>.</li>
+</ul>
+
+<h4>Inversa y composición</h4>
+<p><strong>Inversa</strong>: se despeja \( x \) en función de \( y \) y se renombran las variables. Su gráfico es el reflejo del original respecto de la recta \( y = x \). Ejemplo: \( f(x) = 2x + 4 \Rightarrow f^{-1}(x) = \frac{x - 4}{2} \).</p>
+<p><strong>Composición</strong>: \( (g \circ f)(x) = g(f(x)) \). Primero se aplica \( f \) y al resultado se le aplica \( g \). Con \( f(x) = x + 1 \) y \( g(x) = x^2 \): \( (g\circ f)(x) = (x+1)^2 \), pero \( (f \circ g)(x) = x^2 + 1 \). El orden importa.</p>
+
+<h4>Función homográfica</h4>
+\[ f(x) = \frac{ax + b}{cx + d} \qquad c \neq 0,\;\; ad - bc \neq 0 \]
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<ul>
+  <li>Asíntota vertical: \( x = -\frac{d}{c} \) (donde se anula el denominador).</li>
+  <li>Asíntota horizontal: \( y = \frac{a}{c} \) (cociente de los coeficientes de \( x \)).</li>
+  <li>Dominio: \( \mathbb{R} - \{-\frac{d}{c}\} \). Imagen: \( \mathbb{R} - \{\frac{a}{c}\} \).</li>
+</ul>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>\( f(x) = \dfrac{2x + 1}{x - 3} \)</p>
+<ul>
+  <li>Asíntota vertical \( x = 3 \). Asíntota horizontal \( y = 2 \).</li>
+  <li>Raíz: numerador = 0, entonces \( x = -\frac{1}{2} \).</li>
+  <li>Ordenada al origen: \( f(0) = -\frac{1}{3} \).</li>
+  <li>Dominio \( \mathbb{R} - \{3\} \), imagen \( \mathbb{R} - \{2\} \).</li>
+</ul>
+</div>
+
+<h4>Desplazamientos de gráficos</h4>
+<ul>
+  <li>\( f(x) + k \): sube \( k \) unidades (baja si \( k \) es negativo).</li>
+  <li>\( f(x - h) \): se corre \( h \) unidades a la <strong>derecha</strong>.</li>
+  <li>\( -f(x) \): se refleja respecto del eje \( x \).</li>
+  <li>\( k\cdot f(x) \): se estira verticalmente (o se achica si \( 0 \lt k \lt 1 \)).</li>
+</ul>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<p>\( f(x - 2) \) se corre a la <strong>derecha</strong>, no a la izquierda. Es el error más común con desplazamientos.</p>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Video UTN.BA: Funciones →</a><button class="done" data-id="m4" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M5 ======================= -->
+<section class="topic" id="m5">
+<header><span class="n">M5</span><h2>Función lineal y ecuación de la recta</h2></header>
+<p class="lead">Una pendiente y un punto alcanzan para conocer una recta entera.</p>
+
+\[ y = m\,x + b \]
+<ul>
+  <li><strong>\( m \) es la pendiente</strong>: cuánto sube \( y \) cuando \( x \) aumenta 1. Si \( m \gt 0 \) crece, si \( m \lt 0 \) decrece, si \( m = 0 \) es constante (horizontal).</li>
+  <li><strong>\( b \) es la ordenada al origen</strong>: donde corta al eje \( y \).</li>
+  <li><strong>Raíz</strong>: \( x = -\frac{b}{m} \).</li>
+</ul>
+
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ m = \frac{y_2 - y_1}{x_2 - x_1} \qquad\qquad y - y_1 = m\,(x - x_1) \]
+<p>Paralelas: \( m_1 = m_2 \). &nbsp; Perpendiculares: \( m_1 \cdot m_2 = -1 \), es decir \( m_2 = -\frac{1}{m_1} \).</p>
+</div>
+
+<h4>Formas de escribir una recta</h4>
+<ul>
+  <li><strong>Explícita</strong>: \( y = mx + b \).</li>
+  <li><strong>General o implícita</strong>: \( Ax + By + C = 0 \). Despejando \( y \): \( m = -\frac{A}{B} \).</li>
+  <li><strong>Segmentaria</strong>: \( \frac{x}{p} + \frac{y}{q} = 1 \), donde \( p \) y \( q \) son los cortes con los ejes.</li>
+  <li><strong>Recta vertical</strong>: \( x = k \). No es función y su pendiente no está definida.</li>
+</ul>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Recta que pasa por \( A(1, 2) \) y \( B(3, 8) \), y su perpendicular por el origen.</p>
+<ol>
+  <li>Pendiente: \( m = \frac{8-2}{3-1} = 3 \).</li>
+  <li>Punto-pendiente con \( A \): \( y - 2 = 3(x - 1) \Rightarrow y = 3x - 1 \).</li>
+  <li>Perpendicular: \( m_\perp = -\frac{1}{3} \). Pasa por \( (0,0) \), así que \( b = 0 \): \( y = -\frac{1}{3}x \).</li>
+</ol>
+</div>
+
+<h4>Intersección de gráficas</h4>
+<p>Para saber dónde se cortan dos gráficas se igualan sus fórmulas y se resuelve. Con dos rectas es un sistema de ecuaciones (M3). Con \( y = 3x - 1 \) e \( y = -x + 7 \): \( 3x - 1 = -x + 7 \Rightarrow x = 2,\; y = 5 \). Se cortan en \( (2, 5) \).</p>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>En la pendiente, restá en el mismo orden arriba y abajo: \( (y_2 - y_1) \) con \( (x_2 - x_1) \).</li>
+  <li>Perpendicular es la <strong>inversa y opuesta</strong>: si \( m = 2 \), la perpendicular tiene \( -\frac{1}{2} \), no \( -2 \).</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Función lineal →</a><button class="done" data-id="m5" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M6 ======================= -->
+<section class="topic" id="m6">
+<header><span class="n">M6</span><h2>Función cuadrática</h2></header>
+<p class="lead">La parábola: raíces, vértice y las tres formas de escribirla.</p>
+
+\[ f(x) = a x^2 + b x + c \qquad a \neq 0 \]
+<p>Si \( a \gt 0 \) las ramas van hacia arriba y el vértice es un <strong>mínimo</strong>. Si \( a \lt 0 \) van hacia abajo y el vértice es un <strong>máximo</strong>. \( c \) es la ordenada al origen.</p>
+
+<figure>
+<svg viewBox="0 0 360 250" role="img" aria-label="Parábola con raíces en x igual a menos 1 y 5 y vértice en 2, menos 9">
+  <line class="svg-grid" x1="20" y1="70" x2="340" y2="70" stroke-width="1"/>
+  <line class="svg-ink" x1="20" y1="70" x2="340" y2="70" stroke-width="1.5"/>
+  <line class="svg-ink" x1="80" y1="10" x2="80" y2="240" stroke-width="1.5"/>
+  <path class="svg-acc" stroke-width="3" d="M 32 20 Q 140 340 248 20"/>
+  <line class="svg-ink" x1="140" y1="20" x2="140" y2="232" stroke-width="1" stroke-dasharray="4 4"/>
+  <circle class="svg-dot" cx="50" cy="70" r="5"/>
+  <circle class="svg-dot" cx="230" cy="70" r="5"/>
+  <circle class="svg-dot" cx="140" cy="180" r="5"/>
+  <text class="svg-txt" x="30" y="92">x₁ = −1</text>
+  <text class="svg-txt" x="232" y="92">x₂ = 5</text>
+  <text class="svg-txt-acc" x="150" y="205">vértice (2, −9)</text>
+  <text class="svg-txt" x="148" y="35">eje x = 2</text>
+  <text class="svg-txt" x="326" y="62">x</text>
+  <text class="svg-txt" x="88" y="22">y</text>
+</svg>
+<figcaption>\( f(x) = x^2 - 4x - 5 \): raíces, vértice y eje de simetría (dibujo aproximado).</figcaption>
+</figure>
+
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ x_{1,2} = \frac{-b \pm \sqrt{\Delta}}{2a} \qquad \Delta = b^2 - 4ac \]
+\[ x_v = -\frac{b}{2a} \qquad y_v = f(x_v) \]
+<p>\( \Delta \gt 0 \): dos raíces reales distintas. &nbsp; \( \Delta = 0 \): una raíz doble (el vértice toca el eje). &nbsp; \( \Delta \lt 0 \): no corta al eje \( x \).</p>
+<p>Suma y producto de raíces: \( x_1 + x_2 = -\frac{b}{a} \), \( \;x_1 \cdot x_2 = \frac{c}{a} \).</p>
+</div>
+
+<h4>Las tres formas</h4>
+<div class="scroll"><table>
+<tr><th>Forma</th><th>Fórmula</th><th>Se lee directo</th></tr>
+<tr><td>Polinómica</td><td>\( a x^2 + b x + c \)</td><td>Ordenada al origen \( c \)</td></tr>
+<tr><td>Canónica</td><td>\( a(x - x_v)^2 + y_v \)</td><td>Vértice \( (x_v, y_v) \)</td></tr>
+<tr><td>Factorizada</td><td>\( a(x - x_1)(x - x_2) \)</td><td>Raíces \( x_1, x_2 \)</td></tr>
+</table></div>
+<p><strong>Completar cuadrados</strong> sirve para pasar de polinómica a canónica: se suma y resta el cuadrado de la mitad del coeficiente de \( x \).</p>
+\[ x^2 + 6x + 5 = (x^2 + 6x + 9) - 9 + 5 = (x + 3)^2 - 4 \]
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Analizar \( f(x) = x^2 - 4x - 5 \) (es la del dibujo).</p>
+<ul>
+  <li>\( \Delta = 16 + 20 = 36 \). Raíces: \( x = \frac{4 \pm 6}{2} \), o sea \( 5 \) y \( -1 \).</li>
+  <li>Vértice: \( x_v = \frac{4}{2} = 2 \), \( y_v = 4 - 8 - 5 = -9 \).</li>
+  <li>Canónica: \( (x - 2)^2 - 9 \). Factorizada: \( (x - 5)(x + 1) \).</li>
+  <li>Ordenada al origen \( -5 \). Imagen \( [-9, +\infty) \). Decrece en \( (-\infty, 2) \) y crece en \( (2, +\infty) \).</li>
+</ul>
+</div>
+
+<h4>Intersección recta–parábola</h4>
+<p>Se igualan las dos fórmulas, se pasa todo a un lado y queda una cuadrática. Su discriminante dice si se cortan en dos puntos, se tocan en uno o no se cortan.</p>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>Con \( b \) negativo, \( -b \) es positivo: en \( x^2 - 4x - 5 \), \( -b = 4 \).</li>
+  <li>\( b^2 \) siempre es positivo: \( (-4)^2 = 16 \).</li>
+  <li>En la canónica, \( (x - 2)^2 \) tiene vértice en \( x = 2 \), y \( (x + 3)^2 \) en \( x = -3 \).</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Cuadrática y forma canónica →</a><button class="done" data-id="m6" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M7 ======================= -->
+<section class="topic" id="m7">
+<header><span class="n">M7</span><h2>Función exponencial y logarítmica</h2></header>
+<p class="lead">Una es la inversa de la otra: el logaritmo responde a qué exponente hay que poner.</p>
+
+<h4>Función exponencial</h4>
+\[ f(x) = b^x \qquad b \gt 0,\; b \neq 1 \]
+<ul>
+  <li>Dominio \( \mathbb{R} \), imagen \( (0, +\infty) \). Nunca toca el 0: tiene asíntota horizontal \( y = 0 \).</li>
+  <li>Siempre pasa por \( (0, 1) \), porque \( b^0 = 1 \).</li>
+  <li>Si \( b \gt 1 \) crece; si \( 0 \lt b \lt 1 \) decrece.</li>
+  <li>El número \( e \approx 2{,}718 \) es la base más usada en ciencia.</li>
+</ul>
+
+<h4>Logaritmo</h4>
+<div class="box formulas"><span class="lbl">Definición</span>
+\[ \log_b a = c \iff b^c = a \qquad (a \gt 0,\; b \gt 0,\; b \neq 1) \]
+<p>\( \log_2 8 = 3 \) porque \( 2^3 = 8 \). &nbsp; \( \log a \) es base 10 y \( \ln a \) es base \( e \).</p>
+</div>
+<div class="box formulas"><span class="lbl">Propiedades</span>
+\[ \log_b(m\cdot n) = \log_b m + \log_b n \qquad \log_b\frac{m}{n} = \log_b m - \log_b n \qquad \log_b m^r = r\,\log_b m \]
+\[ \log_b b = 1 \qquad \log_b 1 = 0 \qquad \log_b a = \frac{\log a}{\log b} \;\;\text{(cambio de base)} \]
+</div>
+<p>La <strong>función logarítmica</strong> \( f(x) = \log_b x \) tiene dominio \( (0, +\infty) \), imagen \( \mathbb{R} \), asíntota vertical \( x = 0 \) y pasa por \( (1, 0) \).</p>
+
+<div class="box ejemplo"><span class="lbl">Ejemplos resueltos</span>
+<ol>
+  <li><strong>Igualando bases</strong>: \( 2^{x+1} = 8 = 2^3 \Rightarrow x + 1 = 3 \Rightarrow x = 2 \).</li>
+  <li><strong>Aplicando logaritmo</strong>: \( 3^x = 7 \Rightarrow x = \frac{\ln 7}{\ln 3} \approx 1{,}77 \).</li>
+  <li><strong>Ecuación logarítmica</strong>: \( \log_2(x - 1) = 3 \Rightarrow x - 1 = 2^3 \Rightarrow x = 9 \). Verifico: \( 9 - 1 = 8 \gt 0 \). ✓</li>
+  <li><strong>Con propiedades</strong>: \( \log x + \log(x - 3) = 1 \Rightarrow x(x-3) = 10 \Rightarrow x^2 - 3x - 10 = 0 \). Raíces 5 y −2. Solo vale \( x = 5 \), porque con −2 el logaritmo no existe.</li>
+</ol>
+</div>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>\( \log(m + n) \neq \log m + \log n \). La propiedad es para el <strong>producto</strong>.</li>
+  <li>\( (\log m)^2 \neq 2\log m \). Lo que baja es el exponente de adentro: \( \log m^2 = 2 \log m \).</li>
+  <li>En ecuaciones logarítmicas, siempre descartá las soluciones que dejan un argumento \( \le 0 \).</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Video UTN.BA: Exponencial y logarítmica →</a><button class="done" data-id="m7" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M8 ======================= -->
+<section class="topic" id="m8">
+<header><span class="n">M8</span><h2>Trigonometría</h2></header>
+<p class="lead">Relaciones entre ángulos y lados, del triángulo rectángulo a cualquier triángulo.</p>
+
+<h4>Grados y radianes</h4>
+<p>\( 180^\circ = \pi \) radianes. Para pasar de grados a radianes se multiplica por \( \frac{\pi}{180} \); al revés, por \( \frac{180}{\pi} \). Ejemplo: \( 60^\circ = \frac{\pi}{3} \), y \( \frac{\pi}{9} = 20^\circ \).</p>
+
+<h4>Triángulo rectángulo</h4>
+<figure>
+<svg viewBox="0 0 340 200" role="img" aria-label="Triángulo rectángulo con hipotenusa, cateto opuesto y cateto adyacente al ángulo alfa">
+  <path class="svg-ink" stroke-width="2.5" d="M 40 170 L 290 170 L 290 40 Z"/>
+  <path class="svg-ink" stroke-width="1.5" d="M 274 170 L 274 154 L 290 154"/>
+  <path class="svg-acc" stroke-width="2" d="M 90 170 A 50 50 0 0 0 85 147"/>
+  <text class="svg-txt-acc" x="98" y="162">α</text>
+  <text class="svg-txt" x="120" y="96" transform="rotate(-27 120 96)">hipotenusa</text>
+  <text class="svg-txt" x="298" y="110">opuesto</text>
+  <text class="svg-txt" x="130" y="192">adyacente</text>
+</svg>
+<figcaption>Los catetos se nombran según el ángulo α que se está mirando.</figcaption>
+</figure>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ \operatorname{sen}\alpha = \frac{\text{opuesto}}{\text{hipotenusa}} \qquad \cos\alpha = \frac{\text{adyacente}}{\text{hipotenusa}} \qquad \operatorname{tg}\alpha = \frac{\text{opuesto}}{\text{adyacente}} = \frac{\operatorname{sen}\alpha}{\cos\alpha} \]
+\[ \operatorname{sen}^2\alpha + \cos^2\alpha = 1 \]
+</div>
+
+<div class="scroll"><table>
+<tr><th>Ángulo</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>
+<tr><td>sen</td><td>0</td><td>\( \frac12 \)</td><td>\( \frac{\sqrt2}{2} \)</td><td>\( \frac{\sqrt3}{2} \)</td><td>1</td></tr>
+<tr><td>cos</td><td>1</td><td>\( \frac{\sqrt3}{2} \)</td><td>\( \frac{\sqrt2}{2} \)</td><td>\( \frac12 \)</td><td>0</td></tr>
+<tr><td>tg</td><td>0</td><td>\( \frac{\sqrt3}{3} \)</td><td>1</td><td>\( \sqrt3 \)</td><td>no existe</td></tr>
+</table></div>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Un árbol proyecta una sombra de 20 m y el ángulo de elevación del sol es 35°. ¿Qué altura tiene?</p>
+<p>La sombra es el cateto adyacente y la altura el opuesto, así que uso tangente: \( h = 20 \cdot \operatorname{tg} 35^\circ \approx 20 \cdot 0{,}700 \approx 14{,}0 \text{ m} \).</p>
+</div>
+
+<h4>Circunferencia trigonométrica y signos</h4>
+<p>En una circunferencia de radio 1, el coseno es la coordenada \( x \) del punto y el seno la coordenada \( y \). Por eso el signo depende del cuadrante:</p>
+<div class="scroll"><table>
+<tr><th>Cuadrante</th><th>Ángulos</th><th>Positivas</th></tr>
+<tr><td>I</td><td>0° a 90°</td><td>sen, cos y tg</td></tr>
+<tr><td>II</td><td>90° a 180°</td><td>solo sen</td></tr>
+<tr><td>III</td><td>180° a 270°</td><td>solo tg</td></tr>
+<tr><td>IV</td><td>270° a 360°</td><td>solo cos</td></tr>
+</table></div>
+
+<h4>Función senoidal</h4>
+\[ f(x) = A\,\operatorname{sen}(Bx + C) + D \]
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<ul>
+  <li>Amplitud: \( |A| \). Período: \( \dfrac{2\pi}{|B|} \).</li>
+  <li>Desplazamiento horizontal (fase): \( -\dfrac{C}{B} \). Desplazamiento vertical: \( D \).</li>
+  <li>Imagen: \( [D - |A|,\; D + |A|] \).</li>
+</ul>
+<p>Ejemplo: \( f(x) = 3\operatorname{sen}(2x) + 1 \) tiene amplitud 3, período \( \pi \) e imagen \( [-2, 4] \).</p>
+</div>
+
+<h4>Triángulos no rectángulos</h4>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<p><strong>Teorema del seno</strong> (cada lado con su ángulo opuesto):</p>
+\[ \frac{a}{\operatorname{sen}\alpha} = \frac{b}{\operatorname{sen}\beta} = \frac{c}{\operatorname{sen}\gamma} \]
+<p><strong>Teorema del coseno</strong>:</p>
+\[ a^2 = b^2 + c^2 - 2\,b\,c\,\cos\alpha \]
+<p>Área de cualquier triángulo: \( \frac{1}{2}\,a\,b\,\operatorname{sen}\gamma \) (dos lados y el ángulo entre ellos).</p>
+</div>
+<ul>
+  <li>Usá <strong>seno</strong> si conocés un lado y su ángulo opuesto.</li>
+  <li>Usá <strong>coseno</strong> si conocés dos lados y el ángulo comprendido, o los tres lados.</li>
+  <li>Los ángulos interiores suman 180°: si sabés dos, sabés el tercero.</li>
+</ul>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Dos lados miden \( b = 5 \) y \( c = 7 \), con un ángulo comprendido \( \alpha = 60^\circ \). ¿Cuánto mide \( a \)?</p>
+\[ a^2 = 25 + 49 - 2\cdot5\cdot7\cdot\cos60^\circ = 74 - 35 = 39 \;\Rightarrow\; a = \sqrt{39} \approx 6{,}24 \]
+</div>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>Revisá que la calculadora esté en <strong>grados (DEG)</strong> cuando los datos están en grados.</li>
+  <li>Para despejar un ángulo se usa la función inversa: si \( \operatorname{sen}\alpha = 0{,}5 \), \( \alpha = \operatorname{sen}^{-1}(0{,}5) = 30^\circ \).</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">Videos UTN.BA: Senoidal y teoremas →</a><button class="done" data-id="m8" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M9 ======================= -->
+<section class="topic" id="m9">
+<header><span class="n">M9</span><h2>Geometría</h2></header>
+<p class="lead">Pitágoras, áreas y volúmenes: fórmulas que se usan en muchos problemas de texto.</p>
+
+<div class="box formulas"><span class="lbl">Teorema de Pitágoras</span>
+\[ a^2 + b^2 = c^2 \]
+<p>Solo vale en triángulos <strong>rectángulos</strong>. \( c \) es la hipotenusa (el lado opuesto al ángulo recto, siempre el más largo).</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Diagonal de un rectángulo de 6 cm por 8 cm: \( d = \sqrt{6^2 + 8^2} = \sqrt{100} = 10 \text{ cm} \).</p>
+</div>
+
+<h4>Ángulos</h4>
+<ul>
+  <li>Los ángulos interiores de un triángulo suman \( 180^\circ \).</li>
+  <li>Los de un polígono de \( n \) lados suman \( (n - 2)\cdot180^\circ \).</li>
+  <li>Triángulos semejantes tienen los mismos ángulos y lados proporcionales (Teorema de Thales).</li>
+</ul>
+
+<h4>Áreas y perímetros</h4>
+<div class="scroll"><table>
+<tr><th>Figura</th><th>Área</th><th>Perímetro</th></tr>
+<tr><td>Cuadrado de lado \( l \)</td><td>\( l^2 \)</td><td>\( 4l \)</td></tr>
+<tr><td>Rectángulo</td><td>\( b \cdot h \)</td><td>\( 2b + 2h \)</td></tr>
+<tr><td>Triángulo</td><td>\( \frac{b\cdot h}{2} \)</td><td>suma de lados</td></tr>
+<tr><td>Trapecio</td><td>\( \frac{(B + b)\cdot h}{2} \)</td><td>suma de lados</td></tr>
+<tr><td>Rombo</td><td>\( \frac{D \cdot d}{2} \)</td><td>\( 4l \)</td></tr>
+<tr><td>Polígono regular</td><td>\( \frac{P \cdot ap}{2} \)</td><td>\( n \cdot l \)</td></tr>
+<tr><td>Círculo de radio \( r \)</td><td>\( \pi r^2 \)</td><td>\( 2\pi r \)</td></tr>
+</table></div>
+
+<h4>Volúmenes y superficies</h4>
+<div class="scroll"><table>
+<tr><th>Cuerpo</th><th>Volumen</th><th>Superficie</th></tr>
+<tr><td>Cubo de arista \( a \)</td><td>\( a^3 \)</td><td>\( 6a^2 \)</td></tr>
+<tr><td>Prisma</td><td>\( A_{base}\cdot h \)</td><td>\( 2A_{base} + A_{lateral} \)</td></tr>
+<tr><td>Cilindro</td><td>\( \pi r^2 h \)</td><td>\( 2\pi r^2 + 2\pi r h \)</td></tr>
+<tr><td>Pirámide</td><td>\( \frac{A_{base}\cdot h}{3} \)</td><td>\( A_{base} + A_{lateral} \)</td></tr>
+<tr><td>Cono</td><td>\( \frac{\pi r^2 h}{3} \)</td><td>\( \pi r^2 + \pi r g \)</td></tr>
+<tr><td>Esfera</td><td>\( \frac{4}{3}\pi r^3 \)</td><td>\( 4\pi r^2 \)</td></tr>
+</table></div>
+<p>En el cono, \( g \) es la generatriz: \( g = \sqrt{r^2 + h^2} \) (Pitágoras otra vez).</p>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>Pasá todo a la misma unidad antes de calcular.</li>
+  <li>Las áreas van en unidades al cuadrado (cm²) y los volúmenes al cubo (cm³).</li>
+  <li>Si te dan el diámetro, el radio es la mitad.</li>
+</ul>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">Videos UTN.BA: Geometría y Pitágoras →</a><button class="done" data-id="m9" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= M10 ======================= -->
+<section class="topic" id="m10">
+<header><span class="n">M10</span><h2>Vectores</h2></header>
+<p class="lead">Magnitudes con dirección y sentido. Se usan en Matemática y son la base de Física.</p>
+
+<h4>Qué es un vector</h4>
+<p>Un vector tiene <strong>módulo</strong> (su largo), <strong>dirección</strong> (la recta sobre la que está) y <strong>sentido</strong> (hacia dónde apunta). En el plano se escribe por sus componentes: \( \vec v = (v_x, v_y) \).</p>
+<p>El vector que va del punto \( A \) al punto \( B \) es \( \overrightarrow{AB} = B - A \). De \( A(1, 2) \) a \( B(4, 6) \): \( \overrightarrow{AB} = (3, 4) \).</p>
+
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ |\vec v| = \sqrt{v_x^2 + v_y^2} \qquad \operatorname{tg}\theta = \frac{v_y}{v_x} \]
+\[ v_x = |\vec v|\cos\theta \qquad v_y = |\vec v|\operatorname{sen}\theta \]
+<p>\( \theta \) es el ángulo con el eje \( x \) positivo.</p>
+</div>
+
+<h4>Operaciones</h4>
+<ul>
+  <li><strong>Suma</strong>: componente a componente. \( (1, 2) + (3, -1) = (4, 1) \). Gráficamente es la regla del paralelogramo (o poner uno a continuación del otro).</li>
+  <li><strong>Producto por un número</strong>: \( 3\cdot(2, -1) = (6, -3) \). Si el número es negativo, cambia el sentido.</li>
+  <li><strong>Versor</strong>: vector de módulo 1 en la misma dirección: \( \hat v = \frac{\vec v}{|\vec v|} \). Los versores de los ejes son \( \hat\imath = (1,0) \) y \( \hat\jmath = (0,1) \), así que \( (3,4) = 3\hat\imath + 4\hat\jmath \).</li>
+</ul>
+
+<h4>Producto escalar</h4>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ \vec u \cdot \vec v = u_x v_x + u_y v_y = |\vec u|\,|\vec v|\cos\theta \]
+\[ \cos\theta = \frac{\vec u\cdot\vec v}{|\vec u|\,|\vec v|} \qquad\qquad \vec u \perp \vec v \iff \vec u\cdot\vec v = 0 \]
+<p>El resultado es un <strong>número</strong>, no un vector.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplos resueltos</span>
+<ol>
+  <li>\( \vec u = (3, 4) \) y \( \vec v = (4, -3) \): \( \vec u\cdot\vec v = 12 - 12 = 0 \). Son <strong>perpendiculares</strong>. Además \( |\vec u| = \sqrt{9 + 16} = 5 \).</li>
+  <li>Ángulo entre \( (1, 0) \) y \( (1, 1) \): \( \cos\theta = \frac{1}{1\cdot\sqrt2} = \frac{\sqrt2}{2} \Rightarrow \theta = 45^\circ \).</li>
+</ol>
+</div>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<p>Con \( \operatorname{tg}\theta = \frac{v_y}{v_x} \) la calculadora da un ángulo entre −90° y 90°. Si \( v_x \) es negativo, sumale 180° para quedar en el cuadrante correcto.</p>
+</div>
+<div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Vectores →</a><button class="done" data-id="m10" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<h2 class="subject">Física <small>3 temas · no se rinde en el verano 2027</small></h2>
+
+<!-- ======================= F1 ======================= -->
+<section class="topic" id="f1">
+<header><span class="n">F1</span><h2>Magnitudes y unidades</h2></header>
+<p class="lead">Todo en física se mide, y medir bien empieza por usar las unidades correctas.</p>
+
+<h4>Sistema Internacional (SI)</h4>
+<div class="scroll"><table>
+<tr><th>Magnitud</th><th>Unidad</th><th>Símbolo</th></tr>
+<tr><td>Longitud</td><td>metro</td><td>m</td></tr>
+<tr><td>Masa</td><td>kilogramo</td><td>kg</td></tr>
+<tr><td>Tiempo</td><td>segundo</td><td>s</td></tr>
+<tr><td>Temperatura</td><td>kelvin</td><td>K</td></tr>
+<tr><td>Corriente eléctrica</td><td>ampere</td><td>A</td></tr>
+<tr><td>Cantidad de sustancia</td><td>mol</td><td>mol</td></tr>
+<tr><td>Intensidad luminosa</td><td>candela</td><td>cd</td></tr>
+</table></div>
+<p>Las demás son <strong>derivadas</strong>: velocidad en m/s, aceleración en m/s², fuerza en newton: \( 1\,\text{N} = 1\,\text{kg}\cdot\text{m/s}^2 \).</p>
+
+<h4>Escalares y vectoriales</h4>
+<ul>
+  <li><strong>Escalares</strong>: quedan definidas con un número y su unidad. Masa, tiempo, temperatura, distancia recorrida.</li>
+  <li><strong>Vectoriales</strong>: necesitan además dirección y sentido. Desplazamiento, velocidad, aceleración, fuerza. Se trabajan con lo visto en M10.</li>
+</ul>
+
+<h4>Notación científica y prefijos</h4>
+<p>Un número se escribe como \( a \times 10^n \) con \( 1 \le a \lt 10 \): \( 0{,}00052 = 5{,}2\times10^{-4} \) y \( 3\,800\,000 = 3{,}8\times10^{6} \).</p>
+<div class="scroll"><table>
+<tr><th>Prefijo</th><th>giga (G)</th><th>mega (M)</th><th>kilo (k)</th><th>centi (c)</th><th>mili (m)</th><th>micro (μ)</th><th>nano (n)</th></tr>
+<tr><td>Factor</td><td>\(10^{9}\)</td><td>\(10^{6}\)</td><td>\(10^{3}\)</td><td>\(10^{-2}\)</td><td>\(10^{-3}\)</td><td>\(10^{-6}\)</td><td>\(10^{-9}\)</td></tr>
+</table></div>
+
+<div class="box formulas"><span class="lbl">Conversión más usada</span>
+\[ 72\,\frac{\text{km}}{\text{h}} = 72\cdot\frac{1000\,\text{m}}{3600\,\text{s}} = 20\,\frac{\text{m}}{\text{s}} \]
+<p>Atajo: de km/h a m/s se <strong>divide por 3,6</strong>; de m/s a km/h se multiplica por 3,6.</p>
+</div>
+<p><strong>Análisis dimensional</strong>: en una fórmula correcta, las unidades de los dos lados coinciden. Si te da m/s cuando buscabas metros, hay un error.</p>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<p>Antes de reemplazar en una fórmula, pasá todos los datos al SI: km a m, minutos a segundos, gramos a kilogramos.</p>
+</div>
+<div class="foot"><span></span><button class="done" data-id="f1" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= F2 ======================= -->
+<section class="topic" id="f2">
+<header><span class="n">F2</span><h2>Cinemática</h2></header>
+<p class="lead">Describe cómo se mueve un cuerpo, sin preguntarse por qué.</p>
+
+<h4>Conceptos básicos</h4>
+<ul>
+  <li><strong>Posición</strong> \( x \): dónde está el cuerpo respecto de un origen elegido.</li>
+  <li><strong>Desplazamiento</strong>: \( \Delta x = x_f - x_i \). Puede ser negativo. No es lo mismo que la distancia recorrida.</li>
+  <li><strong>Velocidad media</strong>: \( v_m = \dfrac{\Delta x}{\Delta t} \).</li>
+  <li><strong>Aceleración</strong>: cuánto cambia la velocidad por segundo, \( a = \dfrac{\Delta v}{\Delta t} \).</li>
+</ul>
+
+<h4>MRU: movimiento rectilíneo uniforme</h4>
+<p>Velocidad constante, aceleración cero.</p>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ x(t) = x_0 + v\,(t - t_0) \]
+<p>Gráfico posición–tiempo: una recta cuya pendiente es la velocidad. Gráfico velocidad–tiempo: una recta horizontal, y el área debajo es el desplazamiento.</p>
+</div>
+
+<h4>MRUV: movimiento rectilíneo uniformemente variado</h4>
+<p>Aceleración constante.</p>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ v(t) = v_0 + a\,t \qquad x(t) = x_0 + v_0\,t + \tfrac{1}{2}\,a\,t^2 \qquad v^2 = v_0^2 + 2\,a\,\Delta x \]
+<p>Gráfico velocidad–tiempo: una recta de pendiente \( a \). Gráfico posición–tiempo: una parábola (la cuadrática de M6).</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Un auto parte del reposo con \( a = 2 \text{ m/s}^2 \). A los 5 s: \( v = 0 + 2\cdot5 = 10 \text{ m/s} \) y recorrió \( x = \frac{1}{2}\cdot2\cdot5^2 = 25 \text{ m} \).</p>
+</div>
+
+<h4>Caída libre y tiro vertical</h4>
+<p>Es un MRUV con \( a = -g \) (tomando hacia arriba como positivo). \( g \approx 9{,}8 \text{ m/s}^2 \); en muchos ejercicios se redondea a 10.</p>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ y(t) = y_0 + v_0\,t - \tfrac{1}{2}\,g\,t^2 \qquad v(t) = v_0 - g\,t \]
+\[ t_{subida} = \frac{v_0}{g} \qquad h_{max} = \frac{v_0^2}{2g} \]
+<p>En la altura máxima la velocidad es 0.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Se lanza una pelota hacia arriba a 20 m/s (con \( g = 10 \)). Tarda \( \frac{20}{10} = 2 \text{ s} \) en subir, llega a \( \frac{400}{20} = 20 \text{ m} \) y vuelve a la mano a los 4 s.</p>
+</div>
+
+<h4>Problemas de encuentro</h4>
+<p>Se escribe la posición de cada móvil con el <strong>mismo origen y el mismo sentido positivo</strong>, y se igualan.</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>A sale de \( x = 0 \) a 20 m/s. B sale al mismo tiempo de \( x = 300 \text{ m} \) hacia A a 10 m/s.</p>
+\[ x_A = 20t \qquad x_B = 300 - 10t \qquad 20t = 300 - 10t \;\Rightarrow\; t = 10 \text{ s},\; x = 200 \text{ m} \]
+</div>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>Elegí un sentido positivo al empezar y respetalo en todos los signos.</li>
+  <li>Si frena, la aceleración tiene signo contrario a la velocidad.</li>
+</ul>
+</div>
+<div class="foot"><span></span><button class="done" data-id="f2" aria-pressed="false">Marcar como leído</button></div>
+</section>
+
+<!-- ======================= F3 ======================= -->
+<section class="topic" id="f3">
+<header><span class="n">F3</span><h2>Dinámica</h2></header>
+<p class="lead">Las fuerzas explican por qué cambia el movimiento.</p>
+
+<h4>Las tres leyes de Newton</h4>
+<ol>
+  <li><strong>Inercia</strong>: si la fuerza neta es cero, el cuerpo sigue en reposo o en MRU.</li>
+  <li><strong>Masa</strong>: la fuerza neta produce una aceleración en su misma dirección.</li>
+  <li><strong>Acción y reacción</strong>: si A empuja a B, B empuja a A con la misma fuerza y sentido contrario. Actúan sobre cuerpos <strong>distintos</strong>, por eso no se anulan.</li>
+</ol>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ \sum \vec F = m\,\vec a \qquad P = m\,g \qquad f_{roz} = \mu\,N \]
+</div>
+
+<h4>Fuerzas que aparecen siempre</h4>
+<ul>
+  <li><strong>Peso</strong> \( P = mg \): vertical hacia abajo.</li>
+  <li><strong>Normal</strong> \( N \): la hace la superficie, perpendicular a ella.</li>
+  <li><strong>Rozamiento</strong>: paralelo a la superficie y opuesto al movimiento. El estático llega como máximo a \( \mu_e N \); el dinámico vale \( \mu_d N \).</li>
+  <li><strong>Tensión</strong> \( T \): la hace una soga o cable, siempre tirando.</li>
+</ul>
+
+<h4>Cómo resolver un problema</h4>
+<ol>
+  <li>Dibujá el <strong>diagrama de cuerpo libre</strong>: el cuerpo solo, con todas las fuerzas que actúan sobre él.</li>
+  <li>Elegí ejes: uno en la dirección del movimiento.</li>
+  <li>Escribí \( \sum F = m\,a \) en cada eje. En el eje sin movimiento, \( \sum F = 0 \).</li>
+  <li>Resolvé el sistema.</li>
+</ol>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Una caja de 10 kg se empuja con 50 N horizontales. \( \mu_d = 0{,}2 \) y \( g = 10 \text{ m/s}^2 \).</p>
+<ul>
+  <li>Eje vertical: \( N = P = 10\cdot10 = 100 \text{ N} \).</li>
+  <li>Rozamiento: \( f = 0{,}2\cdot100 = 20 \text{ N} \).</li>
+  <li>Eje horizontal: \( 50 - 20 = 10\cdot a \Rightarrow a = 3 \text{ m/s}^2 \).</li>
+</ul>
+</div>
+
+<h4>Plano inclinado</h4>
+<p>Conviene tomar un eje paralelo al plano y otro perpendicular. El peso se descompone (con lo de M8 y M10):</p>
+<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+\[ P_x = m\,g\,\operatorname{sen}\alpha \;\;\text{(paralela al plano)} \qquad P_y = m\,g\cos\alpha \;\;\text{(perpendicular)} \]
+<p>Sin otras fuerzas perpendiculares: \( N = m\,g\cos\alpha \). Sin rozamiento, la aceleración hacia abajo es \( a = g\operatorname{sen}\alpha \).</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Un bloque baja por un plano de 30° sin rozamiento: \( a = 10\cdot\operatorname{sen}30^\circ = 10\cdot0{,}5 = 5 \text{ m/s}^2 \). No depende de la masa.</p>
+</div>
+
+<div class="box ojo"><span class="lbl">Ojo</span>
+<ul>
+  <li>Masa y peso no son lo mismo: la masa va en kg, el peso es una fuerza y va en N.</li>
+  <li>La normal no siempre es igual al peso: en un plano inclinado, o si alguien empuja hacia abajo, cambia.</li>
+</ul>
+</div>
+<div class="foot"><span></span><button class="done" data-id="f3" aria-pressed="false">Marcar como leído</button></div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  var KEY = "teoria-utn-leidos";
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { read = {}; }
+  var buttons = document.querySelectorAll("button.done");
+  var total = buttons.length;
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e) {} }
+  function render(){
+    var n = 0;
+    buttons.forEach(function(b){
+      var id = b.dataset.id, on = !!read[id];
+      if (on) n++;
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.textContent = on ? "Leído ✓" : "Marcar como leído";
+      var link = document.querySelector('.toc a[href="#' + id + '"]');
+      if (link) link.classList.toggle("read", on);
+    });
+    document.getElementById("barfill").style.width = (n / total * 100) + "%";
+    document.getElementById("progtxt").textContent = n + " de " + total + " temas leídos";
+  }
+  buttons.forEach(function(b){
+    b.addEventListener("click", function(){ var id = b.dataset.id; if (read[id]) delete read[id]; else read[id] = 1; save(); render(); });
+  });
+  render();
+
+  // resaltar el tema visible en el índice
+  var links = {};
+  document.querySelectorAll(".toc a").forEach(function(a){ links[a.getAttribute("href").slice(1)] = a; });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting && links[e.target.id]) {
+          Object.keys(links).forEach(function(k){ links[k].classList.remove("here"); });
+          var a = links[e.target.id]; a.classList.add("here");
+          var nav = a.closest("nav");
+          if (nav && nav.scrollWidth > nav.clientWidth) {
+            var left = a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2;
+            nav.scrollTo({ left: left, behavior: "smooth" });
+          }
+        }
+      });
+    }, { rootMargin: "-30% 0px -60% 0px" });
+    document.querySelectorAll("section.topic").forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
