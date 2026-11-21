@@ -59,7 +59,8 @@ nav.toc{position:sticky; top:calc(env(safe-area-inset-top,0px) + 20px); align-se
 .toc a.here{background:var(--accent-soft)}
 
 /* ---------- contenido ---------- */
-main{min-width:0; display:grid; gap:22px}
+main{min-width:0; display:grid; grid-template-columns:minmax(0,1fr); gap:22px}
+.intro, .topic, .subject{min-width:0}
 .intro, .topic{background:var(--card); border:1px solid var(--rule); border-radius:10px; padding:clamp(18px,4vw,36px)}
 .eyebrow{font:500 12px/1.4 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
 h1{font-family:var(--f-display); font-weight:700; font-size:clamp(30px,6vw,44px); line-height:1.1; margin:8px 0 12px; text-wrap:balance}
@@ -125,6 +126,10 @@ figcaption{font-size:14px; color:var(--muted); margin-top:4px}
 .svg-dot{fill:var(--accent)}
 
 mjx-container[display="true"]{overflow-x:auto; overflow-y:hidden; max-width:100%; padding:2px 0}
+/* fórmulas partidas en pedazos para que bajen de renglón en pantallas angostas */
+.eqrow{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.7em 2.2em; margin:14px 0; max-width:100%}
+.eqgrp{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.45em .4em; max-width:100%}
+.eqgrp mjx-container{margin:0 !important}
 
 .foot{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:24px; padding-top:14px; border-top:1px solid var(--rule)}
 .foot a{font-size:15px}
@@ -150,6 +155,9 @@ button.done[aria-pressed="true"]{background:var(--ok-soft)}
   .toc .sep{width:1px; background:var(--rule); flex:none; margin:2px 2px}
   .intro, .topic{border-radius:8px}
   .box{padding:14px 14px}
+  th, td{white-space:normal; padding:5px 5px}
+  table{font-size:14px}
+  .eqrow{gap:.6em 1.4em}
 }
 @media (min-width: 861px){ .toc .sep{display:none} }
 </style>
@@ -157,7 +165,74 @@ button.done[aria-pressed="true"]{background:var(--ok-soft)}
 <body>
 
 <script>
-window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]] }, svg:{ fontCache:"global" } };
+/* Antes de dibujar las fórmulas, las largas se parten en pedazos (en cada "=", "⇒", etc. y en los espacios grandes)
+   para que en el celular bajen de renglón en vez de salirse de la pantalla. */
+(function(){
+  var REL = { Rightarrow:1, iff:1, approx:1, le:1, ge:1, lt:1, gt:1 };
+  function split(tex){
+    var groups = [[]], cur = "", depth = 0, i = 0, n = tex.length;
+    function push(){ if (cur.trim()) groups[groups.length-1].push(cur.trim()); cur = ""; }
+    while (i < n) {
+      var c = tex[i];
+      if (c === "\\") {
+        var m = /^\\([a-zA-Z]+)/.exec(tex.slice(i));
+        if (!m) { cur += tex.substr(i, 2); i += 2; continue; }
+        var name = m[1];
+        if (name === "begin" || name === "left") depth++;
+        if (name === "end" || name === "right") depth--;
+        if (depth === 0 && name === "qquad") { push(); groups.push([]); i += m[0].length; continue; }
+        if (depth === 0 && REL[name]) push();
+        cur += m[0]; i += m[0].length; continue;
+      }
+      if (c === "{") depth++;
+      if (c === "}") depth--;
+      if (c === "=" && depth === 0) push();
+      cur += c; i++;
+    }
+    push();
+    return groups.filter(function(g){ return g.length; });
+  }
+  function prep(){
+    var root = document.querySelector("main"); if (!root) return;
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodes = [], t;
+    while ((t = w.nextNode())) if (t.nodeValue.indexOf("\\") > -1) nodes.push(t);
+    nodes.forEach(function(node){
+      var s = node.nodeValue;
+      if (s.indexOf("\\[") > -1) {
+        var frag = document.createDocumentFragment(), last = 0, re = /\\\[([\s\S]*?)\\\]/g, m;
+        while ((m = re.exec(s))) {
+          frag.appendChild(document.createTextNode(s.slice(last, m.index)));
+          var row = document.createElement("span"); row.className = "eqrow";
+          split(m[1]).forEach(function(g){
+            var grp = document.createElement("span"); grp.className = "eqgrp";
+            var pieces = g.join(" ").length > 34 ? g : [g.join(" ")];
+            grp.textContent = pieces.map(function(p){ return "\\(\\displaystyle " + p + "\\)"; }).join(" ");
+            row.appendChild(grp);
+          });
+          frag.appendChild(row); last = re.lastIndex;
+        }
+        frag.appendChild(document.createTextNode(s.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+        return;
+      }
+      node.nodeValue = s.replace(/\\\(([\s\S]*?)\\\)/g, function(all, tex){
+        if (tex.length <= 26) return all;
+        var pieces = [].concat.apply([], split(tex)), chunks = [], cur = "";
+        pieces.forEach(function(p){
+          if (cur && cur.length + p.length > 22) { chunks.push(cur); cur = p; }
+          else cur = cur ? cur + " " + p : p;
+        });
+        if (cur) chunks.push(cur);
+        return chunks.map(function(p){ return "\\(" + p + "\\)"; }).join(" ");
+      });
+    });
+  }
+  window.MathJax = {
+    tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]] },
+    svg:{ fontCache:"global" },
+    startup:{ pageReady: function(){ prep(); return MathJax.startup.defaultPageReady(); } }
+  };
+})();
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
 
@@ -510,12 +585,11 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 </div>
 
 <p><strong>No todos los sistemas tienen una sola respuesta:</strong></p>
-<div class="scroll"><table>
-<tr><th>Ejemplo</th><th>Qué pasa</th><th>Soluciones</th></tr>
-<tr><td>\( x + y = 10,\; x - y = 4 \)</td><td>Las rectas se cruzan</td><td>Una: (7, 3)</td></tr>
-<tr><td>\( x + y = 2,\; x + y = 5 \)</td><td>Imposible: dos números no pueden sumar 2 y 5 a la vez. Rectas paralelas</td><td>Ninguna</td></tr>
-<tr><td>\( x + y = 2,\; 2x + 2y = 4 \)</td><td>Es la misma pista dos veces. Rectas iguales</td><td>Infinitas</td></tr>
-</table></div>
+<ul>
+  <li><strong>Una solución</strong>: \( x + y = 10 \) y \( x - y = 4 \). Las rectas se cruzan en un punto: (7, 3).</li>
+  <li><strong>Ninguna solución</strong>: \( x + y = 2 \) y \( x + y = 5 \). Es imposible: dos números no pueden sumar 2 y 5 a la vez. Las rectas son paralelas.</li>
+  <li><strong>Infinitas soluciones</strong>: \( x + y = 2 \) y \( 2x + 2y = 4 \). Es la misma pista dos veces. Las rectas son la misma.</li>
+</ul>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
