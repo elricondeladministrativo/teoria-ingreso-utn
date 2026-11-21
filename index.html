@@ -37,11 +37,11 @@ body{
   background-color:var(--paper);
   background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg,var(--grid) 1px, transparent 1px);
   background-size:22px 22px;
-  color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.6;
+  color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.65;
 }
 body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--card)}
 a{color:var(--accent)}
-a:focus-visible, button:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
+a:focus-visible, button:focus-visible, summary:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:6px}
 
 .wrap{display:grid; grid-template-columns:250px minmax(0,1fr); gap:28px; max-width:1120px; margin:0 auto;
   padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); padding-block:28px 64px}
@@ -64,6 +64,13 @@ main{min-width:0; display:grid; gap:22px}
 .eyebrow{font:500 12px/1.4 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
 h1{font-family:var(--f-display); font-weight:700; font-size:clamp(30px,6vw,44px); line-height:1.1; margin:8px 0 12px; text-wrap:balance}
 .intro p{max-width:65ch; margin:0 0 10px}
+.legend{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px; padding:0; list-style:none}
+.legend li{font-size:14px; padding:4px 10px; border-radius:6px}
+.legend .l-idea{background:var(--accent-soft)}
+.legend .l-form{background:var(--mark); color:var(--mark-ink)}
+.legend .l-ej{border:1.5px dashed var(--rule)}
+.legend .l-ojo{background:var(--warn-soft)}
+.legend .l-prob{border:1.5px solid var(--ok)}
 .progress{display:flex; align-items:center; gap:12px; margin-top:16px; flex-wrap:wrap}
 .bar{flex:1 1 180px; height:8px; background:var(--accent-soft); border-radius:99px; overflow:hidden; max-width:320px}
 .bar i{display:block; height:100%; width:0; background:var(--ok); border-radius:99px; transition:width .3s}
@@ -74,7 +81,7 @@ h1{font-family:var(--f-display); font-weight:700; font-size:clamp(30px,6vw,44px)
 .topic > header{display:flex; gap:14px; align-items:baseline; flex-wrap:wrap; border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:18px}
 .topic > header .n{font:500 14px var(--f-mono); color:var(--accent); background:var(--accent-soft); padding:3px 8px; border-radius:5px}
 h2{font-family:var(--f-display); font-weight:700; font-size:clamp(24px,4.5vw,32px); line-height:1.15; margin:0; text-wrap:balance}
-h4{font-family:var(--f-display); font-weight:700; font-size:19px; margin:26px 0 8px; text-wrap:balance}
+h4{font-family:var(--f-display); font-weight:700; font-size:19px; margin:30px 0 8px; text-wrap:balance}
 .topic p, .topic li{max-width:68ch}
 .topic p{margin:0 0 12px}
 .topic ul, .topic ol{padding-left:1.3em; margin:0 0 12px}
@@ -86,6 +93,8 @@ strong{font-weight:700}
 .box{border-radius:8px; padding:16px 18px; margin:18px 0; max-width:72ch}
 .box > .lbl{font:500 11px/1 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; display:inline-block; margin-bottom:10px}
 .box p:last-child, .box ul:last-child, .box ol:last-child{margin-bottom:0}
+.idea{background:var(--accent-soft)}
+.idea > .lbl{color:var(--accent)}
 .formulas{background:var(--mark); color:var(--mark-ink)}
 .formulas > .lbl{color:var(--mark-ink)}
 .ejemplo{border:1.5px dashed var(--rule); background:var(--card)}
@@ -93,6 +102,12 @@ strong{font-weight:700}
 .ojo{background:var(--warn-soft)}
 .ojo > .lbl{color:var(--warn)}
 .ojo, .ojo p, .ojo li{color:var(--ink)}
+.prueba{border:1.5px solid var(--ok)}
+.prueba > .lbl{color:var(--ok)}
+.prueba ol{display:grid; gap:10px}
+.prueba details{margin-top:4px}
+.prueba summary{cursor:pointer; color:var(--ok); font-weight:700; font-size:15px; width:max-content; max-width:100%}
+.prueba details p{margin:6px 0 0; padding:8px 12px; background:var(--ok-soft); border-radius:6px}
 
 .scroll{overflow-x:auto; max-width:100%; margin:12px 0 16px}
 table{border-collapse:collapse; font-variant-numeric:tabular-nums; min-width:100%}
@@ -107,7 +122,6 @@ figcaption{font-size:14px; color:var(--muted); margin-top:4px}
 .svg-acc{stroke:var(--accent); fill:none}
 .svg-txt{fill:var(--ink); font:14px var(--f-body)}
 .svg-txt-acc{fill:var(--accent); font:600 14px var(--f-body)}
-.svg-grid{stroke:var(--rule)}
 .svg-dot{fill:var(--accent)}
 
 mjx-container[display="true"]{overflow-x:auto; overflow-y:hidden; max-width:100%; padding:2px 0}
@@ -120,7 +134,6 @@ button.done[aria-pressed="true"]{background:var(--ok-soft)}
 /* ---------- celular ---------- */
 @media (max-width: 860px){
   html{scroll-padding-top:70px}
-  body{font-size:17px}
   .wrap{grid-template-columns:minmax(0,1fr); gap:16px; padding-block:0 48px}
   nav.toc{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; max-height:none; border-radius:0; border-width:0 0 1px;
     margin-left:calc(-1 * max(16px, env(safe-area-inset-left,0px))); margin-right:calc(-1 * max(16px, env(safe-area-inset-right,0px)));
@@ -136,6 +149,7 @@ button.done[aria-pressed="true"]{background:var(--ok-soft)}
   .toc a.read .n{color:var(--ok)}
   .toc .sep{width:1px; background:var(--rule); flex:none; margin:2px 2px}
   .intro, .topic{border-radius:8px}
+  .box{padding:14px 14px}
 }
 @media (min-width: 861px){ .toc .sep{display:none} }
 </style>
@@ -175,9 +189,17 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <section class="intro" id="inicio">
   <div class="eyebrow">UTN.BA · Ingeniería en Sistemas · Curso de verano 2027</div>
   <h1>Teoría para el ingreso</h1>
-  <p>Toda la teoría del Seminario Universitario resumida tema por tema, en el orden del plan de estudio. Cada tema tiene la explicación, un recuadro amarillo con las <span class="hl">fórmulas clave</span>, un ejemplo resuelto y los errores más comunes.</p>
-  <p>En el curso de verano se evalúa <strong>Matemática</strong>. Física no se rinde en el verano 2027, pero está acá porque los vectores y las funciones se usan en las dos y te va a servir en primer año.</p>
-  <p>Para practicar, usá los PDF de la carpeta <em>Matematica / Ejercicios</em>. Los videos oficiales están en <a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">videos teóricos</a> y <a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">videos de ejercicios</a> de UTN.BA.</p>
+  <p>Toda la teoría del Seminario Universitario explicada desde cero, como si nunca la hubieras visto. Cada idea va con <strong>ejemplos con números</strong>, porque así se entiende mucho más fácil que con letras.</p>
+  <p>En el curso de verano se evalúa <strong>Matemática</strong>. Física no se rinde en el verano 2027, pero está acá porque usa lo mismo (vectores, funciones) y la vas a necesitar en primer año.</p>
+  <p>Cómo leer cada tema:</p>
+  <ul class="legend">
+    <li class="l-idea">La idea: qué es, en palabras simples</li>
+    <li class="l-ej">Ejemplo con números</li>
+    <li class="l-form">Fórmulas para recordar</li>
+    <li class="l-ojo">Ojo: errores comunes</li>
+    <li class="l-prob">Probalo vos: con respuesta</li>
+  </ul>
+  <p>Los videos oficiales están en <a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">videos teóricos</a> y <a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">videos de ejercicios</a> de UTN.BA. Para practicar más, usá los PDF de la carpeta <em>Matematica / Ejercicios</em>.</p>
   <div class="progress"><div class="bar"><i id="barfill"></i></div><span id="progtxt">0 de 13 temas leídos</span></div>
 </section>
 
@@ -186,62 +208,105 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M1 ======================= -->
 <section class="topic" id="m1">
 <header><span class="n">M1</span><h2>Números reales</h2></header>
-<p class="lead">La base de todo: con qué números trabajamos y cómo se opera con potencias, raíces y módulo.</p>
+<p class="lead">Qué tipos de números existen y cómo se hacen las cuentas con potencias, raíces y módulo.</p>
 
-<h4>Los conjuntos numéricos</h4>
-<p>Cada conjunto contiene al anterior: \( \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \).</p>
+<h4>Las familias de números</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Los números se agrupan en familias. Cada familia nueva aparece porque la anterior no alcanzaba para algo, y siempre incluye a la anterior.</p>
+</div>
 <ul>
-  <li><strong>Naturales \( \mathbb{N} \)</strong>: 1, 2, 3, … (para contar).</li>
-  <li><strong>Enteros \( \mathbb{Z} \)</strong>: los naturales, el 0 y los negativos.</li>
-  <li><strong>Racionales \( \mathbb{Q} \)</strong>: se escriben como fracción \( \frac{a}{b} \) con \( b \neq 0 \). En decimal son finitos o periódicos.</li>
-  <li><strong>Irracionales \( \mathbb{I} \)</strong>: decimales infinitos no periódicos, como \( \sqrt{2} \), \( \pi \) y \( e \).</li>
-  <li><strong>Reales \( \mathbb{R} \)</strong>: racionales e irracionales juntos. Llenan toda la recta numérica.</li>
+  <li><strong>Naturales</strong> (\( \mathbb{N} \)): los de contar. 1, 2, 3, 4… Por ejemplo, "tengo 3 alfajores".</li>
+  <li><strong>Enteros</strong> (\( \mathbb{Z} \)): los naturales más el 0 y los negativos. Sirven para cosas como "hace −3 °C" o "debo $500" (−500).</li>
+  <li><strong>Racionales</strong> (\( \mathbb{Q} \)): los que se pueden escribir como fracción. Media pizza es \( \frac{1}{2} = 0{,}5 \). Un tercio es \( \frac{1}{3} = 0{,}333\ldots \) (el 3 se repite para siempre: eso se llama <strong>periódico</strong>).</li>
+  <li><strong>Irracionales</strong> (\( \mathbb{I} \)): decimales que nunca terminan y nunca se repiten. \( \sqrt{2} = 1{,}41421356\ldots \) y \( \pi = 3{,}14159265\ldots \). No hay fracción que los escriba exactos.</li>
+  <li><strong>Reales</strong> (\( \mathbb{R} \)): todos los anteriores juntos. Son todos los puntos de la recta numérica.</li>
 </ul>
-<p>Para pasar un decimal periódico a fracción: arriba va el número completo menos la parte que no se repite; abajo, un 9 por cada cifra que se repite y un 0 por cada cifra que no se repite.</p>
-<p>\[ 0{,}\overline{3} = \frac{3}{9} = \frac{1}{3} \qquad 0{,}1\overline{6} = \frac{16-1}{90} = \frac{15}{90} = \frac{1}{6} \]</p>
+
+<div class="box ejemplo"><span class="lbl">Ejemplo con números: pasar un periódico a fracción</span>
+<p><strong>\( 0{,}333\ldots \)</strong> Se repite una cifra (el 3), entonces va el 3 arriba y un 9 abajo:</p>
+\[ 0{,}\overline{3} = \frac{3}{9} = \frac{1}{3} \]
+<p>Comprobación: si hacés \( 1 \div 3 \) en la calculadora da 0,3333… ✓</p>
+<p><strong>\( 0{,}1666\ldots \)</strong> Acá el 1 no se repite y el 6 sí. Arriba va el número entero (16) menos lo que no se repite (1). Abajo un 9 por la cifra que se repite y un 0 por la que no:</p>
+\[ 0{,}1\overline{6} = \frac{16 - 1}{90} = \frac{15}{90} = \frac{1}{6} \]
+<p>Comprobación: \( 1 \div 6 = 0{,}1666\ldots \) ✓</p>
+</div>
 
 <h4>Potencias</h4>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ a^0 = 1 \;(a\neq0) \qquad a^{-n} = \frac{1}{a^n} \qquad a^{m}\cdot a^{n} = a^{m+n} \qquad \frac{a^m}{a^n} = a^{m-n} \]
-\[ (a^m)^n = a^{m\cdot n} \qquad (a\cdot b)^n = a^n\, b^n \qquad a^{\frac{m}{n}} = \sqrt[n]{a^m} \]
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una potencia es una multiplicación repetida. El número de abajo (<strong>base</strong>) se multiplica por sí mismo tantas veces como dice el número chiquito de arriba (<strong>exponente</strong>).</p>
+\[ 2^3 = 2 \cdot 2 \cdot 2 = 8 \qquad 5^2 = 5 \cdot 5 = 25 \qquad 10^4 = 10\,000 \]
 </div>
-<p>La potencia es distributiva respecto del producto y la división, <strong>pero no respecto de la suma ni la resta</strong>.</p>
+<p>Las reglas de las potencias salen de pensar en esa multiplicación repetida. Mirá cada una con números:</p>
+<ul>
+  <li><strong>Misma base multiplicando: se suman los exponentes.</strong> \( 2^2 \cdot 2^3 = (2\cdot2)\cdot(2\cdot2\cdot2) = 2^5 = 32 \). Hay 2 doses y después 3 doses: 5 doses en total.</li>
+  <li><strong>Misma base dividiendo: se restan.</strong> \( \frac{3^5}{3^2} = 3^{5-2} = 3^3 = 27 \). Se cancelan dos 3 de arriba con dos de abajo.</li>
+  <li><strong>Potencia de potencia: se multiplican.</strong> \( (2^3)^2 = 8^2 = 64 \), y también \( 2^{3\cdot2} = 2^6 = 64 \) ✓</li>
+  <li><strong>Exponente 0 da 1.</strong> \( 5^0 = 1 \). ¿Por qué? Porque \( \frac{5^3}{5^3} = 1 \), y por la regla de restar también es \( 5^{3-3} = 5^0 \).</li>
+  <li><strong>Exponente negativo: el número "se da vuelta".</strong> \( 2^{-3} = \frac{1}{2^3} = \frac{1}{8} \). No da negativo: da una fracción.</li>
+  <li><strong>Exponente fracción: es una raíz.</strong> \( 8^{\frac{1}{3}} = \sqrt[3]{8} = 2 \), y \( 4^{\frac{3}{2}} = (\sqrt{4})^3 = 2^3 = 8 \).</li>
+  <li><strong>Negativo elevado a par da positivo; a impar, negativo.</strong> \( (-2)^2 = 4 \) y \( (-2)^3 = -8 \). Menos por menos da más.</li>
+</ul>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ a^m \cdot a^n = a^{m+n} \qquad \frac{a^m}{a^n} = a^{m-n} \qquad (a^m)^n = a^{m\cdot n} \]
+\[ a^0 = 1 \qquad a^{-n} = \frac{1}{a^n} \qquad a^{\frac{m}{n}} = \sqrt[n]{a^m} \]
+</div>
 
 <h4>Raíces</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>La raíz es la pregunta al revés de la potencia. \( \sqrt{9} \) pregunta: <em>¿qué número multiplicado por sí mismo da 9?</em> Respuesta: 3, porque \( 3 \cdot 3 = 9 \).</p>
+<p>\( \sqrt[3]{27} \) pregunta: <em>¿qué número multiplicado 3 veces da 27?</em> Respuesta: 3, porque \( 3\cdot3\cdot3 = 27 \).</p>
+</div>
 <ul>
-  <li>Una raíz de índice par de un número negativo <strong>no existe en los reales</strong>: \( \sqrt{-4} \notin \mathbb{R} \). Las de índice impar sí: \( \sqrt[3]{-8} = -2 \).</li>
-  <li>\( \sqrt{a^2} = |a| \). Por ejemplo, \( \sqrt{(-5)^2} = 5 \).</li>
-  <li>Se pueden separar en productos: \( \sqrt[n]{a\cdot b} = \sqrt[n]{a}\cdot\sqrt[n]{b} \).</li>
-  <li>Extraer factores: \( \sqrt{50} = \sqrt{25\cdot 2} = 5\sqrt{2} \).</li>
-  <li>Sumar raíces solo se puede si son semejantes (mismo índice y mismo radicando): \( 3\sqrt{2} + 5\sqrt{2} = 8\sqrt{2} \).</li>
+  <li>\( \sqrt{-4} \) <strong>no existe</strong> en los reales: ningún número multiplicado por sí mismo da negativo (\( 2\cdot2 = 4 \) y \( (-2)\cdot(-2) = 4 \) también).</li>
+  <li>\( \sqrt[3]{-8} = -2 \) <strong>sí existe</strong>, porque \( (-2)\cdot(-2)\cdot(-2) = -8 \). Con índice impar, los negativos tienen raíz.</li>
+  <li><strong>Sacar factores afuera</strong>: buscás adentro un número que tenga raíz exacta. \( \sqrt{50} = \sqrt{25 \cdot 2} = \sqrt{25}\cdot\sqrt{2} = 5\sqrt{2} \).</li>
+  <li><strong>Sumar raíces</strong> funciona como sumar manzanas: \( 3\sqrt{2} + 5\sqrt{2} = 8\sqrt{2} \) (3 manzanas + 5 manzanas). Pero \( \sqrt{2} + \sqrt{3} \) no se puede juntar: son frutas distintas.</li>
 </ul>
 
-<h4>Racionalización</h4>
-<p>Racionalizar es sacar la raíz del denominador multiplicando arriba y abajo por lo mismo.</p>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ \frac{1}{\sqrt{a}} = \frac{\sqrt{a}}{a} \qquad \frac{1}{\sqrt[n]{a^m}} = \frac{\sqrt[n]{a^{\,n-m}}}{a} \qquad \frac{1}{\sqrt{a}+\sqrt{b}} = \frac{\sqrt{a}-\sqrt{b}}{a-b} \]
+<h4>Racionalizar</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Racionalizar es sacar la raíz de abajo de una fracción. Se multiplica arriba y abajo por lo mismo, así el valor no cambia (es como multiplicar por 1).</p>
 </div>
-<p>En el último caso se multiplica por el <strong>conjugado</strong> (mismo binomio con el signo del medio cambiado), porque \( (\sqrt a+\sqrt b)(\sqrt a-\sqrt b) = a - b \).</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+\[ \frac{1}{\sqrt{2}} = \frac{1}{\sqrt{2}}\cdot\frac{\sqrt{2}}{\sqrt{2}} = \frac{\sqrt{2}}{2} \]
+<p>Comprobación con calculadora: \( 1 \div 1{,}414 = 0{,}707 \) y \( 1{,}414 \div 2 = 0{,}707 \). Mismo número ✓</p>
+<p>Si abajo hay una suma o resta con raíces, se multiplica por el <strong>conjugado</strong> (lo mismo con el signo del medio cambiado):</p>
+\[ \frac{6}{\sqrt{5}-\sqrt{2}}\cdot\frac{\sqrt{5}+\sqrt{2}}{\sqrt{5}+\sqrt{2}} = \frac{6(\sqrt{5}+\sqrt{2})}{5-2} = \frac{6(\sqrt{5}+\sqrt{2})}{3} = 2(\sqrt{5}+\sqrt{2}) \]
+<p>Abajo quedó \( 5 - 2 \) porque \( (\sqrt{5}-\sqrt{2})(\sqrt{5}+\sqrt{2}) = 5 - 2 \). Las raíces desaparecen.</p>
+</div>
 
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Racionalizar \( \dfrac{6}{\sqrt{5}-\sqrt{2}} \).</p>
-\[ \frac{6}{\sqrt{5}-\sqrt{2}}\cdot\frac{\sqrt{5}+\sqrt{2}}{\sqrt{5}+\sqrt{2}} = \frac{6(\sqrt{5}+\sqrt{2})}{5-2} = 2(\sqrt{5}+\sqrt{2}) \]
+<h4>Módulo (valor absoluto)</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>El módulo \( |x| \) es la <strong>distancia al cero</strong>. Como una distancia nunca es negativa, el módulo siempre da positivo (o 0).</p>
+<p>\( |7| = 7 \) &nbsp; \( |-7| = 7 \) &nbsp; \( |0| = 0 \). Tanto el 7 como el −7 están a 7 pasos del cero.</p>
 </div>
+<ul>
+  <li>\( |x| \lt 3 \) quiere decir "números a menos de 3 pasos del cero": todos los que están entre −3 y 3. El 2, el −1 y el 0 cumplen; el 4 no.</li>
+  <li>\( |x| \gt 3 \) quiere decir "a más de 3 pasos": los menores que −3 o los mayores que 3. El 5 y el −10 cumplen; el 1 no.</li>
+</ul>
 
-<h4>Valor absoluto (módulo) e intervalos</h4>
-<p>El módulo es la distancia al 0, así que nunca es negativo:</p>
-\[ |x| = \begin{cases} x &amp; \text{si } x \ge 0 \\ -x &amp; \text{si } x \lt 0 \end{cases} \]
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ |x| \lt a \iff -a \lt x \lt a \qquad\qquad |x| \gt a \iff x \lt -a \;\text{ o }\; x \gt a \]
-</div>
-<p>Los intervalos escriben conjuntos de la recta: \( (a,b) \) no incluye los extremos, \( [a,b] \) los incluye, y con infinito siempre va paréntesis: \( [2,+\infty) \).</p>
+<h4>Intervalos</h4>
+<p>Son una forma corta de escribir "todos los números entre tal y tal". Corchete <strong>[ ]</strong> incluye el borde; paréntesis <strong>( )</strong> no lo incluye.</p>
+<ul>
+  <li>\( [2, 5] \): del 2 al 5, con el 2 y el 5 incluidos.</li>
+  <li>\( (2, 5) \): del 2 al 5 sin los bordes. El 2 no está, pero el 2,001 sí.</li>
+  <li>\( [2, +\infty) \): del 2 en adelante, para siempre. Con infinito siempre va paréntesis, porque nunca se llega.</li>
+</ul>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>\( -3^2 = -9 \), pero \( (-3)^2 = 9 \). El signo menos sin paréntesis no se eleva.</li>
-  <li>\( (a+b)^2 \neq a^2 + b^2 \). Lo correcto es \( a^2 + 2ab + b^2 \).</li>
-  <li>\( \sqrt{a+b} \neq \sqrt{a} + \sqrt{b} \). Por ejemplo, \( \sqrt{9+16} = 5 \), no 7.</li>
+  <li>\( -3^2 = -9 \), pero \( (-3)^2 = 9 \). Sin paréntesis, el menos no se eleva.</li>
+  <li>\( (2+3)^2 = 5^2 = 25 \), pero \( 2^2 + 3^2 = 4 + 9 = 13 \). <strong>No son iguales</strong>: la potencia no se reparte en una suma.</li>
+  <li>\( \sqrt{9 + 16} = \sqrt{25} = 5 \), pero \( \sqrt{9} + \sqrt{16} = 3 + 4 = 7 \). Tampoco se reparte la raíz.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>¿Cuánto es \( 2^{-2} \)?<details><summary>Ver respuesta</summary><p>\( \frac{1}{2^2} = \frac{1}{4} = 0{,}25 \)</p></details></li>
+  <li>Sacá factores: \( \sqrt{72} \)<details><summary>Ver respuesta</summary><p>\( \sqrt{36\cdot2} = 6\sqrt{2} \)</p></details></li>
+  <li>¿Cuánto es \( |-5| + |3| \)?<details><summary>Ver respuesta</summary><p>\( 5 + 3 = 8 \)</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA →</a><button class="done" data-id="m1" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -249,69 +314,125 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M2 ======================= -->
 <section class="topic" id="m2">
 <header><span class="n">M2</span><h2>Polinomios y factoreo</h2></header>
-<p class="lead">Cómo dividir rápido con Ruffini, encontrar raíces con Gauss y escribir un polinomio como producto.</p>
+<p class="lead">Cuentas con x: cómo dividirlas rápido, encontrar sus raíces y escribirlas como multiplicación.</p>
 
 <h4>Qué es un polinomio</h4>
-\[ P(x) = a_n x^n + a_{n-1}x^{n-1} + \dots + a_1 x + a_0 \]
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Un polinomio es una cuenta con una letra (x) que todavía no tiene valor. Cuando reemplazás la x por un número, la cuenta da un resultado.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( P(x) = 2x^2 + 3x - 5 \)</p>
 <ul>
-  <li><strong>Grado</strong>: el mayor exponente con coeficiente distinto de 0.</li>
-  <li><strong>Coeficiente principal</strong>: \( a_n \), el que acompaña a la potencia mayor. Si vale 1, el polinomio es <strong>mónico</strong>.</li>
-  <li><strong>Término independiente</strong>: \( a_0 \), el que no tiene \( x \).</li>
-  <li><strong>Raíz</strong>: un valor \( r \) tal que \( P(r) = 0 \).</li>
+  <li>Si \( x = 2 \): \( P(2) = 2\cdot4 + 3\cdot2 - 5 = 8 + 6 - 5 = 9 \)</li>
+  <li>Si \( x = 1 \): \( P(1) = 2 + 3 - 5 = 0 \)</li>
+</ul>
+<p>Como con \( x = 1 \) da 0, decimos que <strong>1 es raíz</strong> de \( P \).</p>
+</div>
+<p>Las partes, con el mismo \( P(x) = 2x^2 + 3x - 5 \):</p>
+<ul>
+  <li><strong>Grado</strong>: el exponente más grande. Acá es 2.</li>
+  <li><strong>Coeficiente principal</strong>: el número que acompaña a esa potencia. Acá es 2.</li>
+  <li><strong>Término independiente</strong>: el número solo, sin x. Acá es −5.</li>
+  <li><strong>Raíz</strong>: un valor de x que hace que todo dé 0. Acá, 1 es raíz.</li>
 </ul>
 
-<h4>División y regla de Ruffini</h4>
-<p>Al dividir \( P(x) \) por \( D(x) \) se obtiene un cociente \( Q(x) \) y un resto \( R(x) \) de grado menor que el divisor: \( P = Q\cdot D + R \).</p>
-<p>Cuando el divisor es de la forma \( (x-a) \) se usa <strong>Ruffini</strong>: se escriben los coeficientes (completando con 0 los que falten), se baja el primero, se multiplica por \( a \), se suma a la columna siguiente, y así hasta el final. El último número es el resto.</p>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Dividir \( (x^3 - 2x^2 - 5x + 6) : (x - 1) \). Acá \( a = 1 \).</p>
+<h4>Sumar y multiplicar</h4>
+<p><strong>Sumar</strong>: se juntan los que tienen la misma potencia de x, como juntar frutas iguales:</p>
+\[ (3x^2 + 2x) + (x^2 - 5x) = 4x^2 - 3x \]
+<p><strong>Multiplicar</strong>: cada término de uno por cada término del otro:</p>
+\[ (x+2)(x+3) = x\cdot x + x\cdot3 + 2\cdot x + 2\cdot3 = x^2 + 5x + 6 \]
+<p>Comprobación con \( x = 1 \): a la izquierda \( 3 \cdot 4 = 12 \); a la derecha \( 1 + 5 + 6 = 12 \) ✓. Este truco de reemplazar por un número sirve para revisar cualquier cuenta con polinomios.</p>
+
+<h4>Dividir con Ruffini</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Ruffini es un atajo para dividir un polinomio por algo de la forma \( (x - a) \). En vez de hacer la división larga, se trabaja solo con los números.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo paso a paso</span>
+<p>Dividir \( (x^3 - 2x^2 - 5x + 6) \) por \( (x - 1) \). Como es \( x - 1 \), el número que uso es <strong>1</strong>.</p>
+<ol>
+  <li>Escribo los coeficientes en fila: 1, −2, −5, 6.</li>
+  <li>Bajo el primero tal cual: <strong>1</strong>.</li>
+  <li>Lo multiplico por 1 (el número de la izquierda): \( 1\cdot1 = 1 \). Lo pongo debajo del −2 y sumo: \( -2 + 1 = \) <strong>−1</strong>.</li>
+  <li>Multiplico \( -1 \cdot 1 = -1 \). Lo pongo debajo del −5 y sumo: \( -5 + (-1) = \) <strong>−6</strong>.</li>
+  <li>Multiplico \( -6 \cdot 1 = -6 \). Lo pongo debajo del 6 y sumo: \( 6 + (-6) = \) <strong>0</strong>. Ese último es el <strong>resto</strong>.</li>
+</ol>
 <div class="scroll"><table>
 <tr><th></th><th>1</th><th>−2</th><th>−5</th><th>6</th></tr>
 <tr><td>1</td><td></td><td>1</td><td>−1</td><td>−6</td></tr>
 <tr><td></td><td>1</td><td>−1</td><td>−6</td><td><strong>0</strong></td></tr>
 </table></div>
-<p>Cociente \( Q(x) = x^2 - x - 6 \), resto 0. Como el resto es 0, \( x = 1 \) es raíz.</p>
+<p>Resultado: cociente \( x^2 - x - 6 \) (un grado menos que el original) y resto 0.</p>
 </div>
 
-<h4>Teorema del resto y Teorema de Gauss</h4>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-<p><strong>Teorema del resto:</strong> el resto de dividir \( P(x) \) por \( (x-a) \) es \( P(a) \). Si \( P(a)=0 \), entonces \( (x-a) \) divide a \( P \).</p>
-<p><strong>Teorema de Gauss:</strong> si \( P \) tiene coeficientes enteros, sus posibles raíces racionales son \( \dfrac{p}{q} \), con \( p \) divisor de \( a_0 \) y \( q \) divisor de \( a_n \).</p>
+<h4>Teorema del resto</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Para saber el resto de dividir por \( (x - a) \) no hace falta dividir: alcanza con <strong>reemplazar x por a</strong>.</p>
 </div>
-<p>Gauss te da una lista de candidatos. Los probás con el teorema del resto hasta encontrar uno que dé 0, y después bajás el grado con Ruffini.</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Con \( P(x) = x^3 - 2x^2 - 5x + 6 \):</p>
+<ul>
+  <li>Resto de dividir por \( (x - 1) \): \( P(1) = 1 - 2 - 5 + 6 = 0 \). Coincide con Ruffini ✓</li>
+  <li>Resto de dividir por \( (x - 2) \): \( P(2) = 8 - 8 - 10 + 6 = -4 \).</li>
+</ul>
+<p>Si el resto da 0, el número es raíz y la división es exacta.</p>
+</div>
 
-<h4>Los casos de factoreo</h4>
+<h4>Teorema de Gauss: qué números probar</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Para encontrar raíces no hace falta adivinar a ciegas. Gauss dice que las raíces "lindas" (enteras o fracciones) solo pueden ser:</p>
+\[ \frac{\text{divisores del término independiente}}{\text{divisores del coeficiente principal}} \]
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Con \( x^3 - 2x^2 - 5x + 6 \): el término independiente es 6 y el principal es 1.</p>
+<p>Divisores de 6: 1, 2, 3, 6. Con signo: ±1, ±2, ±3, ±6. Los pruebo:</p>
+<ul>
+  <li>\( P(1) = 1 - 2 - 5 + 6 = 0 \) ✓ raíz</li>
+  <li>\( P(-1) = -1 - 2 + 5 + 6 = 8 \) ✗</li>
+  <li>\( P(3) = 27 - 18 - 15 + 6 = 0 \) ✓ raíz</li>
+  <li>\( P(-2) = -8 - 8 + 10 + 6 = 0 \) ✓ raíz</li>
+</ul>
+<p>Encontré las tres raíces: 1, 3 y −2.</p>
+</div>
+
+<h4>Factorear</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Factorear es escribir algo como una <strong>multiplicación</strong>, igual que \( 12 = 2 \cdot 2 \cdot 3 \). Sirve para simplificar y para encontrar raíces: si \( (x-1)(x-3) = 0 \), alguno de los paréntesis tiene que ser 0, así que \( x = 1 \) o \( x = 3 \).</p>
+</div>
+<p>Los casos, cada uno con su comprobación usando un número:</p>
 <ol>
-  <li><strong>Factor común</strong>: \( 6x^3 - 9x^2 = 3x^2(2x - 3) \).</li>
-  <li><strong>Factor común por grupos</strong>: \( x^3 + 2x^2 + 3x + 6 = x^2(x+2) + 3(x+2) = (x+2)(x^2+3) \).</li>
-  <li><strong>Trinomio cuadrado perfecto</strong>: \( a^2 \pm 2ab + b^2 = (a \pm b)^2 \). Ejemplo: \( x^2 + 6x + 9 = (x+3)^2 \).</li>
-  <li><strong>Cuatrinomio cubo perfecto</strong>: \( a^3 \pm 3a^2b + 3ab^2 \pm b^3 = (a\pm b)^3 \).</li>
-  <li><strong>Diferencia de cuadrados</strong>: \( a^2 - b^2 = (a-b)(a+b) \). Ejemplo: \( x^2 - 25 = (x-5)(x+5) \).</li>
-  <li><strong>Suma o resta de potencias de igual grado</strong>: se divide por Ruffini. Ejemplo: \( x^3 - 8 = (x-2)(x^2+2x+4) \).</li>
-  <li><strong>Por raíces</strong>: si \( x_1, x_2, \dots, x_n \) son las raíces, \( P(x) = a_n(x-x_1)(x-x_2)\cdots(x-x_n) \).</li>
+  <li><strong>Factor común</strong>: sacás lo que se repite en todos los términos.<br>\( 6x^3 - 9x^2 = 3x^2(2x - 3) \). Con \( x = 1 \): \( 6 - 9 = -3 \) y \( 3\cdot(-1) = -3 \) ✓</li>
+  <li><strong>Por grupos</strong>: armás grupos que tengan algo en común.<br>\( x^3 + 2x^2 + 3x + 6 = x^2(x + 2) + 3(x + 2) = (x + 2)(x^2 + 3) \)</li>
+  <li><strong>Trinomio cuadrado perfecto</strong>: \( a^2 + 2ab + b^2 = (a + b)^2 \).<br>\( x^2 + 6x + 9 = (x + 3)^2 \). Cómo reconocerlo: \( x^2 \) y \( 9 = 3^2 \) son cuadrados, y el del medio es \( 2\cdot x\cdot 3 = 6x \). Con \( x = 1 \): \( 1 + 6 + 9 = 16 \) y \( 4^2 = 16 \) ✓</li>
+  <li><strong>Diferencia de cuadrados</strong>: \( a^2 - b^2 = (a - b)(a + b) \).<br>\( x^2 - 25 = (x - 5)(x + 5) \). Con números puros: \( 10^2 - 9^2 = 100 - 81 = 19 \) y \( (10 - 9)(10 + 9) = 1 \cdot 19 = 19 \) ✓</li>
+  <li><strong>Cubo perfecto</strong>: \( a^3 + 3a^2b + 3ab^2 + b^3 = (a + b)^3 \). Ejemplo: \( x^3 + 6x^2 + 12x + 8 = (x + 2)^3 \).</li>
+  <li><strong>Suma o resta de potencias iguales</strong>: se divide con Ruffini. \( x^3 - 8 = (x - 2)(x^2 + 2x + 4) \).</li>
+  <li><strong>Por raíces</strong>: si conocés todas las raíces, el polinomio es el coeficiente principal por \( (x - \text{raíz}) \) por cada raíz.</li>
 </ol>
-
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Factorizar \( P(x) = x^3 - 2x^2 - 5x + 6 \).</p>
-<ol>
-  <li>Gauss: \( a_0 = 6 \), \( a_n = 1 \). Candidatos: \( \pm1, \pm2, \pm3, \pm6 \).</li>
-  <li>Pruebo \( P(1) = 1 - 2 - 5 + 6 = 0 \). Es raíz.</li>
-  <li>Ruffini por \( (x-1) \) da \( x^2 - x - 6 \) (ver la tabla de arriba).</li>
-  <li>Raíces de \( x^2 - x - 6 \) con la resolvente: 3 y −2.</li>
-</ol>
-\[ P(x) = (x-1)(x-3)(x+2) \]
+<div class="box ejemplo"><span class="lbl">Ejemplo completo</span>
+<p>Factorizar \( x^3 - 2x^2 - 5x + 6 \). Ya sabemos (por Gauss) que sus raíces son 1, 3 y −2:</p>
+\[ x^3 - 2x^2 - 5x + 6 = (x - 1)(x - 3)(x + 2) \]
+<p>Comprobación con \( x = 0 \): a la izquierda da 6; a la derecha \( (-1)(-3)(2) = 6 \) ✓</p>
 </div>
 
-<h4>Expresiones racionales</h4>
-<p>Son cocientes de polinomios. Para simplificarlas se <strong>factorizan</strong> numerador y denominador y se cancelan factores iguales, aclarando qué valores anulan el denominador.</p>
-\[ \frac{x^2 - 9}{x^2 + 3x} = \frac{(x-3)(x+3)}{x(x+3)} = \frac{x-3}{x} \qquad x \neq 0,\; x \neq -3 \]
+<h4>Simplificar fracciones con x</h4>
+<p>Se factoriza arriba y abajo, y se tachan los paréntesis iguales:</p>
+\[ \frac{x^2 - 9}{x^2 + 3x} = \frac{(x - 3)(x + 3)}{x(x + 3)} = \frac{x - 3}{x} \]
+<p>Comprobación con \( x = 2 \): la original da \( \frac{4 - 9}{4 + 6} = \frac{-5}{10} = -0{,}5 \) y la simplificada \( \frac{2 - 3}{2} = -0{,}5 \) ✓</p>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>En Ruffini, si falta una potencia, poné un 0 en su lugar. En \( x^3 - 8 \) los coeficientes son 1, 0, 0, −8.</li>
-  <li>Si dividís por \( (x+2) \), en Ruffini usás \( a = -2 \).</li>
-  <li>Solo se cancelan <strong>factores</strong>, nunca términos sumados: \( \frac{x+3}{3} \neq x \).</li>
+  <li>En Ruffini, si falta una potencia, poné 0 en su lugar. En \( x^3 - 8 \) los coeficientes son 1, 0, 0, −8.</li>
+  <li>Si dividís por \( (x + 2) \), el número que usás en Ruffini es <strong>−2</strong>.</li>
+  <li>Solo se tachan cosas que están <strong>multiplicando</strong>. \( \frac{x + 3}{3} \) no es \( x \): con \( x = 6 \) da \( \frac{9}{3} = 3 \), no 6.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>¿Es 1 raíz de \( x^2 - 4x + 3 \)?<details><summary>Ver respuesta</summary><p>Sí: \( 1 - 4 + 3 = 0 \).</p></details></li>
+  <li>Factorizá \( x^2 - 49 \).<details><summary>Ver respuesta</summary><p>Diferencia de cuadrados: \( (x - 7)(x + 7) \).</p></details></li>
+  <li>¿Cuál es el resto de \( (x^2 + 1) : (x - 2) \)?<details><summary>Ver respuesta</summary><p>Reemplazo x por 2: \( 4 + 1 = 5 \).</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Polinomios y Gauss →</a><button class="done" data-id="m2" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -319,57 +440,96 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M3 ======================= -->
 <section class="topic" id="m3">
 <header><span class="n">M3</span><h2>Ecuaciones, inecuaciones y sistemas</h2></header>
-<p class="lead">Despejar con cuidado, saber cuándo se da vuelta una desigualdad y resolver dos ecuaciones a la vez.</p>
+<p class="lead">Encontrar el número que falta, todos los números que cumplen algo, o dos números a la vez.</p>
 
-<h4>Ecuación lineal</h4>
-<p>\( ax + b = 0 \) con \( a \neq 0 \) tiene una única solución: \( x = -\frac{b}{a} \). Al despejar, lo que suma pasa restando, lo que multiplica pasa dividiendo.</p>
+<h4>Ecuaciones</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una ecuación es como una <strong>balanza equilibrada</strong>. Lo que hagas de un lado lo tenés que hacer del otro, así sigue equilibrada. El objetivo es dejar la x sola.</p>
+<p>Cuando en el colegio decían "pasa restando", en realidad es eso: restar lo mismo de los dos lados.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo paso a paso</span>
+<p>\( 2x + 3 = 11 \)</p>
+<ol>
+  <li>Resto 3 de los dos lados: \( 2x = 8 \)</li>
+  <li>Divido los dos lados por 2: \( x = 4 \)</li>
+  <li>Verifico: \( 2\cdot4 + 3 = 11 \) ✓</li>
+</ol>
+<p>Con x de los dos lados: \( 5x - 2 = 3x + 6 \)</p>
+<ol>
+  <li>Resto \( 3x \) de los dos lados: \( 2x - 2 = 6 \)</li>
+  <li>Sumo 2: \( 2x = 8 \), entonces \( x = 4 \)</li>
+  <li>Verifico: \( 5\cdot4 - 2 = 18 \) y \( 3\cdot4 + 6 = 18 \) ✓</li>
+</ol>
+</div>
 <ul>
-  <li>Si se llega a algo como \( 0x = 5 \): <strong>no tiene solución</strong>.</li>
-  <li>Si se llega a \( 0x = 0 \): <strong>tiene infinitas soluciones</strong>.</li>
+  <li>Si llegás a algo imposible como \( 1 = 2 \), la ecuación <strong>no tiene solución</strong>. Ejemplo: \( x + 1 = x + 2 \).</li>
+  <li>Si llegás a algo siempre cierto como \( 0 = 0 \), <strong>cualquier número sirve</strong>. Ejemplo: \( 2x + 2 = 2(x + 1) \).</li>
+  <li>Si hay x abajo de una fracción, ese valor está prohibido. En \( \frac{6}{x} = 2 \) la respuesta es \( x = 3 \), y x nunca puede ser 0.</li>
 </ul>
-<p>En ecuaciones con \( x \) en el denominador, primero se anotan los valores prohibidos y al final se verifica que la solución no sea uno de ellos.</p>
 
 <h4>Inecuaciones</h4>
-<p>Se resuelven igual que una ecuación, con una regla extra:</p>
-<div class="box formulas"><span class="lbl">Regla clave</span>
-<p>Si multiplicás o dividís ambos lados por un <strong>número negativo</strong>, la desigualdad <strong>se da vuelta</strong>.</p>
-\[ -2x + 3 \le 7 \;\Rightarrow\; -2x \le 4 \;\Rightarrow\; x \ge -2 \;\Rightarrow\; S = [-2, +\infty) \]
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una inecuación no busca un solo número: busca <strong>todos</strong> los que cumplen. Se resuelven igual que las ecuaciones, con una sola regla extra.</p>
 </div>
-<p>Con módulo se usan las reglas de M1:</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( x + 3 \lt 7 \Rightarrow x \lt 4 \)</p>
+<p>Probá: el 3 cumple (\( 6 \lt 7 \)). El 4 no (\( 7 \lt 7 \) es falso). El 5 tampoco. La solución son todos los menores que 4: \( (-\infty, 4) \).</p>
+</div>
+<div class="box formulas"><span class="lbl">La regla extra</span>
+<p>Si multiplicás o dividís por un <strong>número negativo</strong>, el signo <strong>se da vuelta</strong>.</p>
+<p>¿Por qué? \( 2 \lt 5 \) es cierto. Si multiplico los dos por −1 queda −2 y −5, y ahora \( -2 \gt -5 \). Se dio vuelta.</p>
+\[ -2x + 3 \le 7 \;\Rightarrow\; -2x \le 4 \;\Rightarrow\; x \ge -2 \]
+<p>Compruebo: con \( x = 0 \): \( 3 \le 7 \) ✓. Con \( x = -3 \): \( 9 \le 7 \) ✗. Correcto: sirven los mayores o iguales a −2.</p>
+</div>
+<p><strong>Con módulo</strong>, recordá que el módulo es una distancia (M1):</p>
 \[ |2x - 1| \lt 5 \;\Rightarrow\; -5 \lt 2x - 1 \lt 5 \;\Rightarrow\; -4 \lt 2x \lt 6 \;\Rightarrow\; -2 \lt x \lt 3 \]
+<p>Compruebo con \( x = 0 \): \( |-1| = 1 \lt 5 \) ✓. Con \( x = 3 \): \( |5| = 5 \), que no es menor que 5 ✗.</p>
 
-<h4>Sistemas de dos ecuaciones con dos incógnitas</h4>
-<p>Cada ecuación es una recta. La solución es el punto donde se cortan.</p>
-<ul>
-  <li><strong>Sustitución</strong>: despejás una incógnita de una ecuación y la reemplazás en la otra.</li>
-  <li><strong>Igualación</strong>: despejás la misma incógnita en las dos y las igualás.</li>
-  <li><strong>Reducción</strong>: multiplicás las ecuaciones para que una incógnita tenga coeficientes opuestos y las sumás.</li>
-  <li><strong>Determinantes (Cramer)</strong>: ver el recuadro.</li>
-  <li><strong>Gráfico</strong>: dibujás las dos rectas y mirás dónde se cortan.</li>
-</ul>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<h4>Sistemas de dos ecuaciones</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Si hay dos cosas que no conocés, necesitás dos pistas. Cada pista es una ecuación, y la respuesta tiene que cumplir las dos a la vez.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con una historia</span>
+<p>Dos empanadas y una gaseosa cuestan $7 mil. Una empanada cuesta $2 mil más que la gaseosa. Llamo x a la empanada e y a la gaseosa (en miles):</p>
+\[ \begin{cases} 2x + y = 7 \\ x - y = 2 \end{cases} \]
+<p><strong>Por sustitución</strong> (despejo y reemplazo):</p>
+<ol>
+  <li>De la segunda: \( x = y + 2 \).</li>
+  <li>Reemplazo en la primera: \( 2(y + 2) + y = 7 \Rightarrow 3y + 4 = 7 \Rightarrow y = 1 \).</li>
+  <li>Vuelvo: \( x = 1 + 2 = 3 \).</li>
+</ol>
+<p><strong>Por reducción</strong> (sumo las ecuaciones para que una letra desaparezca): sumando, la y se cancela: \( 3x = 9 \Rightarrow x = 3 \), y después \( y = 1 \).</p>
+<p>Respuesta: empanada $3 mil, gaseosa $1 mil. Verifico: \( 2\cdot3 + 1 = 7 \) ✓ y \( 3 - 1 = 2 \) ✓</p>
+</div>
+<p>Otros métodos: <strong>igualación</strong> (despejás la misma letra en las dos y las igualás) y <strong>gráfico</strong> (cada ecuación es una recta y la solución es donde se cruzan).</p>
+<p><strong>Determinantes (regla de Cramer)</strong>, con el mismo ejemplo:</p>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
 <p>Para \( \begin{cases} ax + by = e \\ cx + dy = f \end{cases} \):</p>
-\[ \Delta = \begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix} = ad - bc \qquad x = \frac{\begin{vmatrix} e &amp; b \\ f &amp; d \end{vmatrix}}{\Delta} = \frac{ed - bf}{\Delta} \qquad y = \frac{\begin{vmatrix} a &amp; e \\ c &amp; f \end{vmatrix}}{\Delta} = \frac{af - ec}{\Delta} \]
+\[ \Delta = ad - bc \qquad x = \frac{e\,d - b\,f}{\Delta} \qquad y = \frac{a\,f - e\,c}{\Delta} \]
+<p>En el ejemplo (\( a=2, b=1, c=1, d=-1, e=7, f=2 \)): \( \Delta = -2 - 1 = -3 \); \( x = \frac{-7 - 2}{-3} = 3 \); \( y = \frac{4 - 7}{-3} = 1 \) ✓</p>
 </div>
 
+<p><strong>No todos los sistemas tienen una sola respuesta:</strong></p>
 <div class="scroll"><table>
-<tr><th>Tipo</th><th>Soluciones</th><th>Rectas</th><th>Determinante</th></tr>
-<tr><td>Compatible determinado</td><td>Una</td><td>Se cortan</td><td>\( \Delta \neq 0 \)</td></tr>
-<tr><td>Compatible indeterminado</td><td>Infinitas</td><td>Coinciden</td><td>\( \Delta = 0 \)</td></tr>
-<tr><td>Incompatible</td><td>Ninguna</td><td>Paralelas</td><td>\( \Delta = 0 \)</td></tr>
+<tr><th>Ejemplo</th><th>Qué pasa</th><th>Soluciones</th></tr>
+<tr><td>\( x + y = 10,\; x - y = 4 \)</td><td>Las rectas se cruzan</td><td>Una: (7, 3)</td></tr>
+<tr><td>\( x + y = 2,\; x + y = 5 \)</td><td>Imposible: dos números no pueden sumar 2 y 5 a la vez. Rectas paralelas</td><td>Ninguna</td></tr>
+<tr><td>\( x + y = 2,\; 2x + 2y = 4 \)</td><td>Es la misma pista dos veces. Rectas iguales</td><td>Infinitas</td></tr>
 </table></div>
-
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>\( \begin{cases} 2x + y = 7 \\ x - y = 2 \end{cases} \)</p>
-<p>Por reducción, sumo las dos ecuaciones (la \( y \) se cancela): \( 3x = 9 \Rightarrow x = 3 \). Reemplazo en la segunda: \( 3 - y = 2 \Rightarrow y = 1 \).</p>
-<p>Verifico en la primera: \( 2\cdot3 + 1 = 7 \). ✓ La solución es \( (3, 1) \).</p>
-</div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>Siempre verificá reemplazando en las ecuaciones originales.</li>
-  <li>En los problemas de texto, definí primero qué es \( x \) y qué es \( y \), con unidades.</li>
+  <li>Siempre verificá reemplazando en las ecuaciones originales. Tarda 10 segundos y te salva de errores de signo.</li>
+  <li>En los problemas de texto, escribí primero qué es x y qué es y.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Resolvé \( 3x - 5 = 10 \).<details><summary>Ver respuesta</summary><p>\( 3x = 15 \Rightarrow x = 5 \).</p></details></li>
+  <li>Resolvé \( -3x \gt 9 \).<details><summary>Ver respuesta</summary><p>Divido por −3 y doy vuelta: \( x \lt -3 \).</p></details></li>
+  <li>Dos números suman 10 y su diferencia es 4. ¿Cuáles son?<details><summary>Ver respuesta</summary><p>\( x + y = 10,\; x - y = 4 \). Sumando: \( 2x = 14 \), \( x = 7 \), \( y = 3 \).</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">Video UTN.BA: Sistemas de ecuaciones →</a><button class="done" data-id="m3" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -377,67 +537,114 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M4 ======================= -->
 <section class="topic" id="m4">
 <header><span class="n">M4</span><h2>Funciones</h2></header>
-<p class="lead">El lenguaje con el que se describen casi todos los temas que siguen.</p>
+<p class="lead">La herramienta que se usa en casi todos los temas que siguen.</p>
 
-<h4>Definición</h4>
-<p>Una función \( f: A \to B \) asigna a <strong>cada</strong> elemento \( x \) del dominio <strong>un único</strong> \( y = f(x) \). En un gráfico: cualquier recta vertical corta a la curva como máximo una vez.</p>
-<ul>
-  <li><strong>Dominio</strong>: los \( x \) para los que la fórmula tiene sentido.</li>
-  <li><strong>Imagen</strong>: los valores de \( y \) que efectivamente se alcanzan.</li>
-  <li><strong>Raíces o ceros</strong>: los \( x \) donde \( f(x) = 0 \) (donde corta al eje \( x \)).</li>
-  <li><strong>Ordenada al origen</strong>: \( f(0) \) (donde corta al eje \( y \)).</li>
-  <li><strong>Crecimiento</strong>: intervalos donde sube o baja al moverse hacia la derecha.</li>
-</ul>
-
-<div class="box formulas"><span class="lbl">Cómo calcular el dominio</span>
-<ul>
-  <li>Denominador: tiene que ser \( \neq 0 \).</li>
-  <li>Raíz de índice par: lo de adentro tiene que ser \( \ge 0 \).</li>
-  <li>Logaritmo: el argumento tiene que ser \( \gt 0 \).</li>
-</ul>
-<p>Ejemplo: \( f(x) = \dfrac{\sqrt{x-1}}{x-3} \) tiene dominio \( [1, 3) \cup (3, +\infty) \).</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una función es una <strong>máquina</strong>: le das un número, hace una cuenta y te devuelve otro número. Por cada número que entra sale <strong>uno solo</strong>.</p>
+<p>\( f(x) = 2x + 1 \) es la máquina "multiplicá por 2 y sumá 1". Escribir \( f(3) \) quiere decir "meté el 3 en la máquina": \( f(3) = 2\cdot3 + 1 = 7 \).</p>
 </div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<div class="scroll"><table>
+<tr><th>Entra x</th><td>0</td><td>1</td><td>2</td><td>3</td><td>−1</td></tr>
+<tr><th>Sale \( f(x) = 2x + 1 \)</th><td>1</td><td>3</td><td>5</td><td>7</td><td>−1</td></tr>
+</table></div>
+<p>Cada par se puede dibujar como un punto: (0, 1), (1, 3), (2, 5)… Uniendo los puntos queda el <strong>gráfico</strong>.</p>
+<p>Un ejemplo de la vida real: un remís cobra $500 de bajada y $200 por km. El precio es una función de los km: \( P(x) = 200x + 500 \). Por 3 km pagás \( P(3) = 1100 \).</p>
+</div>
+
+<h4>Dominio: qué números puedo meter</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>El dominio son los números que la máquina acepta sin "romperse". Hay tres cosas que la rompen:</p>
+<ul>
+  <li><strong>Dividir por 0</strong>: en \( f(x) = \frac{1}{x} \) no puedo meter el 0.</li>
+  <li><strong>Raíz cuadrada de un negativo</strong>: en \( f(x) = \sqrt{x} \) no puedo meter negativos.</li>
+  <li><strong>Logaritmo de 0 o de un negativo</strong> (se ve en M7).</li>
+</ul>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( f(x) = \dfrac{\sqrt{x - 1}}{x - 3} \). Pruebo algunos valores:</p>
+<ul>
+  <li>\( x = 0 \): \( \sqrt{-1} \) no existe ✗</li>
+  <li>\( x = 1 \): \( \frac{\sqrt{0}}{-2} = 0 \) ✓</li>
+  <li>\( x = 3 \): abajo da 0, no se puede dividir ✗</li>
+  <li>\( x = 5 \): \( \frac{\sqrt{4}}{2} = 1 \) ✓</li>
+</ul>
+<p>Conclusión: sirven los números desde 1 en adelante, menos el 3. Dominio: \( [1, 3) \cup (3, +\infty) \).</p>
+</div>
+
+<h4>Imagen, raíces y ordenada</h4>
+<ul>
+  <li><strong>Imagen</strong>: los números que pueden salir. En \( f(x) = x^2 \) nunca sale un negativo (\( 3^2 = 9 \), \( (-3)^2 = 9 \)), así que la imagen es \( [0, +\infty) \).</li>
+  <li><strong>Raíz</strong>: el número que hace salir 0. En \( f(x) = 2x - 6 \), la raíz es 3 porque \( f(3) = 0 \). En el gráfico, es donde la curva toca el eje horizontal.</li>
+  <li><strong>Ordenada al origen</strong>: lo que sale cuando entra 0. En \( f(x) = 2x - 6 \), es \( f(0) = -6 \). En el gráfico, es donde corta el eje vertical.</li>
+</ul>
 
 <h4>Inyectiva, sobreyectiva, biyectiva</h4>
 <ul>
-  <li><strong>Inyectiva</strong>: valores distintos de \( x \) dan valores distintos de \( y \). Gráficamente: toda recta horizontal la corta como máximo una vez.</li>
-  <li><strong>Sobreyectiva</strong>: la imagen es todo el conjunto de llegada \( B \).</li>
-  <li><strong>Biyectiva</strong>: inyectiva y sobreyectiva a la vez. Solo las biyectivas tienen <strong>función inversa</strong>.</li>
+  <li><strong>Inyectiva</strong>: nunca repite una salida. \( f(x) = 2x + 1 \) es inyectiva. \( f(x) = x^2 \) no, porque \( f(2) = 4 \) y \( f(-2) = 4 \): dos entradas distintas dan lo mismo.</li>
+  <li><strong>Sobreyectiva</strong>: puede sacar cualquier número del conjunto de llegada. \( f(x) = x^2 \) con llegada en todos los reales no lo es: nunca saca −1.</li>
+  <li><strong>Biyectiva</strong>: las dos cosas. Solo esas tienen <strong>inversa</strong>.</li>
 </ul>
 
-<h4>Inversa y composición</h4>
-<p><strong>Inversa</strong>: se despeja \( x \) en función de \( y \) y se renombran las variables. Su gráfico es el reflejo del original respecto de la recta \( y = x \). Ejemplo: \( f(x) = 2x + 4 \Rightarrow f^{-1}(x) = \frac{x - 4}{2} \).</p>
-<p><strong>Composición</strong>: \( (g \circ f)(x) = g(f(x)) \). Primero se aplica \( f \) y al resultado se le aplica \( g \). Con \( f(x) = x + 1 \) y \( g(x) = x^2 \): \( (g\circ f)(x) = (x+1)^2 \), pero \( (f \circ g)(x) = x^2 + 1 \). El orden importa.</p>
+<h4>Inversa: la máquina al revés</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( f(x) = 2x + 1 \) convierte el 3 en 7. La inversa tiene que convertir el 7 en 3: "restá 1 y dividí por 2".</p>
+<p>Cómo se calcula: escribo \( y = 2x + 1 \) y despejo x: \( x = \frac{y - 1}{2} \). Entonces \( f^{-1}(x) = \frac{x - 1}{2} \).</p>
+<p>Compruebo: \( f^{-1}(7) = \frac{7 - 1}{2} = 3 \) ✓</p>
+</div>
+
+<h4>Composición: una máquina después de otra</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( f(x) = x + 1 \) (sumá 1) y \( g(x) = x^2 \) (elevá al cuadrado).</p>
+<ul>
+  <li>\( g(f(3)) \): primero f: \( 3 + 1 = 4 \). Después g: \( 4^2 = 16 \).</li>
+  <li>\( f(g(3)) \): primero g: \( 3^2 = 9 \). Después f: \( 9 + 1 = 10 \).</li>
+</ul>
+<p>Dan distinto: <strong>el orden importa</strong>.</p>
+</div>
 
 <h4>Función homográfica</h4>
-\[ f(x) = \frac{ax + b}{cx + d} \qquad c \neq 0,\;\; ad - bc \neq 0 \]
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-<ul>
-  <li>Asíntota vertical: \( x = -\frac{d}{c} \) (donde se anula el denominador).</li>
-  <li>Asíntota horizontal: \( y = \frac{a}{c} \) (cociente de los coeficientes de \( x \)).</li>
-  <li>Dominio: \( \mathbb{R} - \{-\frac{d}{c}\} \). Imagen: \( \mathbb{R} - \{\frac{a}{c}\} \).</li>
-</ul>
-</div>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
+<p>Es una fracción con x arriba y abajo: \( f(x) = \frac{ax + b}{cx + d} \).</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
 <p>\( f(x) = \dfrac{2x + 1}{x - 3} \)</p>
+<p><strong>El 3 está prohibido</strong> (abajo daría 0). ¿Qué pasa cerca del 3?</p>
 <ul>
-  <li>Asíntota vertical \( x = 3 \). Asíntota horizontal \( y = 2 \).</li>
-  <li>Raíz: numerador = 0, entonces \( x = -\frac{1}{2} \).</li>
-  <li>Ordenada al origen: \( f(0) = -\frac{1}{3} \).</li>
-  <li>Dominio \( \mathbb{R} - \{3\} \), imagen \( \mathbb{R} - \{2\} \).</li>
+  <li>\( f(3{,}1) = \frac{7{,}2}{0{,}1} = 72 \) &nbsp; y &nbsp; \( f(2{,}9) = \frac{6{,}8}{-0{,}1} = -68 \)</li>
+</ul>
+<p>Se dispara hacia arriba o abajo. Esa recta \( x = 3 \) que nunca toca se llama <strong>asíntota vertical</strong>.</p>
+<p><strong>¿Y con números muy grandes?</strong></p>
+<ul>
+  <li>\( f(100) = \frac{201}{97} \approx 2{,}07 \) &nbsp; y &nbsp; \( f(1000) = \frac{2001}{997} \approx 2{,}007 \)</li>
+</ul>
+<p>Se acerca cada vez más a 2 sin llegar. La recta \( y = 2 \) es la <strong>asíntota horizontal</strong>.</p>
+</div>
+<div class="box formulas"><span class="lbl">Atajos para recordar</span>
+<p>En \( f(x) = \frac{ax + b}{cx + d} \):</p>
+<ul>
+  <li>Asíntota vertical: donde se anula el denominador, \( x = -\frac{d}{c} \).</li>
+  <li>Asíntota horizontal: los números que acompañan a la x, \( y = \frac{a}{c} \).</li>
+  <li>Dominio: todos menos la asíntota vertical. Imagen: todos menos la asíntota horizontal.</li>
 </ul>
 </div>
 
-<h4>Desplazamientos de gráficos</h4>
+<h4>Mover gráficos</h4>
+<p>Con \( f(x) = x^2 \), que tiene su punta en (0, 0):</p>
 <ul>
-  <li>\( f(x) + k \): sube \( k \) unidades (baja si \( k \) es negativo).</li>
-  <li>\( f(x - h) \): se corre \( h \) unidades a la <strong>derecha</strong>.</li>
-  <li>\( -f(x) \): se refleja respecto del eje \( x \).</li>
-  <li>\( k\cdot f(x) \): se estira verticalmente (o se achica si \( 0 \lt k \lt 1 \)).</li>
+  <li>\( x^2 + 3 \): todo <strong>sube</strong> 3. La punta pasa a (0, 3).</li>
+  <li>\( (x - 2)^2 \): todo se corre 2 a la <strong>derecha</strong>. La punta pasa a (2, 0), porque para que adentro dé 0, x tiene que valer 2.</li>
+  <li>\( -x^2 \): se da vuelta (queda boca abajo).</li>
 </ul>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
-<p>\( f(x - 2) \) se corre a la <strong>derecha</strong>, no a la izquierda. Es el error más común con desplazamientos.</p>
+<p>\( (x - 2) \) corre a la <strong>derecha</strong> y \( (x + 2) \) a la izquierda. Parece al revés, pero pensá: ¿qué x hace que el paréntesis dé 0?</p>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Si \( f(x) = 3x - 2 \), ¿cuánto es \( f(4) \)?<details><summary>Ver respuesta</summary><p>\( 12 - 2 = 10 \)</p></details></li>
+  <li>¿Cuál es la raíz de \( f(x) = 3x - 2 \)?<details><summary>Ver respuesta</summary><p>\( 3x - 2 = 0 \Rightarrow x = \frac{2}{3} \)</p></details></li>
+  <li>¿Cuál es el dominio de \( f(x) = \frac{1}{x + 5} \)?<details><summary>Ver respuesta</summary><p>Todos los reales menos −5 (ahí abajo daría 0).</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Video UTN.BA: Funciones →</a><button class="done" data-id="m4" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -445,45 +652,73 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M5 ======================= -->
 <section class="topic" id="m5">
 <header><span class="n">M5</span><h2>Función lineal y ecuación de la recta</h2></header>
-<p class="lead">Una pendiente y un punto alcanzan para conocer una recta entera.</p>
+<p class="lead">Lo que crece o baja siempre de a lo mismo. Su gráfico es una recta.</p>
 
-\[ y = m\,x + b \]
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una función lineal es algo que cambia <strong>siempre de a lo mismo</strong>. Se escribe \( y = m\,x + b \):</p>
 <ul>
-  <li><strong>\( m \) es la pendiente</strong>: cuánto sube \( y \) cuando \( x \) aumenta 1. Si \( m \gt 0 \) crece, si \( m \lt 0 \) decrece, si \( m = 0 \) es constante (horizontal).</li>
-  <li><strong>\( b \) es la ordenada al origen</strong>: donde corta al eje \( y \).</li>
-  <li><strong>Raíz</strong>: \( x = -\frac{b}{m} \).</li>
+  <li><strong>m (pendiente)</strong>: cuánto cambia y cada vez que x aumenta 1.</li>
+  <li><strong>b (ordenada al origen)</strong>: cuánto vale y cuando x es 0. Es el punto de partida.</li>
 </ul>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números: el remís</span>
+<p>Bajada de bandera $500 y $200 por km: \( y = 200x + 500 \).</p>
+<div class="scroll"><table>
+<tr><th>km (x)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+<tr><th>Precio (y)</th><td>500</td><td>700</td><td>900</td><td>1100</td><td>1300</td></tr>
+</table></div>
+<p>Cada km suma 200: esa es la <strong>pendiente</strong>. Los 500 que pagás sin moverte son la <strong>ordenada al origen</strong>.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con pendiente negativa: el tanque</span>
+<p>Un tanque tiene 40 litros y pierde 5 por hora: \( y = -5x + 40 \).</p>
+<p>A las 2 horas quedan \( -10 + 40 = 30 \) litros. Se vacía cuando \( y = 0 \): \( -5x + 40 = 0 \Rightarrow x = 8 \) horas. Ese 8 es la <strong>raíz</strong>.</p>
+<p>Si m es positiva, la recta sube. Si es negativa, baja. Si es 0, queda horizontal.</p>
+</div>
 
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<h4>Pendiente entre dos puntos</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Una recta pasa por \( (1, 2) \) y \( (3, 8) \). De x = 1 a x = 3 avanzó 2 pasos, y de y = 2 a y = 8 subió 6. Entonces sube \( 6 \div 2 = 3 \) por paso: \( m = 3 \).</p>
+\[ m = \frac{y_2 - y_1}{x_2 - x_1} = \frac{8 - 2}{3 - 1} = \frac{6}{2} = 3 \]
+<p>Para la ecuación uso un punto y la pendiente: \( y - 2 = 3(x - 1) \Rightarrow y = 3x - 1 \).</p>
+<p>Compruebo con los dos puntos: \( 3\cdot1 - 1 = 2 \) ✓ y \( 3\cdot3 - 1 = 8 \) ✓</p>
+</div>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
 \[ m = \frac{y_2 - y_1}{x_2 - x_1} \qquad\qquad y - y_1 = m\,(x - x_1) \]
-<p>Paralelas: \( m_1 = m_2 \). &nbsp; Perpendiculares: \( m_1 \cdot m_2 = -1 \), es decir \( m_2 = -\frac{1}{m_1} \).</p>
 </div>
 
-<h4>Formas de escribir una recta</h4>
+<h4>Paralelas y perpendiculares</h4>
 <ul>
-  <li><strong>Explícita</strong>: \( y = mx + b \).</li>
-  <li><strong>General o implícita</strong>: \( Ax + By + C = 0 \). Despejando \( y \): \( m = -\frac{A}{B} \).</li>
-  <li><strong>Segmentaria</strong>: \( \frac{x}{p} + \frac{y}{q} = 1 \), donde \( p \) y \( q \) son los cortes con los ejes.</li>
-  <li><strong>Recta vertical</strong>: \( x = k \). No es función y su pendiente no está definida.</li>
+  <li><strong>Paralelas</strong>: misma pendiente. Nunca se cruzan, como las vías del tren. \( y = 2x + 1 \) e \( y = 2x - 3 \) son paralelas.</li>
+  <li><strong>Perpendiculares</strong>: se cruzan formando una L (90°). Sus pendientes multiplicadas dan −1. Si una tiene \( m = 2 \), la otra tiene \( m = -\frac{1}{2} \), porque \( 2 \cdot (-\frac{1}{2}) = -1 \). Truco: se da vuelta la fracción y se cambia el signo.</li>
 </ul>
 
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Recta que pasa por \( A(1, 2) \) y \( B(3, 8) \), y su perpendicular por el origen.</p>
-<ol>
-  <li>Pendiente: \( m = \frac{8-2}{3-1} = 3 \).</li>
-  <li>Punto-pendiente con \( A \): \( y - 2 = 3(x - 1) \Rightarrow y = 3x - 1 \).</li>
-  <li>Perpendicular: \( m_\perp = -\frac{1}{3} \). Pasa por \( (0,0) \), así que \( b = 0 \): \( y = -\frac{1}{3}x \).</li>
-</ol>
-</div>
+<h4>Otras formas de escribir una recta</h4>
+<ul>
+  <li><strong>General</strong>: \( 3x - y - 1 = 0 \). Si despejás y, vuelve a ser \( y = 3x - 1 \).</li>
+  <li><strong>Horizontal</strong>: \( y = 4 \). Pendiente 0: vale 4 para cualquier x.</li>
+  <li><strong>Vertical</strong>: \( x = 4 \). No es función (para x = 4 hay infinitos valores de y).</li>
+</ul>
 
-<h4>Intersección de gráficas</h4>
-<p>Para saber dónde se cortan dos gráficas se igualan sus fórmulas y se resuelve. Con dos rectas es un sistema de ecuaciones (M3). Con \( y = 3x - 1 \) e \( y = -x + 7 \): \( 3x - 1 = -x + 7 \Rightarrow x = 2,\; y = 5 \). Se cortan en \( (2, 5) \).</p>
+<h4>Dónde se cruzan dos rectas</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( y = 3x - 1 \) e \( y = -x + 7 \). Donde se cruzan, las dos dan la misma y, así que las igualo:</p>
+\[ 3x - 1 = -x + 7 \Rightarrow 4x = 8 \Rightarrow x = 2 \]
+<p>Reemplazo en cualquiera: \( y = 3\cdot2 - 1 = 5 \). Se cruzan en \( (2, 5) \). En la otra: \( -2 + 7 = 5 \) ✓</p>
+</div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>En la pendiente, restá en el mismo orden arriba y abajo: \( (y_2 - y_1) \) con \( (x_2 - x_1) \).</li>
-  <li>Perpendicular es la <strong>inversa y opuesta</strong>: si \( m = 2 \), la perpendicular tiene \( -\frac{1}{2} \), no \( -2 \).</li>
+  <li>En la pendiente, restá en el mismo orden arriba y abajo.</li>
+  <li>Perpendicular de \( m = 2 \) es \( -\frac{1}{2} \), no \( -2 \).</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>¿Cuál es la pendiente entre \( (0, 1) \) y \( (2, 7) \)?<details><summary>Ver respuesta</summary><p>\( \frac{7 - 1}{2 - 0} = 3 \). La recta es \( y = 3x + 1 \).</p></details></li>
+  <li>¿Qué pendiente tiene una perpendicular a \( y = 4x \)?<details><summary>Ver respuesta</summary><p>\( -\frac{1}{4} \)</p></details></li>
+  <li>Un celular tiene 80% de batería y gasta 10% por hora. ¿Cuándo se apaga?<details><summary>Ver respuesta</summary><p>\( y = -10x + 80 = 0 \Rightarrow x = 8 \) horas.</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Función lineal →</a><button class="done" data-id="m5" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -491,14 +726,27 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M6 ======================= -->
 <section class="topic" id="m6">
 <header><span class="n">M6</span><h2>Función cuadrática</h2></header>
-<p class="lead">La parábola: raíces, vértice y las tres formas de escribirla.</p>
+<p class="lead">La que tiene x al cuadrado. Su gráfico es una curva en forma de U llamada parábola.</p>
 
-\[ f(x) = a x^2 + b x + c \qquad a \neq 0 \]
-<p>Si \( a \gt 0 \) las ramas van hacia arriba y el vértice es un <strong>mínimo</strong>. Si \( a \lt 0 \) van hacia abajo y el vértice es un <strong>máximo</strong>. \( c \) es la ordenada al origen.</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>\( f(x) = ax^2 + bx + c \). Su forma es una U: como la trayectoria de una pelota que tirás para arriba, o el chorro de una manguera.</p>
+<ul>
+  <li>Si <strong>a es positivo</strong>, la U mira para arriba y tiene un punto más bajo.</li>
+  <li>Si <strong>a es negativo</strong>, está boca abajo y tiene un punto más alto.</li>
+</ul>
+<p>Ese punto más bajo (o más alto) se llama <strong>vértice</strong>.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( f(x) = x^2 - 4x - 5 \). Hago una tabla:</p>
+<div class="scroll"><table>
+<tr><th>x</th><td>−1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><th>f(x)</th><td><strong>0</strong></td><td>−5</td><td>−8</td><td><strong>−9</strong></td><td>−8</td><td>−5</td><td><strong>0</strong></td></tr>
+</table></div>
+<p>Fijate que los valores bajan hasta −9 y vuelven a subir igual: −8 y −8, −5 y −5. La parábola es <strong>simétrica</strong>. El punto más bajo, el vértice, es (2, −9). Toca el 0 en x = −1 y x = 5: esas son las <strong>raíces</strong>.</p>
+</div>
 
 <figure>
 <svg viewBox="0 0 360 250" role="img" aria-label="Parábola con raíces en x igual a menos 1 y 5 y vértice en 2, menos 9">
-  <line class="svg-grid" x1="20" y1="70" x2="340" y2="70" stroke-width="1"/>
   <line class="svg-ink" x1="20" y1="70" x2="340" y2="70" stroke-width="1.5"/>
   <line class="svg-ink" x1="80" y1="10" x2="80" y2="240" stroke-width="1.5"/>
   <path class="svg-acc" stroke-width="3" d="M 32 20 Q 140 340 248 20"/>
@@ -506,52 +754,87 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
   <circle class="svg-dot" cx="50" cy="70" r="5"/>
   <circle class="svg-dot" cx="230" cy="70" r="5"/>
   <circle class="svg-dot" cx="140" cy="180" r="5"/>
-  <text class="svg-txt" x="30" y="92">x₁ = −1</text>
-  <text class="svg-txt" x="232" y="92">x₂ = 5</text>
+  <text class="svg-txt" x="22" y="92">raíz −1</text>
+  <text class="svg-txt" x="236" y="92">raíz 5</text>
   <text class="svg-txt-acc" x="150" y="205">vértice (2, −9)</text>
-  <text class="svg-txt" x="148" y="35">eje x = 2</text>
+  <text class="svg-txt" x="148" y="35">eje de simetría x = 2</text>
   <text class="svg-txt" x="326" y="62">x</text>
   <text class="svg-txt" x="88" y="22">y</text>
 </svg>
-<figcaption>\( f(x) = x^2 - 4x - 5 \): raíces, vértice y eje de simetría (dibujo aproximado).</figcaption>
+<figcaption>\( f(x) = x^2 - 4x - 5 \), dibujo aproximado.</figcaption>
 </figure>
 
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ x_{1,2} = \frac{-b \pm \sqrt{\Delta}}{2a} \qquad \Delta = b^2 - 4ac \]
-\[ x_v = -\frac{b}{2a} \qquad y_v = f(x_v) \]
-<p>\( \Delta \gt 0 \): dos raíces reales distintas. &nbsp; \( \Delta = 0 \): una raíz doble (el vértice toca el eje). &nbsp; \( \Delta \lt 0 \): no corta al eje \( x \).</p>
-<p>Suma y producto de raíces: \( x_1 + x_2 = -\frac{b}{a} \), \( \;x_1 \cdot x_2 = \frac{c}{a} \).</p>
+<h4>Encontrar las raíces sin tabla: la resolvente</h4>
+<div class="box formulas"><span class="lbl">Fórmula para recordar</span>
+\[ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \]
+<p>El "±" quiere decir que hacés la cuenta dos veces: una sumando y otra restando.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo paso a paso</span>
+<p>\( x^2 - 4x - 5 \): los números son \( a = 1 \), \( b = -4 \), \( c = -5 \).</p>
+<ol>
+  <li>Lo de adentro de la raíz: \( b^2 - 4ac = (-4)^2 - 4\cdot1\cdot(-5) = 16 + 20 = 36 \).</li>
+  <li>La raíz: \( \sqrt{36} = 6 \).</li>
+  <li>Sumando: \( x = \frac{4 + 6}{2} = 5 \). Restando: \( x = \frac{4 - 6}{2} = -1 \).</li>
+</ol>
+<p>Coincide con la tabla ✓</p>
 </div>
 
-<h4>Las tres formas</h4>
-<div class="scroll"><table>
-<tr><th>Forma</th><th>Fórmula</th><th>Se lee directo</th></tr>
-<tr><td>Polinómica</td><td>\( a x^2 + b x + c \)</td><td>Ordenada al origen \( c \)</td></tr>
-<tr><td>Canónica</td><td>\( a(x - x_v)^2 + y_v \)</td><td>Vértice \( (x_v, y_v) \)</td></tr>
-<tr><td>Factorizada</td><td>\( a(x - x_1)(x - x_2) \)</td><td>Raíces \( x_1, x_2 \)</td></tr>
-</table></div>
-<p><strong>Completar cuadrados</strong> sirve para pasar de polinómica a canónica: se suma y resta el cuadrado de la mitad del coeficiente de \( x \).</p>
-\[ x^2 + 6x + 5 = (x^2 + 6x + 9) - 9 + 5 = (x + 3)^2 - 4 \]
-
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Analizar \( f(x) = x^2 - 4x - 5 \) (es la del dibujo).</p>
+<h4>El discriminante: ¿cuántas raíces hay?</h4>
+<p>Lo que va adentro de la raíz, \( \Delta = b^2 - 4ac \), avisa antes de hacer toda la cuenta:</p>
 <ul>
-  <li>\( \Delta = 16 + 20 = 36 \). Raíces: \( x = \frac{4 \pm 6}{2} \), o sea \( 5 \) y \( -1 \).</li>
-  <li>Vértice: \( x_v = \frac{4}{2} = 2 \), \( y_v = 4 - 8 - 5 = -9 \).</li>
-  <li>Canónica: \( (x - 2)^2 - 9 \). Factorizada: \( (x - 5)(x + 1) \).</li>
-  <li>Ordenada al origen \( -5 \). Imagen \( [-9, +\infty) \). Decrece en \( (-\infty, 2) \) y crece en \( (2, +\infty) \).</li>
+  <li>\( \Delta \gt 0 \): <strong>dos raíces</strong>. La U cruza el eje. Ejemplo: \( x^2 - 4x - 5 \), \( \Delta = 36 \).</li>
+  <li>\( \Delta = 0 \): <strong>una sola raíz</strong>. La U apenas toca el eje con la punta. Ejemplo: \( x^2 - 4x + 4 \), \( \Delta = 16 - 16 = 0 \), raíz 2.</li>
+  <li>\( \Delta \lt 0 \): <strong>ninguna raíz</strong>. La U no llega al eje. Ejemplo: \( x^2 + 1 \), \( \Delta = -4 \). Tiene sentido: \( x^2 + 1 \) siempre da 1 o más.</li>
+</ul>
+
+<h4>El vértice</h4>
+<div class="box formulas"><span class="lbl">Fórmula para recordar</span>
+\[ x_v = \frac{-b}{2a} \qquad y_v = f(x_v) \]
+</div>
+<p>En el ejemplo: \( x_v = \frac{4}{2} = 2 \) y \( y_v = f(2) = 4 - 8 - 5 = -9 \). Otra forma: el vértice está justo en el medio de las raíces, \( \frac{-1 + 5}{2} = 2 \).</p>
+
+<h4>Tres formas de escribir la misma parábola</h4>
+<div class="scroll"><table>
+<tr><th>Forma</th><th>El ejemplo</th><th>Qué se ve de una</th></tr>
+<tr><td>Polinómica</td><td>\( x^2 - 4x - 5 \)</td><td>Dónde corta el eje y: −5</td></tr>
+<tr><td>Canónica</td><td>\( (x - 2)^2 - 9 \)</td><td>El vértice: (2, −9)</td></tr>
+<tr><td>Factorizada</td><td>\( (x - 5)(x + 1) \)</td><td>Las raíces: 5 y −1</td></tr>
+</table></div>
+<p>Las tres son la misma función. Con \( x = 0 \): \( -5 \), \( 4 - 9 = -5 \), \( (-5)(1) = -5 \) ✓</p>
+<p><strong>Completar cuadrados</strong> (pasar a canónica): tomás la mitad del número que acompaña a x, lo elevás al cuadrado, y lo sumás y restás.</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( x^2 + 6x + 5 \). La mitad de 6 es 3, y \( 3^2 = 9 \):</p>
+\[ x^2 + 6x + 5 = (x^2 + 6x + 9) - 9 + 5 = (x + 3)^2 - 4 \]
+<p>Vértice en (−3, −4). Compruebo con \( x = 0 \): \( 9 - 4 = 5 \) ✓</p>
+</div>
+
+<h4>Un problema real</h4>
+<div class="box ejemplo"><span class="lbl">La pelota</span>
+<p>La altura de una pelota (en metros) a los t segundos es \( h(t) = -5t^2 + 20t \).</p>
+<ul>
+  <li><strong>¿Cuándo llega más alto?</strong> En el vértice: \( t = \frac{-20}{2\cdot(-5)} = 2 \) segundos.</li>
+  <li><strong>¿A qué altura?</strong> \( h(2) = -20 + 40 = 20 \) metros.</li>
+  <li><strong>¿Cuándo toca el piso?</strong> Cuando \( h = 0 \): \( -5t^2 + 20t = 0 \Rightarrow t(-5t + 20) = 0 \). Da \( t = 0 \) (cuando la tirás) y \( t = 4 \) segundos.</li>
 </ul>
 </div>
 
-<h4>Intersección recta–parábola</h4>
-<p>Se igualan las dos fórmulas, se pasa todo a un lado y queda una cuadrática. Su discriminante dice si se cortan en dos puntos, se tocan en uno o no se cortan.</p>
+<h4>Dónde se cruzan una recta y una parábola</h4>
+<p>Se igualan. Con \( y = x^2 \) e \( y = x + 2 \): \( x^2 = x + 2 \Rightarrow x^2 - x - 2 = 0 \Rightarrow x = 2 \) o \( x = -1 \). Se cruzan en (2, 4) y (−1, 1).</p>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>Con \( b \) negativo, \( -b \) es positivo: en \( x^2 - 4x - 5 \), \( -b = 4 \).</li>
-  <li>\( b^2 \) siempre es positivo: \( (-4)^2 = 16 \).</li>
-  <li>En la canónica, \( (x - 2)^2 \) tiene vértice en \( x = 2 \), y \( (x + 3)^2 \) en \( x = -3 \).</li>
+  <li>Si b es negativo, \( -b \) es positivo. En \( x^2 - 4x - 5 \), \( -b = 4 \).</li>
+  <li>\( (-4)^2 = 16 \), positivo. Usá paréntesis en la calculadora.</li>
+  <li>En \( (x - 2)^2 \) el vértice está en \( x = 2 \), y en \( (x + 3)^2 \) en \( x = -3 \).</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Raíces de \( x^2 - 5x + 6 \).<details><summary>Ver respuesta</summary><p>\( \Delta = 25 - 24 = 1 \). \( x = \frac{5 \pm 1}{2} \): 3 y 2.</p></details></li>
+  <li>Vértice de \( x^2 - 6x + 1 \).<details><summary>Ver respuesta</summary><p>\( x_v = \frac{6}{2} = 3 \), \( y_v = 9 - 18 + 1 = -8 \). Vértice (3, −8).</p></details></li>
+  <li>¿Cuántas raíces tiene \( x^2 + 2x + 5 \)?<details><summary>Ver respuesta</summary><p>\( \Delta = 4 - 20 = -16 \lt 0 \): ninguna.</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Cuadrática y forma canónica →</a><button class="done" data-id="m6" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -559,43 +842,80 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M7 ======================= -->
 <section class="topic" id="m7">
 <header><span class="n">M7</span><h2>Función exponencial y logarítmica</h2></header>
-<p class="lead">Una es la inversa de la otra: el logaritmo responde a qué exponente hay que poner.</p>
+<p class="lead">Cosas que se multiplican una y otra vez, y la pregunta al revés.</p>
 
-<h4>Función exponencial</h4>
-\[ f(x) = b^x \qquad b \gt 0,\; b \neq 1 \]
+<h4>Exponencial</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>En la lineal se <strong>suma</strong> siempre lo mismo. En la exponencial se <strong>multiplica</strong> siempre por lo mismo. Por eso crece muchísimo más rápido.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números: bacterias</span>
+<p>Una bacteria se duplica cada hora: \( f(x) = 2^x \).</p>
+<div class="scroll"><table>
+<tr><th>Horas</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>10</td></tr>
+<tr><th>Bacterias (\( 2^x \))</th><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td><td>1024</td></tr>
+<tr><th>Si fuera lineal (\( x + 1 \))</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>11</td></tr>
+</table></div>
+<p>Si se multiplica por un número menor que 1, decrece. Un remedio que pierde la mitad cada hora: \( (\frac{1}{2})^x \) da 1, 0,5, 0,25, 0,125…</p>
+</div>
 <ul>
-  <li>Dominio \( \mathbb{R} \), imagen \( (0, +\infty) \). Nunca toca el 0: tiene asíntota horizontal \( y = 0 \).</li>
-  <li>Siempre pasa por \( (0, 1) \), porque \( b^0 = 1 \).</li>
-  <li>Si \( b \gt 1 \) crece; si \( 0 \lt b \lt 1 \) decrece.</li>
-  <li>El número \( e \approx 2{,}718 \) es la base más usada en ciencia.</li>
+  <li>Siempre pasa por (0, 1), porque cualquier número a la 0 da 1.</li>
+  <li>Nunca da 0 ni negativo: por más que dividas por 2, nunca llegás a 0. Por eso tiene una asíntota en \( y = 0 \).</li>
+  <li>Hay un número especial, \( e \approx 2{,}718 \), que aparece en la naturaleza y en finanzas.</li>
 </ul>
 
 <h4>Logaritmo</h4>
-<div class="box formulas"><span class="lbl">Definición</span>
-\[ \log_b a = c \iff b^c = a \qquad (a \gt 0,\; b \gt 0,\; b \neq 1) \]
-<p>\( \log_2 8 = 3 \) porque \( 2^3 = 8 \). &nbsp; \( \log a \) es base 10 y \( \ln a \) es base \( e \).</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>El logaritmo es la <strong>pregunta al revés</strong>: <em>¿a qué número tengo que elevar la base para obtener tal resultado?</em></p>
+<p>\( \log_2 8 \) pregunta: ¿2 elevado a qué da 8? Respuesta: <strong>3</strong>, porque \( 2^3 = 8 \).</p>
 </div>
-<div class="box formulas"><span class="lbl">Propiedades</span>
-\[ \log_b(m\cdot n) = \log_b m + \log_b n \qquad \log_b\frac{m}{n} = \log_b m - \log_b n \qquad \log_b m^r = r\,\log_b m \]
-\[ \log_b b = 1 \qquad \log_b 1 = 0 \qquad \log_b a = \frac{\log a}{\log b} \;\;\text{(cambio de base)} \]
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
+<ul>
+  <li>\( \log_{10} 1000 = 3 \), porque \( 10^3 = 1000 \)</li>
+  <li>\( \log_3 81 = 4 \), porque \( 3^4 = 81 \)</li>
+  <li>\( \log_5 1 = 0 \), porque \( 5^0 = 1 \)</li>
+  <li>\( \log_{10} 0{,}01 = -2 \), porque \( 10^{-2} = \frac{1}{100} \)</li>
+  <li>\( \log_2 (-4) \) no existe: 2 elevado a lo que sea nunca da negativo.</li>
+</ul>
+<p>En la calculadora, <strong>log</strong> es base 10 y <strong>ln</strong> es base \( e \).</p>
 </div>
-<p>La <strong>función logarítmica</strong> \( f(x) = \log_b x \) tiene dominio \( (0, +\infty) \), imagen \( \mathbb{R} \), asíntota vertical \( x = 0 \) y pasa por \( (1, 0) \).</p>
 
-<div class="box ejemplo"><span class="lbl">Ejemplos resueltos</span>
+<h4>Propiedades, comprobadas con números</h4>
+<p>Los logaritmos son exponentes, así que siguen las reglas de las potencias (M1):</p>
+<ul>
+  <li><strong>El log de un producto es la suma de los logs.</strong> \( \log_2(8\cdot4) = \log_2 32 = 5 \), y \( \log_2 8 + \log_2 4 = 3 + 2 = 5 \) ✓</li>
+  <li><strong>El log de una división es la resta.</strong> \( \log_2 \frac{32}{4} = \log_2 8 = 3 \), y \( 5 - 2 = 3 \) ✓</li>
+  <li><strong>El exponente sale adelante multiplicando.</strong> \( \log_2 (4^3) = \log_2 64 = 6 \), y \( 3\cdot\log_2 4 = 3\cdot2 = 6 \) ✓</li>
+  <li><strong>Cambio de base</strong> (para usar la calculadora): \( \log_2 10 = \frac{\log 10}{\log 2} = \frac{1}{0{,}301} \approx 3{,}32 \)</li>
+</ul>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ \log_b a = c \iff b^c = a \]
+\[ \log(m\cdot n) = \log m + \log n \qquad \log\frac{m}{n} = \log m - \log n \qquad \log m^r = r\cdot\log m \]
+\[ \log_b b = 1 \qquad \log_b 1 = 0 \qquad \log_b a = \frac{\log a}{\log b} \]
+</div>
+
+<h4>Resolver ecuaciones</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplos paso a paso</span>
 <ol>
-  <li><strong>Igualando bases</strong>: \( 2^{x+1} = 8 = 2^3 \Rightarrow x + 1 = 3 \Rightarrow x = 2 \).</li>
-  <li><strong>Aplicando logaritmo</strong>: \( 3^x = 7 \Rightarrow x = \frac{\ln 7}{\ln 3} \approx 1{,}77 \).</li>
-  <li><strong>Ecuación logarítmica</strong>: \( \log_2(x - 1) = 3 \Rightarrow x - 1 = 2^3 \Rightarrow x = 9 \). Verifico: \( 9 - 1 = 8 \gt 0 \). ✓</li>
-  <li><strong>Con propiedades</strong>: \( \log x + \log(x - 3) = 1 \Rightarrow x(x-3) = 10 \Rightarrow x^2 - 3x - 10 = 0 \). Raíces 5 y −2. Solo vale \( x = 5 \), porque con −2 el logaritmo no existe.</li>
+  <li><strong>Igualar bases</strong>: \( 2^{x+1} = 8 \). Como \( 8 = 2^3 \): \( x + 1 = 3 \Rightarrow x = 2 \). Compruebo: \( 2^3 = 8 \) ✓</li>
+  <li><strong>Usar log cuando no se puede igualar</strong>: \( 3^x = 7 \Rightarrow x = \frac{\ln 7}{\ln 3} = \frac{1{,}946}{1{,}099} \approx 1{,}77 \). Compruebo: \( 3^{1{,}77} \approx 7 \) ✓</li>
+  <li><strong>Pasar de log a potencia</strong>: \( \log_2(x - 1) = 3 \Rightarrow x - 1 = 2^3 = 8 \Rightarrow x = 9 \).</li>
+  <li><strong>Problema</strong>: ¿cuándo llegan las bacterias a 1000? \( 2^x = 1000 \Rightarrow x = \frac{\log 1000}{\log 2} = \frac{3}{0{,}301} \approx 9{,}97 \) horas. Casi 10, y en la tabla \( 2^{10} = 1024 \) ✓</li>
 </ol>
 </div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>\( \log(m + n) \neq \log m + \log n \). La propiedad es para el <strong>producto</strong>.</li>
-  <li>\( (\log m)^2 \neq 2\log m \). Lo que baja es el exponente de adentro: \( \log m^2 = 2 \log m \).</li>
-  <li>En ecuaciones logarítmicas, siempre descartá las soluciones que dejan un argumento \( \le 0 \).</li>
+  <li>\( \log(m + n) \) <strong>no</strong> es \( \log m + \log n \). Con números: \( \log(10 + 10) = \log 20 \approx 1{,}3 \), pero \( \log 10 + \log 10 = 2 \).</li>
+  <li>Al final, revisá que lo de adentro del log no quede 0 o negativo. Si queda, esa respuesta se descarta.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>¿Cuánto es \( \log_2 16 \)?<details><summary>Ver respuesta</summary><p>4, porque \( 2^4 = 16 \).</p></details></li>
+  <li>¿Cuánto es \( \log_{10} 0{,}1 \)?<details><summary>Ver respuesta</summary><p>−1, porque \( 10^{-1} = 0{,}1 \).</p></details></li>
+  <li>Resolvé \( 5^x = 125 \).<details><summary>Ver respuesta</summary><p>\( 125 = 5^3 \), entonces \( x = 3 \).</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Video UTN.BA: Exponencial y logarítmica →</a><button class="done" data-id="m7" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -603,12 +923,13 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M8 ======================= -->
 <section class="topic" id="m8">
 <header><span class="n">M8</span><h2>Trigonometría</h2></header>
-<p class="lead">Relaciones entre ángulos y lados, del triángulo rectángulo a cualquier triángulo.</p>
+<p class="lead">Calcular lados y ángulos de triángulos, aunque no puedas medirlos directamente.</p>
 
-<h4>Grados y radianes</h4>
-<p>\( 180^\circ = \pi \) radianes. Para pasar de grados a radianes se multiplica por \( \frac{\pi}{180} \); al revés, por \( \frac{180}{\pi} \). Ejemplo: \( 60^\circ = \frac{\pi}{3} \), y \( \frac{\pi}{9} = 20^\circ \).</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>En un triángulo rectángulo (el que tiene una esquina de 90°), si sabés un ángulo, la proporción entre sus lados <strong>siempre es la misma</strong>, sin importar el tamaño. Una rampa de 30° chiquita y una gigante tienen la misma "forma". El seno, el coseno y la tangente son los nombres de esas proporciones.</p>
+</div>
 
-<h4>Triángulo rectángulo</h4>
+<h4>Los lados del triángulo rectángulo</h4>
 <figure>
 <svg viewBox="0 0 340 200" role="img" aria-label="Triángulo rectángulo con hipotenusa, cateto opuesto y cateto adyacente al ángulo alfa">
   <path class="svg-ink" stroke-width="2.5" d="M 40 170 L 290 170 L 290 40 Z"/>
@@ -619,69 +940,118 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
   <text class="svg-txt" x="298" y="110">opuesto</text>
   <text class="svg-txt" x="130" y="192">adyacente</text>
 </svg>
-<figcaption>Los catetos se nombran según el ángulo α que se está mirando.</figcaption>
+<figcaption>Los catetos se nombran según el ángulo α que estás mirando.</figcaption>
 </figure>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ \operatorname{sen}\alpha = \frac{\text{opuesto}}{\text{hipotenusa}} \qquad \cos\alpha = \frac{\text{adyacente}}{\text{hipotenusa}} \qquad \operatorname{tg}\alpha = \frac{\text{opuesto}}{\text{adyacente}} = \frac{\operatorname{sen}\alpha}{\cos\alpha} \]
-\[ \operatorname{sen}^2\alpha + \cos^2\alpha = 1 \]
+<ul>
+  <li><strong>Hipotenusa</strong>: el lado más largo, enfrente de la esquina de 90°.</li>
+  <li><strong>Cateto opuesto</strong>: el que está enfrente del ángulo que mirás.</li>
+  <li><strong>Cateto adyacente</strong>: el que toca al ángulo (y no es la hipotenusa).</li>
+</ul>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ \operatorname{sen}\alpha = \frac{\text{opuesto}}{\text{hipotenusa}} \qquad \cos\alpha = \frac{\text{adyacente}}{\text{hipotenusa}} \qquad \operatorname{tg}\alpha = \frac{\text{opuesto}}{\text{adyacente}} \]
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números: el triángulo 3, 4, 5</span>
+<p>Catetos de 3 y 4, hipotenusa 5. Miro el ángulo α que está enfrente del 3:</p>
+<ul>
+  <li>\( \operatorname{sen}\alpha = \frac{3}{5} = 0{,}6 \)</li>
+  <li>\( \cos\alpha = \frac{4}{5} = 0{,}8 \)</li>
+  <li>\( \operatorname{tg}\alpha = \frac{3}{4} = 0{,}75 \)</li>
+</ul>
+<p>Con la calculadora, \( \operatorname{sen}^{-1}(0{,}6) \approx 36{,}9^\circ \). Ese es el ángulo.</p>
+<p>Siempre se cumple \( \operatorname{sen}^2\alpha + \cos^2\alpha = 1 \): acá \( 0{,}36 + 0{,}64 = 1 \) ✓</p>
 </div>
 
+<h4>Usarlo para medir</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
+<ol>
+  <li><strong>El árbol</strong>: su sombra mide 20 m y el sol está a 35°. La altura es el opuesto y la sombra el adyacente, así que uso tangente: \( h = 20 \cdot \operatorname{tg}35^\circ \approx 20 \cdot 0{,}70 = 14 \text{ m} \).</li>
+  <li><strong>La escalera</strong>: mide 5 m y forma 60° con el piso. ¿A qué altura llega? \( 5\cdot\operatorname{sen}60^\circ \approx 5\cdot0{,}866 = 4{,}33 \text{ m} \). ¿A qué distancia de la pared está el pie? \( 5\cdot\cos60^\circ = 5\cdot0{,}5 = 2{,}5 \text{ m} \).</li>
+  <li><strong>La rampa</strong>: sube 1 m en 10 m de largo horizontal. ¿Qué ángulo tiene? \( \operatorname{tg}\alpha = \frac{1}{10} = 0{,}1 \Rightarrow \alpha = \operatorname{tg}^{-1}(0{,}1) \approx 5{,}7^\circ \).</li>
+</ol>
+</div>
+
+<h4>Valores que conviene saber</h4>
 <div class="scroll"><table>
 <tr><th>Ángulo</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>
-<tr><td>sen</td><td>0</td><td>\( \frac12 \)</td><td>\( \frac{\sqrt2}{2} \)</td><td>\( \frac{\sqrt3}{2} \)</td><td>1</td></tr>
-<tr><td>cos</td><td>1</td><td>\( \frac{\sqrt3}{2} \)</td><td>\( \frac{\sqrt2}{2} \)</td><td>\( \frac12 \)</td><td>0</td></tr>
-<tr><td>tg</td><td>0</td><td>\( \frac{\sqrt3}{3} \)</td><td>1</td><td>\( \sqrt3 \)</td><td>no existe</td></tr>
+<tr><td>sen</td><td>0</td><td>0,5</td><td>≈ 0,707</td><td>≈ 0,866</td><td>1</td></tr>
+<tr><td>cos</td><td>1</td><td>≈ 0,866</td><td>≈ 0,707</td><td>0,5</td><td>0</td></tr>
+<tr><td>tg</td><td>0</td><td>≈ 0,577</td><td>1</td><td>≈ 1,732</td><td>no existe</td></tr>
 </table></div>
+<p>Por ejemplo, \( \operatorname{sen}30^\circ = 0{,}5 \) quiere decir que en un triángulo con un ángulo de 30°, el lado opuesto mide justo la mitad de la hipotenusa.</p>
 
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Un árbol proyecta una sombra de 20 m y el ángulo de elevación del sol es 35°. ¿Qué altura tiene?</p>
-<p>La sombra es el cateto adyacente y la altura el opuesto, así que uso tangente: \( h = 20 \cdot \operatorname{tg} 35^\circ \approx 20 \cdot 0{,}700 \approx 14{,}0 \text{ m} \).</p>
-</div>
-
-<h4>Circunferencia trigonométrica y signos</h4>
-<p>En una circunferencia de radio 1, el coseno es la coordenada \( x \) del punto y el seno la coordenada \( y \). Por eso el signo depende del cuadrante:</p>
-<div class="scroll"><table>
-<tr><th>Cuadrante</th><th>Ángulos</th><th>Positivas</th></tr>
-<tr><td>I</td><td>0° a 90°</td><td>sen, cos y tg</td></tr>
-<tr><td>II</td><td>90° a 180°</td><td>solo sen</td></tr>
-<tr><td>III</td><td>180° a 270°</td><td>solo tg</td></tr>
-<tr><td>IV</td><td>270° a 360°</td><td>solo cos</td></tr>
-</table></div>
-
-<h4>Función senoidal</h4>
-\[ f(x) = A\,\operatorname{sen}(Bx + C) + D \]
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
+<h4>Grados y radianes</h4>
+<p>Son dos formas de medir ángulos, como metros y pies. Una vuelta entera son 360°, o \( 2\pi \) radianes. Entonces \( 180^\circ = \pi \).</p>
 <ul>
-  <li>Amplitud: \( |A| \). Período: \( \dfrac{2\pi}{|B|} \).</li>
-  <li>Desplazamiento horizontal (fase): \( -\dfrac{C}{B} \). Desplazamiento vertical: \( D \).</li>
-  <li>Imagen: \( [D - |A|,\; D + |A|] \).</li>
+  <li>\( 90^\circ = \frac{\pi}{2} \) &nbsp;·&nbsp; \( 60^\circ = \frac{\pi}{3} \) &nbsp;·&nbsp; \( 45^\circ = \frac{\pi}{4} \)</li>
+  <li>Para pasar de grados a radianes: multiplicá por \( \frac{\pi}{180} \). Al revés: por \( \frac{180}{\pi} \). 1 radián ≈ 57,3°.</li>
 </ul>
-<p>Ejemplo: \( f(x) = 3\operatorname{sen}(2x) + 1 \) tiene amplitud 3, período \( \pi \) e imagen \( [-2, 4] \).</p>
+
+<h4>Ángulos de más de 90°: la circunferencia</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Imaginá una circunferencia de radio 1 con centro en (0, 0). Girás un ángulo desde la derecha, en contra del reloj. El punto donde llegás tiene coordenadas \( (\cos\alpha, \operatorname{sen}\alpha) \).</p>
+<ul>
+  <li>A 0° estás en (1, 0): \( \cos0^\circ = 1 \), \( \operatorname{sen}0^\circ = 0 \).</li>
+  <li>A 90° estás arriba, en (0, 1): \( \cos90^\circ = 0 \), \( \operatorname{sen}90^\circ = 1 \).</li>
+  <li>A 180° estás a la izquierda, en (−1, 0): \( \cos180^\circ = -1 \).</li>
+</ul>
+<p>Por eso el seno y el coseno pueden ser negativos: depende de en qué cuarto (cuadrante) caigas.</p>
+</div>
+<div class="scroll"><table>
+<tr><th>Cuadrante</th><th>Ángulos</th><th>Dan positivo</th></tr>
+<tr><td>I (arriba derecha)</td><td>0° a 90°</td><td>sen, cos y tg</td></tr>
+<tr><td>II (arriba izquierda)</td><td>90° a 180°</td><td>solo sen</td></tr>
+<tr><td>III (abajo izquierda)</td><td>180° a 270°</td><td>solo tg</td></tr>
+<tr><td>IV (abajo derecha)</td><td>270° a 360°</td><td>solo cos</td></tr>
+</table></div>
+
+<h4>La función senoidal: cosas que se repiten</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>El seno sube y baja como una ola, y se repite siempre igual. Sirve para describir olas, sonido, péndulos, la corriente de la casa. En \( f(x) = A\operatorname{sen}(Bx) + D \):</p>
+<ul>
+  <li><strong>A (amplitud)</strong>: cuánto sube y baja desde el medio.</li>
+  <li><strong>Período</strong> \( = \frac{2\pi}{B} \): cada cuánto se repite.</li>
+  <li><strong>D</strong>: sube o baja toda la ola.</li>
+</ul>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>\( f(x) = 3\operatorname{sen}(2x) + 1 \): sube hasta \( 1 + 3 = 4 \), baja hasta \( 1 - 3 = -2 \), y se repite cada \( \frac{2\pi}{2} = \pi \approx 3{,}14 \). Imagen: \( [-2, 4] \).</p>
 </div>
 
-<h4>Triángulos no rectángulos</h4>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-<p><strong>Teorema del seno</strong> (cada lado con su ángulo opuesto):</p>
+<h4>Triángulos que no son rectángulos</h4>
+<p>Cuando no hay esquina de 90°, se usan dos teoremas:</p>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+<p><strong>Teorema del seno</strong>: cada lado dividido por el seno de su ángulo de enfrente da siempre lo mismo.</p>
 \[ \frac{a}{\operatorname{sen}\alpha} = \frac{b}{\operatorname{sen}\beta} = \frac{c}{\operatorname{sen}\gamma} \]
 <p><strong>Teorema del coseno</strong>:</p>
 \[ a^2 = b^2 + c^2 - 2\,b\,c\,\cos\alpha \]
-<p>Área de cualquier triángulo: \( \frac{1}{2}\,a\,b\,\operatorname{sen}\gamma \) (dos lados y el ángulo entre ellos).</p>
 </div>
 <ul>
-  <li>Usá <strong>seno</strong> si conocés un lado y su ángulo opuesto.</li>
-  <li>Usá <strong>coseno</strong> si conocés dos lados y el ángulo comprendido, o los tres lados.</li>
-  <li>Los ángulos interiores suman 180°: si sabés dos, sabés el tercero.</li>
+  <li>Usá el <strong>seno</strong> cuando conocés un lado y el ángulo de enfrente.</li>
+  <li>Usá el <strong>coseno</strong> cuando conocés dos lados y el ángulo entre ellos, o los tres lados.</li>
 </ul>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Dos lados miden \( b = 5 \) y \( c = 7 \), con un ángulo comprendido \( \alpha = 60^\circ \). ¿Cuánto mide \( a \)?</p>
-\[ a^2 = 25 + 49 - 2\cdot5\cdot7\cdot\cos60^\circ = 74 - 35 = 39 \;\Rightarrow\; a = \sqrt{39} \approx 6{,}24 \]
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
+<ol>
+  <li><strong>Seno</strong>: el lado \( a = 10 \) está enfrente de 30°, y quiero el lado b, que está enfrente de 45°:
+  \[ b = \frac{10\cdot\operatorname{sen}45^\circ}{\operatorname{sen}30^\circ} = \frac{10\cdot0{,}707}{0{,}5} \approx 14{,}14 \]</li>
+  <li><strong>Coseno</strong>: dos lados de 5 y 7 con 60° entre ellos. El tercer lado:
+  \[ a^2 = 25 + 49 - 2\cdot5\cdot7\cdot0{,}5 = 74 - 35 = 39 \;\Rightarrow\; a = \sqrt{39} \approx 6{,}24 \]</li>
+</ol>
+<p>Dato curioso: si el ángulo es 90°, \( \cos90^\circ = 0 \) y el teorema del coseno queda \( a^2 = b^2 + c^2 \). Es Pitágoras.</p>
 </div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>Revisá que la calculadora esté en <strong>grados (DEG)</strong> cuando los datos están en grados.</li>
-  <li>Para despejar un ángulo se usa la función inversa: si \( \operatorname{sen}\alpha = 0{,}5 \), \( \alpha = \operatorname{sen}^{-1}(0{,}5) = 30^\circ \).</li>
+  <li>Fijate que la calculadora esté en <strong>DEG</strong> (grados). Si está en RAD, todos los resultados dan mal.</li>
+  <li>Para encontrar un ángulo se usan las teclas \( \operatorname{sen}^{-1} \), \( \cos^{-1} \), \( \operatorname{tg}^{-1} \) (en general, SHIFT + sen).</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>La hipotenusa mide 10 y el ángulo es 30°. ¿Cuánto mide el cateto opuesto?<details><summary>Ver respuesta</summary><p>\( 10\cdot\operatorname{sen}30^\circ = 10\cdot0{,}5 = 5 \)</p></details></li>
+  <li>Si \( \operatorname{tg}\alpha = 1 \), ¿cuánto vale α?<details><summary>Ver respuesta</summary><p>45° (los dos catetos son iguales).</p></details></li>
+  <li>¿Cuánto son 90° en radianes?<details><summary>Ver respuesta</summary><p>\( \frac{\pi}{2} \approx 1{,}57 \)</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">Videos UTN.BA: Senoidal y teoremas →</a><button class="done" data-id="m8" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -689,53 +1059,80 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M9 ======================= -->
 <section class="topic" id="m9">
 <header><span class="n">M9</span><h2>Geometría</h2></header>
-<p class="lead">Pitágoras, áreas y volúmenes: fórmulas que se usan en muchos problemas de texto.</p>
+<p class="lead">Pitágoras, áreas y volúmenes, que aparecen en muchos problemas de texto.</p>
 
-<div class="box formulas"><span class="lbl">Teorema de Pitágoras</span>
+<h4>Teorema de Pitágoras</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>En un triángulo rectángulo, si elevás al cuadrado los dos lados cortos (catetos) y los sumás, da lo mismo que el lado largo (hipotenusa) al cuadrado.</p>
 \[ a^2 + b^2 = c^2 \]
-<p>Solo vale en triángulos <strong>rectángulos</strong>. \( c \) es la hipotenusa (el lado opuesto al ángulo recto, siempre el más largo).</p>
 </div>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Diagonal de un rectángulo de 6 cm por 8 cm: \( d = \sqrt{6^2 + 8^2} = \sqrt{100} = 10 \text{ cm} \).</p>
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
+<ol>
+  <li><strong>El clásico 3, 4, 5</strong>: \( 3^2 + 4^2 = 9 + 16 = 25 = 5^2 \) ✓</li>
+  <li><strong>La escalera</strong>: el pie está a 3 m de la pared y llega a 4 m de altura. ¿Cuánto mide? \( \sqrt{9 + 16} = 5 \) m.</li>
+  <li><strong>Falta un cateto</strong>: hipotenusa 13 y un cateto 5. \( b = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144} = 12 \).</li>
+  <li><strong>La diagonal de un rectángulo</strong> de 6 × 8: \( \sqrt{36 + 64} = \sqrt{100} = 10 \).</li>
+</ol>
 </div>
 
 <h4>Ángulos</h4>
 <ul>
-  <li>Los ángulos interiores de un triángulo suman \( 180^\circ \).</li>
-  <li>Los de un polígono de \( n \) lados suman \( (n - 2)\cdot180^\circ \).</li>
-  <li>Triángulos semejantes tienen los mismos ángulos y lados proporcionales (Teorema de Thales).</li>
+  <li>Los tres ángulos de cualquier triángulo suman <strong>180°</strong>. Si dos miden 50° y 60°, el tercero mide \( 180 - 110 = 70^\circ \).</li>
+  <li>En un polígono de n lados suman \( (n - 2)\cdot180^\circ \). Un hexágono (6 lados): \( 4\cdot180 = 720^\circ \).</li>
 </ul>
 
-<h4>Áreas y perímetros</h4>
-<div class="scroll"><table>
-<tr><th>Figura</th><th>Área</th><th>Perímetro</th></tr>
-<tr><td>Cuadrado de lado \( l \)</td><td>\( l^2 \)</td><td>\( 4l \)</td></tr>
-<tr><td>Rectángulo</td><td>\( b \cdot h \)</td><td>\( 2b + 2h \)</td></tr>
-<tr><td>Triángulo</td><td>\( \frac{b\cdot h}{2} \)</td><td>suma de lados</td></tr>
-<tr><td>Trapecio</td><td>\( \frac{(B + b)\cdot h}{2} \)</td><td>suma de lados</td></tr>
-<tr><td>Rombo</td><td>\( \frac{D \cdot d}{2} \)</td><td>\( 4l \)</td></tr>
-<tr><td>Polígono regular</td><td>\( \frac{P \cdot ap}{2} \)</td><td>\( n \cdot l \)</td></tr>
-<tr><td>Círculo de radio \( r \)</td><td>\( \pi r^2 \)</td><td>\( 2\pi r \)</td></tr>
-</table></div>
+<h4>Triángulos semejantes (Thales)</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Un palo de 1 m hace una sombra de 2 m. A la misma hora, un árbol hace una sombra de 10 m. Como el sol pega igual, la proporción es la misma: la sombra es el doble de la altura. El árbol mide 5 m.</p>
+</div>
 
-<h4>Volúmenes y superficies</h4>
+<h4>Áreas</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>El área es cuántos cuadraditos de 1 × 1 entran adentro de la figura. Un rectángulo de 3 × 4 tiene 12 cuadraditos: área 12. Un triángulo es la mitad de un rectángulo, por eso su fórmula divide por 2.</p>
+</div>
 <div class="scroll"><table>
-<tr><th>Cuerpo</th><th>Volumen</th><th>Superficie</th></tr>
-<tr><td>Cubo de arista \( a \)</td><td>\( a^3 \)</td><td>\( 6a^2 \)</td></tr>
-<tr><td>Prisma</td><td>\( A_{base}\cdot h \)</td><td>\( 2A_{base} + A_{lateral} \)</td></tr>
-<tr><td>Cilindro</td><td>\( \pi r^2 h \)</td><td>\( 2\pi r^2 + 2\pi r h \)</td></tr>
-<tr><td>Pirámide</td><td>\( \frac{A_{base}\cdot h}{3} \)</td><td>\( A_{base} + A_{lateral} \)</td></tr>
-<tr><td>Cono</td><td>\( \frac{\pi r^2 h}{3} \)</td><td>\( \pi r^2 + \pi r g \)</td></tr>
-<tr><td>Esfera</td><td>\( \frac{4}{3}\pi r^3 \)</td><td>\( 4\pi r^2 \)</td></tr>
+<tr><th>Figura</th><th>Área</th><th>Ejemplo</th></tr>
+<tr><td>Cuadrado</td><td>\( l^2 \)</td><td>lado 3: 9</td></tr>
+<tr><td>Rectángulo</td><td>\( b\cdot h \)</td><td>5 × 2: 10</td></tr>
+<tr><td>Triángulo</td><td>\( \frac{b\cdot h}{2} \)</td><td>base 6, altura 4: 12</td></tr>
+<tr><td>Trapecio</td><td>\( \frac{(B + b)\cdot h}{2} \)</td><td>B = 8, b = 4, h = 3: 18</td></tr>
+<tr><td>Rombo</td><td>\( \frac{D\cdot d}{2} \)</td><td>diagonales 6 y 4: 12</td></tr>
+<tr><td>Círculo</td><td>\( \pi r^2 \)</td><td>radio 3: \( 9\pi \approx 28{,}3 \)</td></tr>
 </table></div>
-<p>En el cono, \( g \) es la generatriz: \( g = \sqrt{r^2 + h^2} \) (Pitágoras otra vez).</p>
+<p>El <strong>perímetro</strong> es el borde (lo que medirías con un hilo). En un rectángulo de 5 × 2 es \( 5 + 2 + 5 + 2 = 14 \). En un círculo es \( 2\pi r \): con radio 3, \( 6\pi \approx 18{,}8 \).</p>
+
+<h4>Volúmenes</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>El volumen es cuántos cubitos de 1 × 1 × 1 entran adentro. En casi todos los cuerpos "rectos" es <strong>área de la base × altura</strong>. Los que terminan en punta (pirámide, cono) tienen la tercera parte.</p>
+</div>
+<div class="scroll"><table>
+<tr><th>Cuerpo</th><th>Volumen</th><th>Ejemplo</th></tr>
+<tr><td>Cubo</td><td>\( a^3 \)</td><td>arista 2: 8</td></tr>
+<tr><td>Prisma</td><td>\( A_{base}\cdot h \)</td><td>base 10, altura 5: 50</td></tr>
+<tr><td>Cilindro</td><td>\( \pi r^2 h \)</td><td>r = 1, h = 10: \( 10\pi \approx 31{,}4 \)</td></tr>
+<tr><td>Pirámide</td><td>\( \frac{A_{base}\cdot h}{3} \)</td><td>base 9, altura 4: 12</td></tr>
+<tr><td>Cono</td><td>\( \frac{\pi r^2 h}{3} \)</td><td>r = 3, h = 4: \( 12\pi \approx 37{,}7 \)</td></tr>
+<tr><td>Esfera</td><td>\( \frac{4}{3}\pi r^3 \)</td><td>r = 3: \( 36\pi \approx 113{,}1 \)</td></tr>
+</table></div>
+<div class="box ejemplo"><span class="lbl">Problema con números</span>
+<p>Un tanque cilíndrico tiene radio 0,5 m y altura 1 m. ¿Cuántos litros entran?</p>
+<p>\( V = \pi\cdot0{,}5^2\cdot1 = \pi\cdot0{,}25 \approx 0{,}785 \text{ m}^3 \). Como 1 m³ son 1000 litros, entran unos <strong>785 litros</strong>.</p>
+</div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>Pasá todo a la misma unidad antes de calcular.</li>
-  <li>Las áreas van en unidades al cuadrado (cm²) y los volúmenes al cubo (cm³).</li>
+  <li>Pasá todo a la misma unidad antes de calcular. 1 m² son 10.000 cm² (100 × 100), no 100.</li>
+  <li>1 litro = 1 dm³ = 1000 cm³.</li>
   <li>Si te dan el diámetro, el radio es la mitad.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Los catetos miden 6 y 8. ¿Cuánto mide la hipotenusa?<details><summary>Ver respuesta</summary><p>\( \sqrt{36 + 64} = 10 \)</p></details></li>
+  <li>Área de un triángulo de base 10 y altura 3.<details><summary>Ver respuesta</summary><p>\( \frac{10\cdot3}{2} = 15 \)</p></details></li>
+  <li>Volumen de un cubo de arista 3.<details><summary>Ver respuesta</summary><p>\( 3^3 = 27 \)</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-practicos-ejercicios/" target="_blank" rel="noopener">Videos UTN.BA: Geometría y Pitágoras →</a><button class="done" data-id="m9" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -743,40 +1140,62 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= M10 ======================= -->
 <section class="topic" id="m10">
 <header><span class="n">M10</span><h2>Vectores</h2></header>
-<p class="lead">Magnitudes con dirección y sentido. Se usan en Matemática y son la base de Física.</p>
+<p class="lead">Flechas que dicen cuánto y hacia dónde. Se usan en Matemática y son la base de Física.</p>
 
-<h4>Qué es un vector</h4>
-<p>Un vector tiene <strong>módulo</strong> (su largo), <strong>dirección</strong> (la recta sobre la que está) y <strong>sentido</strong> (hacia dónde apunta). En el plano se escribe por sus componentes: \( \vec v = (v_x, v_y) \).</p>
-<p>El vector que va del punto \( A \) al punto \( B \) es \( \overrightarrow{AB} = B - A \). De \( A(1, 2) \) a \( B(4, 6) \): \( \overrightarrow{AB} = (3, 4) \).</p>
-
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ |\vec v| = \sqrt{v_x^2 + v_y^2} \qquad \operatorname{tg}\theta = \frac{v_y}{v_x} \]
-\[ v_x = |\vec v|\cos\theta \qquad v_y = |\vec v|\operatorname{sen}\theta \]
-<p>\( \theta \) es el ángulo con el eje \( x \) positivo.</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>"Caminá 5 cuadras" no alcanza para llegar a ningún lado. "Caminá 5 cuadras <strong>hacia el norte</strong>" sí. Un vector es eso: una cantidad <strong>con dirección</strong>. Se dibuja como una flecha.</p>
+<p>Se escribe con dos números: \( \vec v = (3, 4) \) quiere decir "3 a la derecha y 4 para arriba".</p>
 </div>
 
-<h4>Operaciones</h4>
+<h4>Largo (módulo) y ángulo</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>La flecha \( (3, 4) \) forma un triángulo rectángulo con catetos 3 y 4. Su largo es la hipotenusa, por Pitágoras:</p>
+\[ |\vec v| = \sqrt{3^2 + 4^2} = \sqrt{25} = 5 \]
+<p>Su ángulo con el eje horizontal: \( \operatorname{tg}\theta = \frac{4}{3} \Rightarrow \theta \approx 53{,}1^\circ \).</p>
+</div>
+<p><strong>Al revés</strong>: si sabés el largo y el ángulo, sacás las componentes con coseno y seno. Una fuerza de 10 a 30°: \( (10\cdot\cos30^\circ,\; 10\cdot\operatorname{sen}30^\circ) = (8{,}66;\; 5) \).</p>
+<p><strong>De un punto a otro</strong>: de \( A(1, 2) \) a \( B(4, 6) \) es "llegada menos salida": \( (4 - 1,\; 6 - 2) = (3, 4) \).</p>
+
+<h4>Sumar y multiplicar vectores</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
 <ul>
-  <li><strong>Suma</strong>: componente a componente. \( (1, 2) + (3, -1) = (4, 1) \). Gráficamente es la regla del paralelogramo (o poner uno a continuación del otro).</li>
-  <li><strong>Producto por un número</strong>: \( 3\cdot(2, -1) = (6, -3) \). Si el número es negativo, cambia el sentido.</li>
-  <li><strong>Versor</strong>: vector de módulo 1 en la misma dirección: \( \hat v = \frac{\vec v}{|\vec v|} \). Los versores de los ejes son \( \hat\imath = (1,0) \) y \( \hat\jmath = (0,1) \), así que \( (3,4) = 3\hat\imath + 4\hat\jmath \).</li>
+  <li><strong>Sumar</strong>: caminás \( (3, 1) \) y después \( (1, 2) \). Terminás en \( (3 + 1,\; 1 + 2) = (4, 3) \). Se suma x con x e y con y.</li>
+  <li><strong>Multiplicar por un número</strong>: \( 2\cdot(3, 1) = (6, 2) \), la misma flecha pero el doble de larga. Con \( -1 \) apunta para el otro lado: \( (-3, -1) \).</li>
+  <li><strong>Versor</strong> (flecha de largo 1 en la misma dirección): dividís por el largo. \( \frac{(3, 4)}{5} = (0{,}6;\; 0{,}8) \).</li>
 </ul>
+</div>
 
 <h4>Producto escalar</h4>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ \vec u \cdot \vec v = u_x v_x + u_y v_y = |\vec u|\,|\vec v|\cos\theta \]
-\[ \cos\theta = \frac{\vec u\cdot\vec v}{|\vec u|\,|\vec v|} \qquad\qquad \vec u \perp \vec v \iff \vec u\cdot\vec v = 0 \]
-<p>El resultado es un <strong>número</strong>, no un vector.</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Se multiplica x con x, y con y, y se suma. El resultado es un <strong>número</strong>, no una flecha. Sirve para saber cómo apuntan dos flechas entre sí:</p>
+<ul>
+  <li>Si da <strong>positivo</strong>, apuntan más o menos para el mismo lado.</li>
+  <li>Si da <strong>0</strong>, son <strong>perpendiculares</strong> (forman 90°).</li>
+  <li>Si da <strong>negativo</strong>, apuntan para lados opuestos.</li>
+</ul>
 </div>
-<div class="box ejemplo"><span class="lbl">Ejemplos resueltos</span>
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
 <ol>
-  <li>\( \vec u = (3, 4) \) y \( \vec v = (4, -3) \): \( \vec u\cdot\vec v = 12 - 12 = 0 \). Son <strong>perpendiculares</strong>. Además \( |\vec u| = \sqrt{9 + 16} = 5 \).</li>
-  <li>Ángulo entre \( (1, 0) \) y \( (1, 1) \): \( \cos\theta = \frac{1}{1\cdot\sqrt2} = \frac{\sqrt2}{2} \Rightarrow \theta = 45^\circ \).</li>
+  <li>\( (2, 3)\cdot(4, 1) = 2\cdot4 + 3\cdot1 = 8 + 3 = 11 \). Positivo.</li>
+  <li>\( (3, 4)\cdot(4, -3) = 12 - 12 = 0 \). Son perpendiculares.</li>
+  <li>Ángulo entre \( (1, 0) \) y \( (1, 1) \): \( \cos\theta = \frac{1\cdot1 + 0\cdot1}{1\cdot\sqrt{2}} = 0{,}707 \Rightarrow \theta = 45^\circ \).</li>
 </ol>
+</div>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ |\vec v| = \sqrt{v_x^2 + v_y^2} \qquad v_x = |\vec v|\cos\theta \qquad v_y = |\vec v|\operatorname{sen}\theta \]
+\[ \vec u\cdot\vec v = u_x v_x + u_y v_y = |\vec u|\,|\vec v|\cos\theta \]
 </div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
-<p>Con \( \operatorname{tg}\theta = \frac{v_y}{v_x} \) la calculadora da un ángulo entre −90° y 90°. Si \( v_x \) es negativo, sumale 180° para quedar en el cuadrante correcto.</p>
+<p>Con \( (-3, 4) \) la calculadora da \( \operatorname{tg}^{-1}(\frac{4}{-3}) \approx -53{,}1^\circ \), pero la flecha apunta arriba a la izquierda. Si x es negativa, sumale 180°: el ángulo real es \( 126{,}9^\circ \).</p>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>¿Cuánto mide \( (6, 8) \)?<details><summary>Ver respuesta</summary><p>\( \sqrt{36 + 64} = 10 \)</p></details></li>
+  <li>¿Cuánto es \( (1, 2) + (3, -1) \)?<details><summary>Ver respuesta</summary><p>\( (4, 1) \)</p></details></li>
+  <li>¿Son perpendiculares \( (2, 1) \) y \( (-1, 2) \)?<details><summary>Ver respuesta</summary><p>Sí: \( 2\cdot(-1) + 1\cdot2 = 0 \).</p></details></li>
+</ol>
 </div>
 <div class="foot"><a href="https://www.frba.utn.edu.ar/ingreso/videos-teoricos-clases/" target="_blank" rel="noopener">Videos UTN.BA: Vectores →</a><button class="done" data-id="m10" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -786,42 +1205,73 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= F1 ======================= -->
 <section class="topic" id="f1">
 <header><span class="n">F1</span><h2>Magnitudes y unidades</h2></header>
-<p class="lead">Todo en física se mide, y medir bien empieza por usar las unidades correctas.</p>
+<p class="lead">Medir bien empieza por usar las unidades correctas.</p>
 
-<h4>Sistema Internacional (SI)</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una <strong>magnitud</strong> es algo que se puede medir: largo, peso, tiempo, velocidad. Siempre va con un número y una unidad. "5" no dice nada; "5 kg" o "5 segundos" sí.</p>
+</div>
+
+<h4>Las unidades oficiales (Sistema Internacional)</h4>
 <div class="scroll"><table>
-<tr><th>Magnitud</th><th>Unidad</th><th>Símbolo</th></tr>
-<tr><td>Longitud</td><td>metro</td><td>m</td></tr>
-<tr><td>Masa</td><td>kilogramo</td><td>kg</td></tr>
-<tr><td>Tiempo</td><td>segundo</td><td>s</td></tr>
-<tr><td>Temperatura</td><td>kelvin</td><td>K</td></tr>
-<tr><td>Corriente eléctrica</td><td>ampere</td><td>A</td></tr>
-<tr><td>Cantidad de sustancia</td><td>mol</td><td>mol</td></tr>
-<tr><td>Intensidad luminosa</td><td>candela</td><td>cd</td></tr>
+<tr><th>Qué se mide</th><th>Unidad</th><th>Ejemplo</th></tr>
+<tr><td>Longitud</td><td>metro (m)</td><td>una puerta mide unos 2 m</td></tr>
+<tr><td>Masa</td><td>kilogramo (kg)</td><td>un paquete de azúcar: 1 kg</td></tr>
+<tr><td>Tiempo</td><td>segundo (s)</td><td>un minuto son 60 s</td></tr>
+<tr><td>Temperatura</td><td>kelvin (K)</td><td>0 °C son 273 K</td></tr>
+<tr><td>Corriente eléctrica</td><td>ampere (A)</td><td>un cargador: unos 2 A</td></tr>
 </table></div>
-<p>Las demás son <strong>derivadas</strong>: velocidad en m/s, aceleración en m/s², fuerza en newton: \( 1\,\text{N} = 1\,\text{kg}\cdot\text{m/s}^2 \).</p>
+<p>Las demás se arman con estas. Si recorrés 100 m en 10 s, tu velocidad es \( 100 \div 10 = 10 \) <strong>m/s</strong> (metros por segundo). La fuerza se mide en <strong>newton</strong> (N).</p>
 
 <h4>Escalares y vectoriales</h4>
 <ul>
-  <li><strong>Escalares</strong>: quedan definidas con un número y su unidad. Masa, tiempo, temperatura, distancia recorrida.</li>
-  <li><strong>Vectoriales</strong>: necesitan además dirección y sentido. Desplazamiento, velocidad, aceleración, fuerza. Se trabajan con lo visto en M10.</li>
+  <li><strong>Escalar</strong>: alcanza con el número. "Hace 25 °C", "pesa 3 kg".</li>
+  <li><strong>Vectorial</strong>: necesita dirección (M10). "Viento de 20 km/h <strong>hacia el norte</strong>", "empujo con 50 N <strong>hacia la derecha</strong>".</li>
 </ul>
 
-<h4>Notación científica y prefijos</h4>
-<p>Un número se escribe como \( a \times 10^n \) con \( 1 \le a \lt 10 \): \( 0{,}00052 = 5{,}2\times10^{-4} \) y \( 3\,800\,000 = 3{,}8\times10^{6} \).</p>
+<h4>Números muy grandes o muy chicos: notación científica</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>En vez de escribir muchos ceros, se escribe un número entre 1 y 10 multiplicado por una potencia de 10. El exponente dice cuántos lugares se corrió la coma.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplos con números</span>
+<ul>
+  <li>\( 3\,800\,000 = 3{,}8\times10^{6} \): la coma se corrió 6 lugares a la izquierda.</li>
+  <li>Distancia Tierra–Sol: \( 150\,000\,000 \text{ km} = 1{,}5\times10^{8} \text{ km} \).</li>
+  <li>\( 0{,}00052 = 5{,}2\times10^{-4} \): la coma se corrió 4 lugares a la derecha, por eso el exponente es negativo.</li>
+</ul>
+</div>
 <div class="scroll"><table>
-<tr><th>Prefijo</th><th>giga (G)</th><th>mega (M)</th><th>kilo (k)</th><th>centi (c)</th><th>mili (m)</th><th>micro (μ)</th><th>nano (n)</th></tr>
-<tr><td>Factor</td><td>\(10^{9}\)</td><td>\(10^{6}\)</td><td>\(10^{3}\)</td><td>\(10^{-2}\)</td><td>\(10^{-3}\)</td><td>\(10^{-6}\)</td><td>\(10^{-9}\)</td></tr>
+<tr><th>Prefijo</th><th>Vale</th><th>Ejemplo</th></tr>
+<tr><td>kilo (k)</td><td>1000</td><td>3 km = 3000 m</td></tr>
+<tr><td>centi (c)</td><td>0,01</td><td>150 cm = 1,5 m</td></tr>
+<tr><td>mili (m)</td><td>0,001</td><td>250 mg = 0,25 g</td></tr>
+<tr><td>mega (M)</td><td>1.000.000</td><td>2 MW = 2.000.000 W</td></tr>
+<tr><td>micro (μ)</td><td>0,000001</td><td>1 μm = 0,000001 m</td></tr>
 </table></div>
 
-<div class="box formulas"><span class="lbl">Conversión más usada</span>
-\[ 72\,\frac{\text{km}}{\text{h}} = 72\cdot\frac{1000\,\text{m}}{3600\,\text{s}} = 20\,\frac{\text{m}}{\text{s}} \]
-<p>Atajo: de km/h a m/s se <strong>divide por 3,6</strong>; de m/s a km/h se multiplica por 3,6.</p>
+<h4>Convertir unidades</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplos paso a paso</span>
+<ol>
+  <li><strong>72 km/h a m/s</strong>: 72 km son 72.000 m, y 1 hora son 3600 s. \( \frac{72\,000}{3600} = 20 \) m/s.</li>
+  <li><strong>15 m/s a km/h</strong>: \( 15 \times 3{,}6 = 54 \) km/h.</li>
+  <li><strong>2 h 30 min a segundos</strong>: 2,5 h × 3600 = 9000 s.</li>
+  <li><strong>500 g a kg</strong>: 500 ÷ 1000 = 0,5 kg.</li>
+</ol>
 </div>
-<p><strong>Análisis dimensional</strong>: en una fórmula correcta, las unidades de los dos lados coinciden. Si te da m/s cuando buscabas metros, hay un error.</p>
+<div class="box formulas"><span class="lbl">Atajo para recordar</span>
+<p>De km/h a m/s: <strong>dividí por 3,6</strong>. De m/s a km/h: <strong>multiplicá por 3,6</strong>.</p>
+</div>
+<p><strong>Las unidades te avisan si te equivocaste</strong>: si calculás una distancia como velocidad × tiempo, las unidades quedan \( \frac{\text{m}}{\text{s}}\cdot\text{s} = \text{m} \). Si te hubiera quedado otra cosa, la fórmula estaba mal.</p>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
-<p>Antes de reemplazar en una fórmula, pasá todos los datos al SI: km a m, minutos a segundos, gramos a kilogramos.</p>
+<p>Antes de usar una fórmula, pasá todo a m, kg y s. Mezclar km con m o minutos con segundos es el error más común.</p>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Pasá 90 km/h a m/s.<details><summary>Ver respuesta</summary><p>\( 90 \div 3{,}6 = 25 \) m/s.</p></details></li>
+  <li>Escribí 0,003 en notación científica.<details><summary>Ver respuesta</summary><p>\( 3\times10^{-3} \)</p></details></li>
+  <li>¿Cuántos metros son 2,5 km?<details><summary>Ver respuesta</summary><p>2500 m.</p></details></li>
+</ol>
 </div>
 <div class="foot"><span></span><button class="done" data-id="f1" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -829,56 +1279,98 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= F2 ======================= -->
 <section class="topic" id="f2">
 <header><span class="n">F2</span><h2>Cinemática</h2></header>
-<p class="lead">Describe cómo se mueve un cuerpo, sin preguntarse por qué.</p>
+<p class="lead">Describir cómo se mueve algo: dónde está, qué tan rápido va y si acelera.</p>
 
-<h4>Conceptos básicos</h4>
+<h4>Distancia, desplazamiento y velocidad</h4>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Caminás 5 m hacia adelante y después 3 m hacia atrás.</p>
 <ul>
-  <li><strong>Posición</strong> \( x \): dónde está el cuerpo respecto de un origen elegido.</li>
-  <li><strong>Desplazamiento</strong>: \( \Delta x = x_f - x_i \). Puede ser negativo. No es lo mismo que la distancia recorrida.</li>
-  <li><strong>Velocidad media</strong>: \( v_m = \dfrac{\Delta x}{\Delta t} \).</li>
-  <li><strong>Aceleración</strong>: cuánto cambia la velocidad por segundo, \( a = \dfrac{\Delta v}{\Delta t} \).</li>
+  <li><strong>Distancia recorrida</strong>: todo lo que caminaste, \( 5 + 3 = 8 \) m.</li>
+  <li><strong>Desplazamiento</strong>: dónde terminaste respecto de donde empezaste, \( 5 - 3 = 2 \) m.</li>
 </ul>
-
-<h4>MRU: movimiento rectilíneo uniforme</h4>
-<p>Velocidad constante, aceleración cero.</p>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ x(t) = x_0 + v\,(t - t_0) \]
-<p>Gráfico posición–tiempo: una recta cuya pendiente es la velocidad. Gráfico velocidad–tiempo: una recta horizontal, y el área debajo es el desplazamiento.</p>
+<p><strong>Velocidad media</strong>: desplazamiento dividido tiempo. Si un auto hace 100 km en 2 h, su velocidad media es \( 100 \div 2 = 50 \) km/h.</p>
 </div>
 
-<h4>MRUV: movimiento rectilíneo uniformemente variado</h4>
-<p>Aceleración constante.</p>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ v(t) = v_0 + a\,t \qquad x(t) = x_0 + v_0\,t + \tfrac{1}{2}\,a\,t^2 \qquad v^2 = v_0^2 + 2\,a\,\Delta x \]
-<p>Gráfico velocidad–tiempo: una recta de pendiente \( a \). Gráfico posición–tiempo: una parábola (la cuadrática de M6).</p>
+<h4>MRU: velocidad constante</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Movimiento Rectilíneo Uniforme: va en línea recta y <strong>siempre a la misma velocidad</strong>. Cada segundo recorre lo mismo. Es una función lineal (M5): la velocidad es la pendiente.</p>
 </div>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Un auto parte del reposo con \( a = 2 \text{ m/s}^2 \). A los 5 s: \( v = 0 + 2\cdot5 = 10 \text{ m/s} \) y recorrió \( x = \frac{1}{2}\cdot2\cdot5^2 = 25 \text{ m} \).</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Un auto va a 20 m/s y sale desde el metro 100: \( x = 100 + 20t \).</p>
+<div class="scroll"><table>
+<tr><th>Tiempo (s)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td></tr>
+<tr><th>Posición (m)</th><td>100</td><td>120</td><td>140</td><td>160</td><td>200</td></tr>
+</table></div>
+</div>
+<div class="box formulas"><span class="lbl">Fórmula para recordar</span>
+\[ x = x_0 + v\cdot t \]
+<p>\( x_0 \) es dónde arranca, \( v \) la velocidad y \( t \) el tiempo.</p>
+</div>
+
+<h4>MRUV: con aceleración</h4>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>La <strong>aceleración</strong> es cuánto cambia la velocidad cada segundo. Si \( a = 2 \text{ m/s}^2 \), la velocidad aumenta 2 m/s por cada segundo. Si es negativa, va frenando.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Un auto arranca quieto con \( a = 2 \text{ m/s}^2 \):</p>
+<div class="scroll"><table>
+<tr><th>Tiempo (s)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+<tr><th>Velocidad (m/s)</th><td>0</td><td>2</td><td>4</td><td>6</td><td>8</td></tr>
+<tr><th>Posición (m)</th><td>0</td><td>1</td><td>4</td><td>9</td><td>16</td></tr>
+</table></div>
+<p>La velocidad sube de a 2. La posición crece cada vez más rápido (1, 4, 9, 16…), porque cada segundo va más rápido que el anterior. Es una parábola (M6).</p>
+</div>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ v = v_0 + a\cdot t \qquad x = x_0 + v_0\cdot t + \tfrac{1}{2}\,a\,t^2 \qquad v^2 = v_0^2 + 2\,a\,\Delta x \]
+<p>La tercera sirve cuando no te dan el tiempo.</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo: frenar</span>
+<p>Un auto va a 20 m/s y frena con \( a = -4 \text{ m/s}^2 \).</p>
+<ul>
+  <li>¿Cuándo se detiene? \( 0 = 20 - 4t \Rightarrow t = 5 \) s.</li>
+  <li>¿Cuántos metros recorre frenando? \( 0 = 20^2 + 2\cdot(-4)\cdot\Delta x \Rightarrow 0 = 400 - 8\Delta x \Rightarrow \Delta x = 50 \) m.</li>
+</ul>
 </div>
 
 <h4>Caída libre y tiro vertical</h4>
-<p>Es un MRUV con \( a = -g \) (tomando hacia arriba como positivo). \( g \approx 9{,}8 \text{ m/s}^2 \); en muchos ejercicios se redondea a 10.</p>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ y(t) = y_0 + v_0\,t - \tfrac{1}{2}\,g\,t^2 \qquad v(t) = v_0 - g\,t \]
-\[ t_{subida} = \frac{v_0}{g} \qquad h_{max} = \frac{v_0^2}{2g} \]
-<p>En la altura máxima la velocidad es 0.</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Todo lo que cae lo hace con la misma aceleración, la de la gravedad: \( g \approx 9{,}8 \text{ m/s}^2 \). En los ejercicios muchas veces se usa 10 para que las cuentas sean fáciles. Es un MRUV donde la aceleración es \( -g \) (tomando hacia arriba como positivo).</p>
 </div>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Se lanza una pelota hacia arriba a 20 m/s (con \( g = 10 \)). Tarda \( \frac{20}{10} = 2 \text{ s} \) en subir, llega a \( \frac{400}{20} = 20 \text{ m} \) y vuelve a la mano a los 4 s.</p>
+<div class="box ejemplo"><span class="lbl">Ejemplo: tiro para arriba</span>
+<p>Tirás una pelota hacia arriba a 20 m/s (con \( g = 10 \)):</p>
+<div class="scroll"><table>
+<tr><th>Tiempo (s)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+<tr><th>Velocidad (m/s)</th><td>20</td><td>10</td><td>0</td><td>−10</td><td>−20</td></tr>
+<tr><th>Altura (m)</th><td>0</td><td>15</td><td>20</td><td>15</td><td>0</td></tr>
+</table></div>
+<p>Pierde 10 m/s por segundo. A los 2 s llega arriba de todo (velocidad 0, altura 20 m) y empieza a bajar. A los 4 s vuelve a tu mano.</p>
 </div>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ y = y_0 + v_0\cdot t - \tfrac{1}{2}\,g\,t^2 \qquad v = v_0 - g\cdot t \qquad h_{max} = \frac{v_0^2}{2g} \]
+</div>
+<p><strong>Soltar algo</strong> desde 45 m: \( 0 = 45 - 5t^2 \Rightarrow t^2 = 9 \Rightarrow t = 3 \) s. Llega al piso a \( 10\cdot3 = 30 \) m/s.</p>
 
 <h4>Problemas de encuentro</h4>
-<p>Se escribe la posición de cada móvil con el <strong>mismo origen y el mismo sentido positivo</strong>, y se igualan.</p>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>A sale de \( x = 0 \) a 20 m/s. B sale al mismo tiempo de \( x = 300 \text{ m} \) hacia A a 10 m/s.</p>
-\[ x_A = 20t \qquad x_B = 300 - 10t \qquad 20t = 300 - 10t \;\Rightarrow\; t = 10 \text{ s},\; x = 200 \text{ m} \]
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>A sale del metro 0 a 20 m/s. Al mismo tiempo, B sale del metro 300 hacia A a 10 m/s (va para atrás, por eso es −10).</p>
+\[ x_A = 20t \qquad x_B = 300 - 10t \]
+<p>Se encuentran cuando están en el mismo lugar: \( 20t = 300 - 10t \Rightarrow 30t = 300 \Rightarrow t = 10 \) s. Lugar: \( 20\cdot10 = 200 \) m.</p>
+<p>Compruebo con B: \( 300 - 100 = 200 \) ✓</p>
 </div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>Elegí un sentido positivo al empezar y respetalo en todos los signos.</li>
-  <li>Si frena, la aceleración tiene signo contrario a la velocidad.</li>
+  <li>Elegí al principio cuál es el sentido positivo y respetalo en todos los signos.</li>
+  <li>Si algo frena, la aceleración tiene el signo contrario a la velocidad.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Una moto va a 36 km/h constante. ¿Cuántos metros hace en 10 s?<details><summary>Ver respuesta</summary><p>36 km/h = 10 m/s. En 10 s: 100 m.</p></details></li>
+  <li>Un auto arranca quieto con \( a = 3 \text{ m/s}^2 \). ¿Qué velocidad tiene a los 4 s?<details><summary>Ver respuesta</summary><p>\( 0 + 3\cdot4 = 12 \) m/s.</p></details></li>
+  <li>Tirás algo hacia arriba a 30 m/s (g = 10). ¿Qué altura máxima alcanza?<details><summary>Ver respuesta</summary><p>\( \frac{30^2}{2\cdot10} = \frac{900}{20} = 45 \) m.</p></details></li>
+</ol>
 </div>
 <div class="foot"><span></span><button class="done" data-id="f2" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -886,58 +1378,91 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
 <!-- ======================= F3 ======================= -->
 <section class="topic" id="f3">
 <header><span class="n">F3</span><h2>Dinámica</h2></header>
-<p class="lead">Las fuerzas explican por qué cambia el movimiento.</p>
+<p class="lead">Por qué se mueven las cosas: las fuerzas.</p>
+
+<div class="box idea"><span class="lbl">La idea</span>
+<p>Una <strong>fuerza</strong> es un empujón o un tirón. Se mide en <strong>newton (N)</strong>. Para tener una idea: sostener algo de 100 g (una manzana chica) en la mano es hacer más o menos 1 N.</p>
+</div>
 
 <h4>Las tres leyes de Newton</h4>
 <ol>
-  <li><strong>Inercia</strong>: si la fuerza neta es cero, el cuerpo sigue en reposo o en MRU.</li>
-  <li><strong>Masa</strong>: la fuerza neta produce una aceleración en su misma dirección.</li>
-  <li><strong>Acción y reacción</strong>: si A empuja a B, B empuja a A con la misma fuerza y sentido contrario. Actúan sobre cuerpos <strong>distintos</strong>, por eso no se anulan.</li>
+  <li><strong>Inercia</strong>: si nada lo empuja, un cuerpo quieto sigue quieto, y uno que se mueve sigue moviéndose igual. Por eso cuando el colectivo frena de golpe, vos seguís para adelante.</li>
+  <li><strong>Fuerza = masa × aceleración</strong>: cuanto más empujás, más acelera; cuanto más pesado es, menos acelera.</li>
+  <li><strong>Acción y reacción</strong>: si empujás algo, eso te empuja a vos con la misma fuerza. Cuando saltás, empujás el piso hacia abajo y el piso te empuja hacia arriba.</li>
 </ol>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ \sum \vec F = m\,\vec a \qquad P = m\,g \qquad f_{roz} = \mu\,N \]
+<div class="box ejemplo"><span class="lbl">Ejemplo con números: la segunda ley</span>
+<p>Empujás un carrito del súper con 20 N.</p>
+<ul>
+  <li>Vacío (10 kg): \( a = \frac{20}{10} = 2 \text{ m/s}^2 \).</li>
+  <li>Lleno (40 kg): \( a = \frac{20}{40} = 0{,}5 \text{ m/s}^2 \). Con la misma fuerza acelera 4 veces menos.</li>
+</ul>
+</div>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ F_{neta} = m\cdot a \qquad P = m\cdot g \qquad f_{roz} = \mu\cdot N \]
 </div>
 
-<h4>Fuerzas que aparecen siempre</h4>
+<h4>Las fuerzas de siempre</h4>
 <ul>
-  <li><strong>Peso</strong> \( P = mg \): vertical hacia abajo.</li>
-  <li><strong>Normal</strong> \( N \): la hace la superficie, perpendicular a ella.</li>
-  <li><strong>Rozamiento</strong>: paralelo a la superficie y opuesto al movimiento. El estático llega como máximo a \( \mu_e N \); el dinámico vale \( \mu_d N \).</li>
-  <li><strong>Tensión</strong> \( T \): la hace una soga o cable, siempre tirando.</li>
+  <li><strong>Peso</strong> (P): la Tierra tira todo hacia abajo. \( P = m\cdot g \). Una persona de 60 kg pesa \( 60\cdot10 = 600 \) N.</li>
+  <li><strong>Normal</strong> (N): la superficie empuja hacia afuera de ella. Un libro sobre la mesa no se cae porque la mesa lo empuja hacia arriba.</li>
+  <li><strong>Rozamiento</strong>: frena el deslizamiento. Depende de qué tan "pegajosas" son las superficies (el número μ): en hielo es chico, en goma es grande. \( f = \mu\cdot N \).</li>
+  <li><strong>Tensión</strong> (T): la fuerza de una soga o un cable, que siempre tira.</li>
 </ul>
+<div class="box ejemplo"><span class="lbl">Masa y peso no son lo mismo</span>
+<p>Una persona de 60 kg tiene 60 kg de masa en la Tierra y en la Luna. Pero su peso cambia: en la Tierra es \( 60\cdot10 = 600 \) N, y en la Luna (\( g \approx 1{,}6 \)) es \( 60\cdot1{,}6 = 96 \) N.</p>
+</div>
 
 <h4>Cómo resolver un problema</h4>
 <ol>
-  <li>Dibujá el <strong>diagrama de cuerpo libre</strong>: el cuerpo solo, con todas las fuerzas que actúan sobre él.</li>
-  <li>Elegí ejes: uno en la dirección del movimiento.</li>
-  <li>Escribí \( \sum F = m\,a \) en cada eje. En el eje sin movimiento, \( \sum F = 0 \).</li>
-  <li>Resolvé el sistema.</li>
+  <li>Dibujá el cuerpo solo y todas las flechas de fuerzas que lo tocan (<strong>diagrama de cuerpo libre</strong>).</li>
+  <li>Elegí ejes: uno en la dirección en que se mueve.</li>
+  <li>En el eje del movimiento: suma de fuerzas = \( m\cdot a \). En el otro eje, la suma da 0.</li>
+  <li>Despejá lo que buscás.</li>
 </ol>
-
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Una caja de 10 kg se empuja con 50 N horizontales. \( \mu_d = 0{,}2 \) y \( g = 10 \text{ m/s}^2 \).</p>
-<ul>
-  <li>Eje vertical: \( N = P = 10\cdot10 = 100 \text{ N} \).</li>
-  <li>Rozamiento: \( f = 0{,}2\cdot100 = 20 \text{ N} \).</li>
-  <li>Eje horizontal: \( 50 - 20 = 10\cdot a \Rightarrow a = 3 \text{ m/s}^2 \).</li>
-</ul>
+<div class="box ejemplo"><span class="lbl">Ejemplo paso a paso: la caja</span>
+<p>Empujás una caja de 10 kg con 50 N sobre el piso. El rozamiento tiene \( \mu = 0{,}2 \). Usamos \( g = 10 \).</p>
+<ol>
+  <li><strong>Peso</strong>: \( 10\cdot10 = 100 \) N hacia abajo.</li>
+  <li><strong>Normal</strong>: la caja no se hunde ni flota, así que el piso empuja 100 N hacia arriba.</li>
+  <li><strong>Rozamiento</strong>: \( 0{,}2\cdot100 = 20 \) N, en contra del movimiento.</li>
+  <li><strong>Fuerza neta</strong>: empujo 50, el rozamiento quita 20: quedan 30 N.</li>
+  <li><strong>Aceleración</strong>: \( a = \frac{30}{10} = 3 \text{ m/s}^2 \).</li>
+</ol>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo: algo colgado y quieto</span>
+<p>Una lámpara de 5 kg cuelga de un cable. Está quieta, así que las fuerzas se equilibran: la tensión del cable es igual al peso, \( T = 5\cdot10 = 50 \) N.</p>
 </div>
 
 <h4>Plano inclinado</h4>
-<p>Conviene tomar un eje paralelo al plano y otro perpendicular. El peso se descompone (con lo de M8 y M10):</p>
-<div class="box formulas"><span class="lbl">Fórmulas clave</span>
-\[ P_x = m\,g\,\operatorname{sen}\alpha \;\;\text{(paralela al plano)} \qquad P_y = m\,g\cos\alpha \;\;\text{(perpendicular)} \]
-<p>Sin otras fuerzas perpendiculares: \( N = m\,g\cos\alpha \). Sin rozamiento, la aceleración hacia abajo es \( a = g\operatorname{sen}\alpha \).</p>
+<div class="box idea"><span class="lbl">La idea</span>
+<p>En una rampa, el peso se reparte en dos partes: una que empuja contra la rampa y otra que lo hace bajar. Cuanto más inclinada, más fuerte lo hace bajar.</p>
+<ul>
+  <li>Rampa plana (0°): \( \operatorname{sen}0^\circ = 0 \), no baja nada.</li>
+  <li>Rampa vertical (90°): \( \operatorname{sen}90^\circ = 1 \), cae como en caída libre.</li>
+</ul>
 </div>
-<div class="box ejemplo"><span class="lbl">Ejemplo resuelto</span>
-<p>Un bloque baja por un plano de 30° sin rozamiento: \( a = 10\cdot\operatorname{sen}30^\circ = 10\cdot0{,}5 = 5 \text{ m/s}^2 \). No depende de la masa.</p>
+<div class="box formulas"><span class="lbl">Fórmulas para recordar</span>
+\[ \text{Lo que lo hace bajar: } m\,g\,\operatorname{sen}\alpha \qquad \text{Lo que empuja contra la rampa: } m\,g\cos\alpha \]
+<p>Sin rozamiento, la aceleración hacia abajo es \( a = g\cdot\operatorname{sen}\alpha \).</p>
+</div>
+<div class="box ejemplo"><span class="lbl">Ejemplo con números</span>
+<p>Un bloque baja por una rampa de 30° sin rozamiento: \( a = 10\cdot\operatorname{sen}30^\circ = 10\cdot0{,}5 = 5 \text{ m/s}^2 \). Da lo mismo si pesa 1 kg o 100 kg.</p>
 </div>
 
 <div class="box ojo"><span class="lbl">Ojo</span>
 <ul>
-  <li>Masa y peso no son lo mismo: la masa va en kg, el peso es una fuerza y va en N.</li>
-  <li>La normal no siempre es igual al peso: en un plano inclinado, o si alguien empuja hacia abajo, cambia.</li>
+  <li>La masa va en kg y el peso en N. No los mezcles.</li>
+  <li>La normal no siempre es igual al peso: en una rampa es menor (\( m\,g\cos\alpha \)).</li>
+  <li>Acción y reacción actúan sobre cuerpos distintos, por eso no se anulan entre sí.</li>
 </ul>
+</div>
+
+<div class="box prueba"><span class="lbl">Probalo vos</span>
+<ol>
+  <li>Una fuerza neta de 24 N empuja un objeto de 8 kg. ¿Qué aceleración tiene?<details><summary>Ver respuesta</summary><p>\( a = \frac{24}{8} = 3 \text{ m/s}^2 \)</p></details></li>
+  <li>¿Cuánto pesa una persona de 70 kg (g = 10)?<details><summary>Ver respuesta</summary><p>\( 70\cdot10 = 700 \) N.</p></details></li>
+  <li>Una caja de 20 kg está en el piso con \( \mu = 0{,}3 \). ¿Cuánto vale el rozamiento?<details><summary>Ver respuesta</summary><p>Normal = 200 N. Rozamiento = \( 0{,}3\cdot200 = 60 \) N.</p></details></li>
+</ol>
 </div>
 <div class="foot"><span></span><button class="done" data-id="f3" aria-pressed="false">Marcar como leído</button></div>
 </section>
@@ -989,6 +1514,14 @@ window.MathJax = { tex:{ inlineMath:[["\\(","\\)"]], displayMath:[["\\[","\\]"]]
     }, { rootMargin: "-30% 0px -60% 0px" });
     document.querySelectorAll("section.topic").forEach(function(s){ io.observe(s); });
   }
+
+  // volver a ir al tema del link después de que se dibujen las fórmulas (cambian el alto de la página)
+  function rejump(){ if (location.hash.length > 1) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); } }
+  var tries = 0, iv = setInterval(function(){
+    tries++;
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) { clearInterval(iv); MathJax.startup.promise.then(rejump); }
+    else if (tries > 50) clearInterval(iv);
+  }, 100);
 })();
 </script>
 </body>
